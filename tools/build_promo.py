@@ -12,6 +12,12 @@ https://igrobeauty.ru/personal/promo/ (снят 13.10.2026 в авторизов
 берётся она, иначе — ссылка на файл на igrobeauty.ru.
 Битрикс: список — компонент списка инфоблока, страница акции — детальная страница; блоки условий —
 из поля «Детальное описание», ссылки «Перейти» — в каталог.
+
+14.10: фильтр по направлению над списком — переключатели как у подборок «Избранного» (.lk-coll). Направления —
+разделы каталога первого уровня (названия как в каталоге v6), в списке только те, где есть акции. На сайте
+направления у акций нет: в прототипе оно определено по ссылкам акции в каталог, у наборов без ссылок — по плакату
+(Depilflax — «для мастера восковой депиляции», Silver — «для мастера-колориста»). Битрикс: свойство элемента
+«Направление» (привязка к разделу каталога), фильтр — по нему.
 Файлы пишутся с CRLF, как остальные страницы.
 """
 import html
@@ -96,6 +102,30 @@ PROMOS = [
          blocks=[("p-strong", CONSUMABLES)], links=[("Каталог IGRObeauty", GLOVES)], notes=NOTES),
 ]
 
+# Направления — разделы каталога первого уровня, в порядке списка «Волосы, косметология, депиляция…»
+DIRS = [("hair", "Волосы"), ("cosm", "Косметология"), ("depil", "Депиляция"), ("brows", "Брови и ресницы"),
+        ("dispo", "Одноразовая продукция")]
+DIRECTION = {
+    # /catalog/dlya_volos/… и плакат Silver (тонер для мастера-колориста)
+    "aktsiya-na-krasitel-nature-10-2": "hair", "aktsiya-na-krasitel-artx-10-2": "hair",
+    "startovyy-nabor-s-krasitelem-nature": "hair", "startovyy-nabor-kosmetologa-silver": "hair",
+    "aktsiya-na-nabor-s-ukhodami-15": "hair", "aktsiya-na-ukhody-basic-pro-15": "hair",
+    "aktsiya-na-dvukhfaznyy-sprey-s-maslom-argany-2-1": "hair", "skidka-na-nirvel-rizos": "hair",
+    # LevisSime — косметология
+    "startovyy-nabor-kosmetologa-levissime": "cosm",
+    # /catalog/depilyatsiya/… и плакат Depilflax (для мастера восковой депиляции)
+    "startovyy-nabor-kosmetologa-depilflax": "depil",
+    "skidka-na-vosk-v-kartridzhakh-starpil-15": "depil", "skidka-na-vosk-v-kartridzhakh-depilflax-15": "depil",
+    "skidka-na-goryachiy-vosk-v-briketakh-starpil-15": "depil", "skidka-na-goryachiy-vosk-v-briketakh-depilflax-15": "depil",
+    # /catalog/brovi_i_resnitsy/…
+    "skidka-na-krasitel-dlya-brovey-lashcolor-15": "brows",
+    # /catalog/odnorazovaya_produktsiya_1/… — простыни, полотенца, фольга, перчатки
+    "skidka-na-odnorazovye-prostyni-15": "dispo", "skidka-na-polotentsa-i-folgu-15": "dispo", "skidka-na-polotentsa-15": "dispo",
+    "skidka-na-perchatki-matrix-benovy-25": "dispo", "skidka-na-perchatki-25": "dispo",
+    "skidka-na-perchatki-nitrilovye-25": "dispo", "skidka-na-perchatki-neopudrennye-25": "dispo",
+}
+assert set(DIRECTION) == {p["slug"] for p in PROMOS}, "у каждой акции должно быть направление"
+
 E = html.escape
 
 
@@ -167,13 +197,32 @@ def page(title, main):
 '''
 
 
+def dir_chips():
+    """Переключатели направлений: «Все акции» и разделы, где есть акции; число — сколько акций в разделе."""
+    def chip(key, name, count, on=False):
+        return ('        <li class="lk-colls__item"><button type="button" class="lk-coll%s" aria-pressed="%s" data-dir="%s">'
+                '<span class="lk-coll__name">%s</span><span class="lk-coll__count">%d</span></button></li>\n'
+                % (" is-active" if on else "", "true" if on else "false", key, E(name), count))
+    out = chip("all", "Все акции", len(PROMOS), True)
+    for key, name in DIRS:
+        n = sum(1 for p in PROMOS if DIRECTION[p["slug"]] == key)
+        if n:
+            out += chip(key, name, n)
+    return out
+
+
 def list_page():
     n = len(PROMOS)
     cards = "".join(
-        '      <li><a class="lk-promo" href="promo-%s.html"><span class="lk-promo__media"><img class="lk-promo__img" src="%s" alt="" width="1000" height="625" loading="lazy"></span>'
-        '<span class="lk-promo__title">%s</span></a></li>\n' % (p["slug"], src(p["slug"], p["img"]), E(p["title"])) for p in PROMOS)
+        '      <li data-dir="%s"><a class="lk-promo" href="promo-%s.html"><span class="lk-promo__media"><img class="lk-promo__img" src="%s" alt="" width="1000" height="625" loading="lazy"></span>'
+        '<span class="lk-promo__title">%s</span></a></li>\n' % (DIRECTION[p["slug"]], p["slug"], src(p["slug"], p["img"]), E(p["title"])) for p in PROMOS)
     main = f'''    <h1 class="igro-h1 lk-title lk-title--with-lead">Акции</h1>
     <p class="lk-lead">Сейчас {plural(n, "действует", "действуют", "действуют")} {n} {plural(n, "акция", "акции", "акций")}</p>
+    <nav class="lk-colls lk-colls--scroll" aria-label="Направления акций">
+      <ul class="lk-colls__list" id="promoDirs">
+{dir_chips()}      </ul>
+    </nav>
+    <p class="igro-sr-only" id="promoStatus" role="status" aria-live="polite"></p>
     <ul class="lk-promo-grid">
 {cards}    </ul>
 '''

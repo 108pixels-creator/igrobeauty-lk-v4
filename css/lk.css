@@ -329,6 +329,8 @@
 .lk-certs > li { display: flex; }
 .lk-cert { display: flex; flex-direction: column; width: 100%; }
 .lk-cert__cover { height: 168px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3); background: var(--band-dark); }
+/* 14.10: логотип ИГРО на обложке сертификата — из Figma «IB – my DESIGN», node 538:2578 (assets/logo/igro-logo.svg, символ в спрайте страницы) */
+.lk-cert__logo { display: block; height: 32px; /* DS: logo size on the cover */ width: auto; aspect-ratio: 2598 / 660; /* viewBox логотипа */ color: var(--text-on-dark); }
 .lk-cert__body { flex: 1; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3_5); }
 .lk-cert__title {
   margin: 0; font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-body);
@@ -834,6 +836,14 @@
    ========================================================================== */
 .lk-promo-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
 .lk-promo-grid > li { display: flex; min-width: 0; }
+.lk-promo-grid > li[hidden] { display: none; } /* 14.10: фильтр по направлению */
+/* 14.10: на телефоне направления акций — одна строка с прокруткой вбок до краёв экрана, а не четыре строки переносов */
+@media (max-width: 767px) {
+  .lk-colls--scroll { display: block; margin-left: calc(-1 * var(--gutter)); margin-right: calc(-1 * var(--gutter)); }
+  .lk-colls--scroll .lk-colls__list { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: var(--space-1) var(--gutter); } /* сверху и снизу — место под рамку фокуса */
+  .lk-colls--scroll .lk-colls__list::-webkit-scrollbar { display: none; }
+  .lk-colls--scroll .lk-colls__item { flex: none; }
+}
 .lk-promo {
   display: flex; flex-direction: column; width: 100%; overflow: hidden; text-decoration: none; color: var(--text-default);
   background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
@@ -937,3 +947,60 @@
 }
 .lk-tip[hidden] { display: none; }
 .lk-thumb[data-tip] { cursor: default; }
+
+/* ==========================================================================
+   v6, 14.10 · «Мое обучение»: расписание обучения — заглушка календаря после сертификатов.
+   Сетка месяца как на igrobeauty.ru/learning_center/calendar/ (Пн–Вс, дни соседних месяцев серые),
+   семинары — плашки с городом и названием, цвет полоски — направление. Ссылки ведут в расписание на сайте.
+   На телефоне сетка не читается — остаются только дни с семинарами, списком.
+   Битрикс: данные — инфоблок семинаров Учебного центра, месяц и стрелки — его фильтр по дате.
+   ========================================================================== */
+.lk-cal { scroll-margin-top: var(--space-4); }
+.lk-certs + .lk-cal { margin-top: var(--space-7); } /* как между секциями */
+.lk-cal__lead { margin: 0 0 var(--space-3); max-width: 760px; font-family: var(--font-ui); font-size: var(--text-body); line-height: var(--leading-normal); color: var(--text-default); text-wrap: pretty; }
+.lk-cal__note { margin-bottom: var(--space-4); }
+.lk-cal__card { padding: var(--space-4); }
+.lk-cal__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-3); }
+.lk-cal__month { margin: 0; min-width: 132px; /* DS: «Сентябрь 2026» не прыгает */ text-align: center; }
+.lk-cal__legend { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lk-cal__key { display: inline-flex; align-items: center; gap: var(--space-1); }
+.lk-cal__key::before { content: ""; width: 12px; height: 12px; border-radius: var(--radius-xs); }
+.lk-cal__key--hair::before, .lk-cal__event--hair { background: var(--surface-reward); }
+.lk-cal__key--cosm::before, .lk-cal__event--cosm { background: var(--selected-bg); }
+.lk-cal__key--depil::before, .lk-cal__event--depil { background: var(--surface-subtle); }
+.lk-cal__key::before { box-sizing: border-box; }
+.lk-cal__key--hair::before { border: 2px solid var(--reward); }
+.lk-cal__key--cosm::before { border: 2px solid var(--accent); }
+.lk-cal__key--depil::before { border: 2px solid var(--surface-inverse); }
+.lk-cal__head, .lk-cal__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.lk-cal__head li { padding: 0 var(--space-2) var(--space-2); text-align: right; font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold); letter-spacing: var(--tracking-loose); text-transform: uppercase; color: var(--text-muted); }
+.lk-cal__grid { border-top: 1px solid var(--border-default); border-left: 1px solid var(--border-default); }
+.lk-cal__cell { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; min-height: 112px; padding: var(--space-2); border-right: 1px solid var(--border-default); border-bottom: 1px solid var(--border-default); background: var(--surface-card); }
+.lk-cal__cell--out { background: var(--surface-subtle); }
+.lk-cal__date { margin: 0; text-align: right; font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-bold); color: var(--text-default); }
+.lk-cal__cell--out .lk-cal__date { font-weight: var(--weight-regular); color: var(--text-muted); }
+.lk-cal__full { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* на десктопе — только для скринридера */
+.lk-cal__event {
+  display: flex; flex-direction: column; gap: 2px; /* DS: город и название */ margin-top: auto; padding: var(--space-1) var(--space-2);
+  border-left: 3px solid var(--border-default); border-radius: var(--radius-xs); color: var(--text-default); text-decoration: none;
+  font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.3;
+}
+.lk-cal__event--hair { border-left-color: var(--reward); }
+.lk-cal__event--cosm { border-left-color: var(--accent); }
+.lk-cal__event--depil { border-left-color: var(--surface-inverse); }
+.lk-cal__city { font-weight: var(--weight-bold); color: var(--text-muted); }
+.lk-cal__name { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+@media (hover: hover) { .lk-cal__event:hover .lk-cal__name { text-decoration: underline; text-underline-offset: 2px; } }
+@media (max-width: 767px) {
+  .lk-cal__card { padding: var(--space-3); }
+  .lk-cal__legend { margin-left: 0; flex-basis: 100%; }
+  .lk-cal__head { display: none; }
+  .lk-cal__grid { display: flex; flex-direction: column; gap: var(--space-2); border: 0; }
+  .lk-cal__cell { display: none; }
+  .lk-cal__cell--busy { display: flex; min-height: 0; padding: 0; border: 0; background: none; }
+  .lk-cal__date { text-align: left; }
+  .lk-cal__num { display: none; }
+  .lk-cal__full { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; }
+  .lk-cal__event { margin-top: 0; padding: var(--space-2) var(--space-2_5); font-size: var(--text-body-sm); }
+  .lk-cal__name { -webkit-line-clamp: unset; display: block; }
+}

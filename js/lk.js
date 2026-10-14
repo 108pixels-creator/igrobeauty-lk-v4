@@ -984,6 +984,42 @@
     });
   }
 
+  /* ---------------------------------------------------------------- «Акции»: фильтр по направлению (14.10)
+     Переключатели над сеткой — как подборки «Избранного»: «Все акции» или одно направление (раздел каталога).
+     Выбор пишется в адрес (?dir=hair), поэтому «Назад» со страницы акции возвращает к тому же списку.
+     Битрикс: направление — свойство элемента инфоблока «Направление», фильтр — по нему. */
+  function initPromoDirs() {
+    var list = $("#promoDirs"), grid = $(".lk-promo-grid"), status = $("#promoStatus");
+    if (!list || !grid) return;
+    var btns = $$("[data-dir]", list);
+    function select(dir, announce) {
+      var shown = 0, name = "";
+      btns.forEach(function (b) {
+        var on = b.getAttribute("data-dir") === dir;
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        b.classList.toggle("is-active", on);
+        if (on) name = $(".lk-coll__name", b).textContent;
+      });
+      $$("li[data-dir]", grid).forEach(function (li) {
+        var show = dir === "all" || li.getAttribute("data-dir") === dir;
+        li.hidden = !show;
+        if (show) shown++;
+      });
+      if (announce && status) status.textContent = name + ": " + shown + " " + plural(shown, "акция", "акции", "акций");
+      try { history.replaceState(null, "", dir === "all" ? location.pathname : location.pathname + "?dir=" + dir); } catch (e) { /* file:// */ }
+    }
+    list.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-dir]");
+      if (b) select(b.getAttribute("data-dir"), true);
+    });
+    var m = /[?&]dir=([\w-]+)/.exec(location.search), from = m && $('[data-dir="' + m[1] + '"]', list);
+    if (from) {
+      select(m[1], false);
+      // на телефоне строка листается вбок — выбранное направление должно быть видно сразу
+      list.scrollLeft += from.getBoundingClientRect().left - list.getBoundingClientRect().left - parseFloat(getComputedStyle(list).paddingLeft);
+    }
+  }
+
   /* ---------------------------------------------------------------- Подсказка у миниатюр товаров (13.10)
      «Мои заказы»: при наведении на миниатюру — название товара, на «+N поз.» — сколько ещё и где весь состав.
      Один элемент .lk-tip на страницу; только устройства с наведением. Список миниатюр скрыт от скринридера
@@ -1144,6 +1180,7 @@
   initCartSteppers();
   initReview();
   initThumbTips();
+  initPromoDirs();
   initLadder();
   initCarousels();
   initDocument();
