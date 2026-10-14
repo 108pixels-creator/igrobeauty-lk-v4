@@ -1,0 +1,717 @@
+/* ==========================================================================
+   IGRObeauty DS v6.1 — class-based component layer for static pages / 1C-Bitrix.
+   Mirrors the React components of IGRObeauty_Design_System_v6 (components/*.jsx, v6.1)
+   and uses ONLY semantic tokens. Link it AFTER design-system-v6/styles.css.
+   v6.1: every padding, margin and gap is a --space-* token. Raw numbers left are the ones
+   the DS keeps too (readme §4): 1–2px hairlines and nudges, sizes of controls and glyphs,
+   positional offsets (floating label, knob) — each marked «DS: …» with its component.
+   Hover styles sit inside @media (hover: hover), so touch screens never get stuck on them.
+   ========================================================================== */
+
+/* The hidden attribute always wins over a component's display value. */
+.igro-btn[hidden], .igro-icon-btn[hidden], .igro-badge[hidden], .igro-tag[hidden], .igro-alert[hidden],
+.igro-toast[hidden], .igro-empty[hidden], .igro-card[hidden], .igro-product-card[hidden] { display: none; }
+
+/* ---------- Icon (inline SVG, stroke = currentColor, aria-hidden) ---------- */
+.igro-icon { display: inline-block; flex: none; width: 20px; height: 20px; vertical-align: middle; }
+.igro-icon--16 { width: 16px; height: 16px; }
+.igro-icon--18 { width: 18px; height: 18px; }
+.igro-icon--24 { width: 24px; height: 24px; }
+
+/* ---------- Link with an icon ---------- */
+.igro-link {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal); color: var(--text-link); text-decoration: none;
+  background: none; border: none; padding: 0; cursor: pointer; min-height: 24px; /* WCAG 2.5.8 target */
+}
+@media (hover: hover) { .igro-link:hover { color: var(--brand); } .igro-link:hover .igro-link__text { text-decoration: underline; } }
+
+/* ---------- Eyebrow (small caps label used across the kits) ---------- */
+.igro-eyebrow {
+  font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-looser); text-transform: uppercase; color: var(--text-muted);
+}
+.igro-eyebrow--reward { color: var(--text-reward); }
+.igro-eyebrow--reward-on-dark { color: var(--text-reward-on-dark); }
+.igro-eyebrow--on-dark { color: var(--text-on-dark-muted); }
+
+/* ---------- Logo lockup (assets/logo): mark «ig» + IGRO beauty ---------- */
+.igro-logo { display: inline-flex; align-items: center; gap: var(--space-2_5); text-decoration: none; }
+.igro-logo__mark {
+  width: 34px; height: 34px; /* DS: logo mark (B2B kit) */
+  border-radius: 2px; /* DS: logo mark keeps its own 2px corners */
+  background: var(--brand); color: var(--text-on-dark);
+  display: grid; place-items: center; flex: none;
+  font-family: var(--font-heading); font-weight: var(--weight-black); font-size: var(--text-h4);
+  letter-spacing: -0.5px; /* DS: logo */ line-height: 1;
+}
+.igro-logo__word {
+  font-family: var(--font-heading); font-weight: var(--weight-black); font-size: var(--text-body-lg);
+  letter-spacing: -0.5px; /* DS: logo */ line-height: 1; color: var(--brand); white-space: nowrap;
+}
+.igro-logo__word span { font-weight: var(--weight-regular); color: var(--text-default); }
+.igro-logo--on-dark .igro-logo__mark { background: var(--surface-card); color: var(--brand); }
+.igro-logo--on-dark .igro-logo__word { color: var(--text-on-dark); }
+.igro-logo--on-dark .igro-logo__word span { color: var(--text-on-dark-muted); }
+
+/* ---------- Button (DS Button) ---------- */
+.igro-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  box-sizing: border-box; margin: 0;
+  font-family: var(--font-ui); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-normal);
+  line-height: var(--leading-compact); white-space: nowrap; text-decoration: none;
+  border-radius: var(--radius-btn); cursor: pointer;
+  height: var(--h-control-md); padding: 0 var(--space-4); font-size: var(--text-body-md);
+  box-shadow: none; transform: scale(1);
+  transition: transform var(--duration-fast) ease, background var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--cta); color: var(--text-on-dark); border: 1px solid var(--cta);
+}
+.igro-btn .igro-icon { width: 18px; height: 18px; }
+.igro-btn--sm { height: var(--h-control-sm); padding: 0 var(--space-3); font-size: var(--text-body-sm); }
+.igro-btn--lg { height: var(--h-control-lg); padding: 0 var(--space-5); font-size: var(--text-body); }
+.igro-btn--block { width: 100%; }
+.igro-btn--primary { background: var(--cta); color: var(--text-on-dark); border-color: var(--cta); }
+.igro-btn--secondary { background: var(--surface-card); color: var(--cta); border-color: var(--cta); }
+.igro-btn--dark { background: var(--surface-inverse); color: var(--text-on-dark); border-color: var(--border-inverse); }
+.igro-btn--danger { background: var(--error); color: var(--text-on-dark); border-color: var(--error); }
+.igro-btn--danger-outline { background: var(--surface-card); color: var(--error); border-color: var(--error); }
+.igro-btn--ghost { background: transparent; color: var(--text-muted); border-color: var(--border-default); }
+.igro-btn--inverted { background: var(--surface-card); color: var(--cta); border-color: var(--surface-card); }
+.igro-btn--outline-dark { background: transparent; color: var(--text-on-dark); border-color: var(--text-on-dark); }
+@media (hover: hover) {
+  .igro-btn--primary:hover:not(:disabled) { background: var(--cta-hover); border-color: var(--cta-hover); box-shadow: var(--shadow-cta-hover); }
+  .igro-btn--secondary:hover:not(:disabled) { background: var(--tint-cta); }
+  .igro-btn--dark:hover:not(:disabled) { background: var(--dark-hover); border-color: var(--dark-hover); }
+  .igro-btn--danger:hover:not(:disabled) { background: var(--error-hover); border-color: var(--error-hover); }
+  .igro-btn--danger-outline:hover:not(:disabled) { background: var(--error); color: var(--text-on-dark); }
+  .igro-btn--ghost:hover:not(:disabled) { background: var(--surface-inverse); color: var(--text-on-dark); border-color: var(--border-inverse); }
+  .igro-btn--inverted:hover:not(:disabled) { background: var(--surface-sunken); }
+  .igro-btn--outline-dark:hover:not(:disabled) { background: var(--on-dark-wash); }
+}
+.igro-btn:active:not(:disabled) { transform: scale(var(--press-scale)); }
+.igro-btn:disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+
+/* ---------- IconButton (DS IconButton) — sm 34 · md 40 · lg 44 ---------- */
+.igro-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  width: 40px; height: 40px; /* DS: IconButton md */
+  padding: 0; margin: 0; flex: none; cursor: pointer; transform: scale(1);
+  transition: transform var(--duration-fast) ease, background var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  -webkit-tap-highlight-color: transparent;
+  background: transparent; color: var(--text-muted); border: 1px solid transparent; border-radius: var(--radius-sm);
+}
+.igro-icon-btn .igro-icon { width: 18px; height: 18px; }
+.igro-icon-btn--sm { width: var(--h-control-sm); height: var(--h-control-sm); }
+.igro-icon-btn--lg { width: var(--h-control-md); height: var(--h-control-md); }
+.igro-icon-btn--outline { color: var(--text-muted); border-color: var(--border-default); border-radius: var(--radius-btn); }
+.igro-icon-btn--danger { color: var(--error); border-color: var(--error); border-radius: var(--radius-btn); }
+.igro-icon-btn--solid { background: var(--cta); color: var(--text-on-dark); border-color: var(--cta); border-radius: var(--radius-btn); }
+.igro-icon-btn--on-dark { color: var(--text-on-dark); }
+.igro-icon-btn--circle { border-radius: var(--radius-full); }
+@media (hover: hover) {
+  .igro-icon-btn:hover:not(:disabled) { background: var(--surface-sunken); }
+  .igro-icon-btn--outline:hover:not(:disabled) { background: var(--surface-inverse); color: var(--text-on-dark); border-color: var(--border-inverse); }
+  .igro-icon-btn--danger:hover:not(:disabled) { background: var(--error); color: var(--text-on-dark); }
+  .igro-icon-btn--solid:hover:not(:disabled) { background: var(--cta-hover); border-color: var(--cta-hover); }
+  .igro-icon-btn--on-dark:hover:not(:disabled) { background: var(--on-dark-wash); }
+}
+.igro-icon-btn:active:not(:disabled) { transform: scale(var(--press-scale-icon)); } /* v6.1: drops to 1 under reduced motion */
+.igro-icon-btn:disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+
+/* ---------- Badge (DS Badge) ---------- */
+.igro-badge {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold);
+  letter-spacing: 0.3px; /* DS: Badge */ line-height: 1; white-space: nowrap;
+  padding: var(--space-1) var(--space-2_5);
+  border-radius: var(--radius-full); text-transform: uppercase;
+  background: var(--surface-sunken); color: var(--text-default); border: 1px solid transparent;
+}
+.igro-badge .igro-icon { width: 14px; height: 14px; }
+.igro-badge--brand { background: var(--surface-brand); color: var(--brand); }
+.igro-badge--solid { background: var(--accent-strong); color: var(--text-on-dark); }
+.igro-badge--success { background: var(--success-tint); color: var(--text-success); }
+.igro-badge--error { background: var(--error-tint); color: var(--error); }
+.igro-badge--warning { background: var(--notice-bg); color: var(--notice-ink); }
+.igro-badge--reward { background: transparent; color: var(--text-reward); border-color: var(--reward); text-transform: none; }
+/* Reward badge on a House band — readme §2: gold text on House is --text-reward-on-dark */
+.igro-badge--reward-on-dark { background: transparent; color: var(--text-reward-on-dark); border-color: var(--reward); text-transform: none; }
+
+/* ---------- Tag (DS Tag, static chip) ---------- */
+.igro-tag {
+  display: inline-flex; align-items: center; gap: var(--space-2); box-sizing: border-box;
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-normal); line-height: var(--leading-compact);
+  padding: var(--space-2) var(--space-3_5);
+  border-radius: var(--radius-full); white-space: nowrap; cursor: default;
+  background: var(--surface-subtle); color: var(--text-default); border: 1px solid var(--border-subtle);
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+/* ---------- Card (DS Card) ---------- */
+.igro-card {
+  cursor: default;
+  background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  transition: transform var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.igro-card--flush { padding: 0; overflow: hidden; }
+
+/* ---------- Breadcrumb (DS Breadcrumb) — "/"-separated trail ---------- */
+.igro-breadcrumb ol { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+.igro-breadcrumb li { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-ui); font-size: var(--text-body-sm); letter-spacing: var(--tracking-normal); color: var(--text-muted); }
+.igro-breadcrumb li + li::before { content: "/"; color: var(--text-muted); }
+.igro-breadcrumb a { color: var(--text-link); text-decoration: underline; }
+@media (hover: hover) { .igro-breadcrumb a:hover { color: var(--brand); } }
+
+/* ---------- Steps (DS Steps) — 34px circles, labels underneath, Accent connectors ---------- */
+.igro-steps { display: flex; align-items: flex-start; list-style: none; margin: 0; padding: 0; }
+.igro-steps__item { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.igro-steps__item + .igro-steps__item::before {
+  content: ""; position: absolute; top: 16px; /* DS: Steps — circle centre minus 1px */
+  right: calc(50% + 25px); width: calc(100% - 50px); /* DS: Steps — 8px gap each side of a 34px circle */
+  height: 2px; background: var(--border-default);
+}
+.igro-steps__item.is-done::before, .igro-steps__item[aria-current="step"]::before { background: var(--accent); }
+.igro-steps__circle {
+  position: relative; z-index: 1; width: var(--h-control-sm); height: var(--h-control-sm); box-sizing: border-box;
+  border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface-card); border: 1px solid var(--border-default); color: var(--text-muted);
+  font-family: var(--font-ui); font-weight: var(--weight-bold); font-size: var(--text-body-sm);
+}
+.igro-steps__circle .igro-icon { width: 16px; height: 16px; }
+.igro-steps__item.is-done .igro-steps__circle { background: var(--accent); border-color: var(--accent); color: var(--text-on-dark); }
+.igro-steps__item[aria-current="step"] .igro-steps__circle { background: var(--surface-inverse); border-color: var(--border-inverse); color: var(--text-on-dark); }
+.igro-steps__label {
+  font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-semibold);
+  line-height: 1.25; /* DS: Steps */ text-align: center; color: var(--text-muted);
+}
+.igro-steps__meta { display: block; font-weight: var(--weight-regular); color: var(--text-muted); }
+.igro-steps__item.is-done .igro-steps__label { color: var(--text-accent); }
+.igro-steps__item[aria-current="step"] .igro-steps__label { color: var(--text-default); }
+
+/* ---------- Tabs (DS Tabs) — 44px, 8px radius, active = House fill ---------- */
+.igro-tabs { display: inline-flex; gap: var(--space-2); flex-wrap: wrap; }
+.igro-tab {
+  height: var(--h-control-md); box-sizing: border-box; margin: 0;
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  padding: 0 var(--space-3_5);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  background: var(--surface-card); color: var(--text-default); border: 1px solid var(--border-default);
+}
+.igro-tab[aria-selected="true"] { background: var(--surface-inverse); color: var(--text-on-dark); border-color: var(--border-inverse); }
+@media (hover: hover) { .igro-tab:not([aria-selected="true"]):hover { border-color: var(--border-inverse); } }
+.igro-tabpanel[hidden] { display: none; }
+
+/* ---------- Input (DS Input) — 56px, floating label ---------- */
+.igro-field { width: 100%; display: flex; flex-direction: column; gap: var(--space-2); }
+.igro-field__control { position: relative; }
+.igro-field__input {
+  width: 100%; height: var(--h-field); box-sizing: border-box; margin: 0;
+  padding: 0 var(--space-3);
+  font-family: var(--font-ui); font-size: var(--text-body); letter-spacing: var(--tracking-normal); color: var(--text-default);
+  background: var(--surface-card); border: 1px solid var(--border-control); border-radius: var(--radius-sm);
+  box-shadow: none; outline: none; cursor: text;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease, padding var(--duration-fast) ease;
+}
+.igro-field__input:focus,
+.igro-field__input:not(:placeholder-shown) { padding-top: var(--space-4); padding-bottom: var(--space-2); }
+.igro-field--trailing .igro-field__input { padding-right: var(--space-7); }
+.igro-field__input:focus { border-color: var(--border-focus); box-shadow: inset 0 0 0 1px var(--border-focus), var(--ring-focus); }
+.igro-field--valid .igro-field__input { background: var(--selected-bg); }
+.igro-field__input[aria-invalid="true"] { border-color: var(--error); box-shadow: var(--ring-error); }
+.igro-field__label {
+  position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%);
+  display: flex; align-items: center; gap: var(--space-1);
+  font-family: var(--font-ui); font-size: var(--text-body); line-height: 1.1; /* DS: Input */
+  color: var(--text-muted); pointer-events: none;
+  transition: top var(--duration-fast) ease, font-size var(--duration-fast) ease, transform var(--duration-fast) ease;
+}
+.igro-field__input:focus + .igro-field__label,
+.igro-field__input:not(:placeholder-shown) + .igro-field__label { top: 9px; /* DS: Input — raised label offset */ transform: none; font-size: var(--text-micro); }
+.igro-field__input[aria-invalid="true"] + .igro-field__label { color: var(--error); }
+.igro-field__req { color: var(--text-accent); font-weight: var(--weight-bold); }
+.igro-field__trailing { position: absolute; right: var(--space-2); top: 50%; transform: translateY(-50%); display: inline-flex; }
+.igro-field__clear {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; /* DS: PhoneInput clear */ padding: 0; margin: 0;
+  border: none; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); cursor: pointer;
+}
+.igro-field__clear[hidden] { display: none; }
+.igro-field__clear .igro-icon { width: 16px; height: 16px; }
+.igro-field__hint { margin: 0 2px; /* DS: hint text nudge */ font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.4; color: var(--text-muted); }
+.igro-field__hint[hidden] { display: none; }
+.igro-field--invalid .igro-field__hint { color: var(--error); }
+.igro-field--disabled .igro-field__control { opacity: var(--disabled-opacity); }
+
+/* ---------- Select (DS Select) — 56px field; native <select> inside ---------- */
+.igro-select { width: 100%; display: flex; flex-direction: column; gap: var(--space-2); }
+.igro-select__control {
+  position: relative; height: var(--h-field); box-sizing: border-box;
+  background: var(--surface-card); border: 1px solid var(--border-control); border-radius: var(--radius-sm);
+  box-shadow: none; transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.igro-select__control:focus-within { border-color: var(--border-focus); box-shadow: inset 0 0 0 1px var(--border-focus), var(--ring-focus); }
+.igro-select--invalid .igro-select__control { border-color: var(--error); box-shadow: var(--ring-error); }
+.igro-select__label {
+  position: absolute; left: var(--space-3); top: 9px; /* DS: Select — raised label offset */
+  display: flex; gap: var(--space-1);
+  font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.1; /* DS: Select */
+  color: var(--text-muted); pointer-events: none;
+}
+.igro-select--invalid .igro-select__label { color: var(--error); }
+.igro-select__input {
+  width: 100%; height: 100%; box-sizing: border-box; margin: 0;
+  border: none; outline: none; background: transparent; appearance: none; -webkit-appearance: none;
+  font-family: var(--font-ui); font-size: var(--text-body); letter-spacing: var(--tracking-normal); color: var(--text-default);
+  padding: var(--space-3_5) var(--space-7) var(--space-1) var(--space-3);
+  cursor: pointer; border-radius: var(--radius-sm);
+}
+.igro-select__chevron {
+  position: absolute; right: var(--space-3); top: 50%; width: 20px; height: 20px;
+  transform: translateY(-50%); transition: transform var(--duration-fast) ease; pointer-events: none; color: var(--text-muted);
+}
+.igro-select__control:focus-within .igro-select__chevron { transform: translateY(-50%) rotate(180deg); }
+.igro-select__hint { margin: 0 2px; /* DS: hint text nudge */ font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.4; color: var(--text-muted); }
+.igro-select__hint[hidden] { display: none; }
+.igro-select--invalid .igro-select__hint { color: var(--error); }
+
+/* ---------- Radio glyph (DS ListRow / Radio) — 18px ring, Accent dot ---------- */
+.igro-radio {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 18px; height: 18px; /* DS: Radio */ box-sizing: border-box; border-radius: 50%;
+  background: var(--surface-card); border: 1px solid var(--border-control);
+}
+.igro-radio::after {
+  content: ""; width: 10px; height: 10px; /* DS: Radio dot */ border-radius: 50%; background: var(--accent);
+  opacity: 0; transform: scale(0.4); transition: opacity var(--duration-fast) ease, transform var(--duration-fast) var(--ease-spring);
+}
+[aria-selected="true"] > .igro-radio, [aria-checked="true"] > .igro-radio { border-color: var(--border-inverse); }
+[aria-selected="true"] > .igro-radio::after, [aria-checked="true"] > .igro-radio::after { opacity: 1; transform: scale(1); }
+
+/* ---------- ListRow (DS ListRow, checkout picker lists) ---------- */
+.igro-list-row {
+  display: flex; align-items: center; gap: var(--space-2_5); padding: var(--space-3) var(--space-3_5);
+  background: var(--surface-card); border-bottom: 1px solid var(--border-subtle); cursor: pointer;
+  transition: background var(--duration-fast) ease;
+}
+.igro-list-row:last-child { border-bottom: none; }
+.igro-list-row[aria-selected="true"] { background: var(--surface-subtle); }
+.igro-list-row.is-active { background: var(--tint-cta); }
+.igro-list-row__text { display: flex; flex-direction: column; gap: 1px; /* DS: ListRow */ min-width: 0; flex: 1 1 0; }
+.igro-list-row__title { font-family: var(--font-ui); font-weight: var(--weight-bold); font-size: var(--text-body-md); line-height: 20px; /* DS: ListRow */ letter-spacing: normal; color: var(--text-default); }
+.igro-list-row__sub { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.igro-list-row--compact { padding: var(--space-2_5) var(--space-3); }
+
+/* ---------- Dropdown — DS Select field + checkout picker popover (ListRow options) ----------
+   Progressive enhancement of a native <select> (it stays in the form and keeps the value):
+   js/lk.js adds a role="combobox" trigger and a role="listbox" of ListRows. ≤767px: bottom sheet. */
+.igro-dropdown .igro-select__input { display: none; }
+.igro-dropdown__trigger {
+  position: absolute; inset: 0; display: flex; align-items: center; box-sizing: border-box;
+  padding: var(--space-3_5) var(--space-7) var(--space-1) var(--space-3); /* same box as the native value */
+  border-radius: var(--radius-sm); cursor: pointer; outline: none; text-align: left;
+  font-family: var(--font-ui); font-size: var(--text-body); letter-spacing: var(--tracking-normal); color: var(--text-default);
+}
+.igro-dropdown__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.igro-dropdown .igro-select__control:focus-within .igro-select__chevron { transform: translateY(-50%); }
+.igro-dropdown.is-open .igro-select__control .igro-select__chevron { transform: translateY(-50%) rotate(180deg); }
+@media (hover: hover) { .igro-dropdown:not(.is-open) .igro-select__control:not(:focus-within):hover { border-color: var(--border-hover); } }
+.igro-dropdown__panel {
+  position: absolute; left: 0; top: calc(100% + var(--space-2)); z-index: 30; min-width: 100%; box-sizing: border-box;
+  background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop); overflow: hidden;
+}
+.igro-dropdown__panel[hidden] { display: none; }
+.igro-dropdown__panel.is-up { top: auto; bottom: calc(100% + var(--space-2)); }
+.igro-dropdown__list { list-style: none; margin: 0; padding: 0; max-height: 336px; overflow-y: auto; overscroll-behavior: contain; }
+.igro-dropdown__list .igro-list-row { white-space: nowrap; }
+.igro-dropdown__head, .igro-dropdown__handle, .igro-dropdown__close, .igro-dropdown__scrim { display: none; }
+@media (hover: hover) { .igro-dropdown__list .igro-list-row:hover { background: var(--tint-cta); } }
+@media (max-width: 767px) {
+  /* DS BottomSheet: 20px top radius, handle and round close button float above the sheet */
+  .igro-dropdown__scrim { display: block; position: fixed; inset: 0; z-index: 1000; background: var(--scrim); }
+  .igro-dropdown__scrim[hidden] { display: none; }
+  .igro-dropdown__panel {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 1001; min-width: 0;
+    display: flex; flex-direction: column; max-height: 88vh; overflow: visible;
+    border: none; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .igro-dropdown__panel.is-up { bottom: 0; }
+  .igro-dropdown__panel[hidden] { display: none; }
+  .igro-dropdown__head {
+    display: block; margin: 0; padding: var(--space-3) var(--space-3) var(--space-1); text-align: center;
+    font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-lg);
+    letter-spacing: var(--tracking-tight); color: var(--text-heading);
+  }
+  .igro-dropdown__handle {
+    display: block; position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); margin-bottom: var(--space-2);
+    width: 68px; height: 4px; /* DS: BottomSheet handle */ border-radius: var(--radius-full); background: var(--decor-on-dark);
+  }
+  .igro-dropdown__close {
+    display: inline-flex; align-items: center; justify-content: center; position: absolute; right: var(--space-2); bottom: 100%;
+    margin-bottom: var(--space-2); width: 40px; height: 40px; /* DS: BottomSheet float button */ padding: 0;
+    border: none; border-radius: var(--radius-md); background: var(--surface-card); color: var(--text-muted);
+    box-shadow: var(--shadow-pop); cursor: pointer;
+  }
+  .igro-dropdown__list { flex: 1 1 auto; min-height: 0; max-height: none; padding: 0 0 env(safe-area-inset-bottom); }
+  .igro-dropdown__list .igro-list-row { padding: var(--space-3); white-space: normal; }
+}
+
+/* ---------- Textarea (DS Textarea) ---------- */
+.igro-textarea { width: 100%; display: flex; flex-direction: column; gap: var(--space-2); }
+.igro-textarea__label { font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); color: var(--text-default); }
+.igro-textarea__input {
+  width: 100%; min-height: 96px; /* DS: Textarea */ box-sizing: border-box; resize: vertical; margin: 0;
+  padding: var(--space-3);
+  font-family: var(--font-ui); font-size: var(--text-body-md); line-height: 1.45; /* DS: Textarea */
+  color: var(--text-default); background: var(--surface-card);
+  border: 1px solid var(--border-control); border-radius: var(--radius-sm);
+  box-shadow: none; outline: none; cursor: text;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.igro-textarea__input:focus { border-color: var(--border-focus); box-shadow: inset 0 0 0 1px var(--border-focus), var(--ring-focus); }
+.igro-textarea__input[aria-invalid="true"] { border-color: var(--error); box-shadow: var(--ring-error); }
+.igro-textarea__hint { display: flex; gap: var(--space-2_5); font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.4; color: var(--text-muted); }
+.igro-textarea__hint-text { flex: 1; text-wrap: pretty; }
+.igro-textarea__count { flex: none; color: var(--text-muted); }
+
+/* ---------- Checkbox (DS Checkbox) — 22px box, native input stays in the DOM ---------- */
+.igro-checkbox {
+  position: relative; display: inline-flex; align-items: center; gap: var(--space-2_5); cursor: pointer;
+  font-family: var(--font-ui); font-size: var(--text-body); font-weight: var(--weight-regular);
+  line-height: 1.3; /* DS: Checkbox */ color: var(--text-default); letter-spacing: var(--tracking-normal);
+}
+.igro-checkbox__box {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; /* DS: Checkbox */ flex: none; box-sizing: border-box;
+  border-radius: var(--radius-xs); border: 1px solid var(--border-control);
+  background: var(--surface-card); color: var(--text-on-dark); box-shadow: none;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.igro-checkbox__text { flex: none; min-width: 0; }
+.igro-checkbox__box svg { width: 12px; height: 12px; opacity: 0; transition: opacity var(--duration-fast) ease; }
+.igro-checkbox input:checked + .igro-checkbox__box { background: var(--accent); border-color: var(--accent); }
+.igro-checkbox input:checked + .igro-checkbox__box svg { opacity: 1; }
+@media (hover: hover) {
+  .igro-checkbox:hover .igro-checkbox__box { border-color: var(--accent); }
+  .igro-checkbox:hover input:not(:checked) + .igro-checkbox__box { box-shadow: var(--ring-select); }
+}
+
+/* ---------- Switch (DS Switch) — one native checkbox with role="switch" ---------- */
+.igro-switch {
+  position: relative; display: inline-flex; align-items: center; gap: var(--space-2_5); cursor: pointer;
+  font-family: var(--font-ui); font-size: var(--text-body); color: var(--text-default); letter-spacing: var(--tracking-normal);
+}
+.igro-switch__track {
+  position: relative; width: 44px; height: 24px; /* DS: Switch */ flex: none; box-sizing: border-box;
+  border-radius: var(--radius-full); background: var(--surface-sunken); box-shadow: inset 0 0 0 1px var(--border-control);
+  transition: background var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.igro-switch__knob {
+  position: absolute; top: 3px; left: 3px; /* DS: Switch knob inset */ width: 18px; height: 18px;
+  border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-knob);
+  transition: left var(--duration-fast) var(--ease-standard);
+}
+.igro-switch input:checked + .igro-switch__track { background: var(--accent); box-shadow: none; }
+.igro-switch input:checked + .igro-switch__track .igro-switch__knob { left: 23px; /* DS: Switch */ }
+
+/* ---------- Alert (DS Alert) — flat tinted strip, 6px radius ---------- */
+.igro-alert {
+  display: flex; align-items: center; gap: var(--space-2_5); min-height: 40px; /* DS: Alert */ box-sizing: border-box;
+  border-radius: var(--radius-notice); padding: var(--space-2) var(--space-2_5);
+  background: var(--selected-bg);
+}
+.igro-alert__icon, .igro-alert__body { color: var(--brand); }
+.igro-alert--titled { align-items: flex-start; padding: var(--space-2_5); }
+.igro-alert__icon { width: 24px; height: 24px; flex: none; }
+.igro-alert__body { flex: 1; min-width: 0; font-family: var(--font-ui); letter-spacing: var(--tracking-normal); }
+.igro-alert__title { font-weight: var(--weight-bold); font-size: var(--text-body-md); line-height: 1.35; }
+.igro-alert__text { font-size: var(--text-body-sm); line-height: 1.35; }
+.igro-alert--titled .igro-alert__text { margin-top: 2px; /* DS: Alert text nudge */ }
+.igro-alert--success { background: var(--success-tint); }
+.igro-alert--warning { background: var(--notice-bg); }
+.igro-alert--error { background: var(--error-tint); }
+.igro-alert--success .igro-alert__icon, .igro-alert--success .igro-alert__body { color: var(--text-success); }
+.igro-alert--warning .igro-alert__icon, .igro-alert--warning .igro-alert__body { color: var(--notice-ink); }
+.igro-alert--error .igro-alert__icon, .igro-alert--error .igro-alert__body { color: var(--error); }
+
+/* ---------- Toast (DS Toast) ---------- */
+.igro-toast {
+  display: flex; align-items: flex-start; gap: var(--space-2_5);
+  min-width: 280px; max-width: 420px; /* DS: Toast */ box-sizing: border-box;
+  background: var(--surface-card); border-radius: var(--radius-md); box-shadow: var(--shadow-pop);
+  border-left: 3px solid var(--info); /* DS: Toast status bar */
+  padding: var(--space-3) var(--space-2_5) var(--space-3) var(--space-3);
+}
+.igro-toast--success { border-left-color: var(--accent); }
+.igro-toast--error { border-left-color: var(--error); }
+.igro-toast__body { flex: 1; padding-top: 1px; /* DS: Toast text nudge */ }
+.igro-toast__title { font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-body); color: var(--text-title); }
+.igro-toast__title:not(:last-child) { margin-bottom: 2px; /* DS: Toast */ }
+.igro-toast__message { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); line-height: 1.4; }
+.igro-toast__close {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 24px; height: 24px; margin: -2px 0; padding: 0; /* DS: Toast close — 24px target */
+  border: none; border-radius: var(--radius-xs); background: transparent; cursor: pointer; color: var(--text-muted);
+}
+.igro-toast__close .igro-icon { width: 14px; height: 14px; }
+
+/* ---------- Dialog (DS Dialog) — 12px card on a House 45% scrim ---------- */
+.igro-dialog-scrim {
+  position: fixed; inset: 0; z-index: 1000; background: var(--scrim);
+  display: flex; align-items: center; justify-content: center; padding: var(--space-4);
+}
+.igro-dialog-scrim[hidden] { display: none; }
+.igro-dialog {
+  width: 100%; max-width: 576px; /* DS: Dialog default width */
+  max-height: calc(100vh - var(--space-5)); overflow: auto; box-sizing: border-box;
+  display: flex; flex-direction: column; gap: var(--space-3_5);
+  background: var(--surface-card); border-radius: var(--radius-md); box-shadow: var(--shadow-pop);
+  padding: var(--space-5); outline: none;
+}
+.igro-dialog__head { display: flex; align-items: flex-start; gap: var(--space-3); padding-bottom: var(--space-1); }
+.igro-dialog__titles { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.igro-dialog__title {
+  margin: 0; font-family: var(--font-heading); font-size: var(--text-h3); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight); color: var(--text-heading); line-height: 1.3;
+}
+.igro-dialog__subtitle { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.igro-dialog__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--h-control-sm); height: var(--h-control-sm); flex: none; margin-left: auto; padding: 0;
+  border: none; border-radius: var(--radius-sm); cursor: pointer; background: transparent; color: var(--text-muted);
+  transition: background var(--duration-fast) ease;
+}
+.igro-dialog__close .igro-icon { width: 18px; height: 18px; }
+@media (hover: hover) { .igro-dialog__close:hover { background: var(--surface-sunken); } }
+.igro-dialog__body {
+  font-family: var(--font-ui); font-size: var(--text-body); color: var(--text-default);
+  letter-spacing: var(--tracking-normal); line-height: var(--leading-normal);
+}
+.igro-dialog__footer { display: flex; gap: var(--space-2_5); margin-top: auto; padding-top: var(--space-2_5); }
+.igro-dialog__footer .igro-dialog__primary { flex: 3; }
+.igro-dialog__footer .igro-dialog__secondary { flex: 1; }
+html.igro-scroll-locked, html.igro-scroll-locked body { overflow: hidden; }
+
+/* ---------- Accordion (DS Accordion) — separate 4px plates 2px apart ---------- */
+.igro-accordion { display: flex; flex-direction: column; gap: 2px; /* DS: Accordion — hairline gap */ }
+.igro-accordion__item { background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+.igro-accordion__heading { margin: 0; }
+.igro-accordion__trigger {
+  width: 100%; display: flex; align-items: center; gap: var(--space-2_5);
+  padding: var(--space-3_5);
+  border: none; cursor: pointer; text-align: left; background: transparent; margin: 0;
+  transition: background var(--duration-fast) ease;
+}
+@media (hover: hover) { .igro-accordion__trigger:hover { background: var(--surface-hover); } }
+.igro-accordion__title {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h5);
+  line-height: 1.35; letter-spacing: var(--tracking-tight); color: var(--text-default);
+}
+.igro-accordion__chevron {
+  margin-left: auto; display: inline-flex; flex: none; color: var(--text-muted);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.igro-accordion__trigger[aria-expanded="true"] .igro-accordion__chevron { transform: rotate(180deg); }
+/* v6.1: the plate clips its content, so the keyboard ring is drawn inside the header. */
+.igro-accordion__trigger:focus-visible { outline-offset: -2px; }
+.igro-accordion__panel {
+  padding: 0 var(--space-3_5) var(--space-3_5);
+  font-family: var(--font-ui); font-size: var(--text-body-md); line-height: var(--leading-normal); color: var(--text-default);
+}
+.igro-accordion__panel[hidden] { display: none; }
+
+/* ---------- ProductCard (DS ProductCard) ---------- */
+.igro-product-card {
+  display: flex; flex-direction: column; background: var(--surface-card);
+  border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden;
+  transform: none; transition: transform var(--duration-fast) ease;
+}
+@media (hover: hover) { .igro-product-card:hover { transform: translateY(-2px); } }
+.igro-product-card__media { position: relative; aspect-ratio: 1 / 1; background: var(--surface-sunken); overflow: hidden; cursor: default; }
+.igro-product-card__media img { width: 100%; height: 100%; object-fit: cover; }
+/* White-background packshots: keep the whole pack in view and let the ceramic show through. */
+.igro-product-card__media--packshot img { object-fit: contain; box-sizing: border-box; padding: var(--space-3); mix-blend-mode: multiply; }
+.igro-product-card__badge { position: absolute; top: var(--space-2_5); left: var(--space-2_5); }
+.igro-product-card__body { padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); flex: 1; }
+.igro-product-card__brand {
+  font-family: var(--font-ui); font-size: var(--text-micro); letter-spacing: var(--tracking-looser);
+  text-transform: uppercase; color: var(--text-muted);
+}
+.igro-product-card__name {
+  margin: 0; font-family: var(--font-heading); font-size: var(--text-body); font-weight: var(--weight-semibold);
+  color: var(--text-title); letter-spacing: var(--tracking-tight); line-height: 1.3;
+}
+.igro-product-card__name a { color: inherit; text-decoration: none; }
+.igro-product-card__prices { display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-1); }
+.igro-product-card__price { font-family: var(--font-ui); font-size: var(--text-body-lg); font-weight: var(--weight-bold); color: var(--brand); }
+.igro-product-card__old { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); text-decoration: line-through; white-space: nowrap; }
+.igro-product-card__actions { margin-top: auto; padding-top: var(--space-3); }
+
+/* ---------- Price (DS Price) — Montserrat 700 · sm 15 · md 17 · lg 20 · total 26 ---------- */
+.igro-price { display: inline-flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.igro-price__amount {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4);
+  line-height: 1; letter-spacing: var(--tracking-tight); color: var(--text-default); white-space: nowrap;
+}
+.igro-price--sm .igro-price__amount { font-size: var(--text-body-md); }
+.igro-price--lg .igro-price__amount { font-size: var(--text-h3); }
+.igro-price--total .igro-price__amount { font-size: var(--text-price); color: var(--brand); }
+.igro-price--discount .igro-price__amount { color: var(--text-accent); }
+.igro-price__old { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); text-decoration: line-through; white-space: nowrap; }
+
+/* ---------- Stat (DS Stat) ---------- */
+.igro-stat { background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: var(--space-4); }
+.igro-stat__label {
+  font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted);
+  letter-spacing: 0.04em; /* DS: Stat */ text-transform: uppercase; margin-bottom: var(--space-2);
+}
+.igro-stat__value {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-price);
+  color: var(--brand); letter-spacing: var(--tracking-tight); line-height: 1.1;
+}
+.igro-stat--gold .igro-stat__value { color: var(--text-reward); }
+
+/* ---------- ProgressBar (DS ProgressBar) — 8px meter, brand or gold ---------- */
+.igro-progress { width: 100%; }
+.igro-progress__head {
+  display: flex; justify-content: space-between; gap: var(--space-2);
+  font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); margin-bottom: var(--space-2);
+}
+.igro-progress__value { font-weight: var(--weight-bold); color: var(--brand); }
+.igro-progress__track { height: 8px; /* DS: ProgressBar */ background: var(--surface-sunken); border-radius: var(--radius-full); overflow: hidden; }
+.igro-progress__fill { width: 0; height: 100%; background: var(--accent); border-radius: var(--radius-full); transition: width var(--duration-base) ease; }
+.igro-progress--gold .igro-progress__value { color: var(--text-reward); }
+.igro-progress--gold .igro-progress__track { background: var(--surface-reward); }
+.igro-progress--gold .igro-progress__fill { background: var(--reward); }
+
+/* ---------- EmptyState (DS EmptyState) ---------- */
+.igro-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  gap: var(--space-3); padding: var(--space-6);
+}
+.igro-empty__icon {
+  width: 64px; height: 64px; /* DS: EmptyState */ border-radius: var(--radius-full); background: var(--surface-sunken);
+  display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-bottom: 2px; /* DS: EmptyState nudge */
+}
+.igro-empty__icon .igro-icon { width: 28px; height: 28px; }
+.igro-empty__title { margin: 0; font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-body-lg); color: var(--text-default); }
+.igro-empty__text { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); line-height: var(--leading-normal); max-width: 240px; /* DS: EmptyState */ }
+.igro-empty__action { margin-top: var(--space-2); }
+
+/* ---------- Autocomplete (DS Autocomplete) — combobox + listbox ---------- */
+.igro-autocomplete { position: relative; width: 100%; }
+.igro-autocomplete__list {
+  position: absolute; left: 0; right: 0; z-index: 20; top: calc(var(--h-field) + var(--space-2));
+  max-height: 280px; /* DS: Autocomplete */ overflow-y: auto; margin: 0; padding: 0; list-style: none;
+  background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); box-shadow: var(--shadow-pop);
+}
+.igro-autocomplete__list[hidden] { display: none; }
+.igro-autocomplete__option {
+  display: flex; align-items: center; gap: var(--space-2_5); padding: var(--space-2_5) var(--space-3); cursor: pointer;
+  border-bottom: 1px solid var(--border-subtle); background: transparent; transition: background var(--duration-fast) ease;
+}
+.igro-autocomplete__option:last-child { border-bottom: none; }
+.igro-autocomplete__option[aria-selected="true"] { background: var(--surface-sunken); }
+.igro-autocomplete__pin { width: 18px; height: 18px; flex: none; color: var(--text-muted); }
+.igro-autocomplete__text { display: flex; flex-direction: column; gap: 1px; /* DS: Autocomplete */ min-width: 0; }
+.igro-autocomplete__label { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-default); }
+.igro-autocomplete__label b { font-weight: var(--weight-bold); } /* the typed part, as in the checkout city search */
+.igro-autocomplete__sub { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+/* muted on the sunken highlight would be 4.48:1 — DS Autocomplete switches it to the default ink */
+.igro-autocomplete__option[aria-selected="true"] .igro-autocomplete__sub { color: var(--text-default); }
+.igro-autocomplete__empty { padding: var(--space-2_5) var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); cursor: default; }
+
+/* ---------- GoodsList (DS GoodsList, checkout «Состав заказа») ----------
+   56px thumb · name/meta · qty · price · documents. The DS reflows it under 640px of its own
+   width; here a container query does the same without JS. */
+.igro-goods { display: flex; flex-direction: column; gap: var(--space-2_5); container-type: inline-size; }
+.igro-goods__head, .igro-goods__row { display: grid; grid-template-columns: minmax(0, 1fr) 96px 150px 200px; /* DS: GoodsList columns */ gap: var(--space-3_5); }
+.igro-goods--no-docs .igro-goods__head, .igro-goods--no-docs .igro-goods__row { grid-template-columns: minmax(0, 1fr) 96px 150px; }
+.igro-goods__head { align-items: end; padding: 0 var(--space-3_5); }
+.igro-goods__title { margin: 0; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-lg); color: var(--text-heading); }
+.igro-goods__col { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.igro-goods__col--qty { text-align: center; }
+.igro-goods__col--price { text-align: right; }
+.igro-goods__list { list-style: none; margin: 0; padding: 0; background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+.igro-goods__row { align-items: center; padding: var(--space-3) var(--space-3_5); border-bottom: 1px solid var(--border-subtle); }
+.igro-goods__row:last-child { border-bottom: none; }
+.igro-goods__main { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.igro-goods__thumb { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; /* DS: GoodsList thumb */ flex: none; }
+.igro-goods__thumb img { display: block; max-width: 100%; max-height: 56px; object-fit: contain; }
+.igro-goods__text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.igro-goods__name { font-family: var(--font-ui); font-weight: var(--weight-semibold); font-size: var(--text-body-sm); line-height: 1.35; color: var(--text-default); }
+.igro-goods__name a { color: inherit; text-decoration: none; }
+@media (hover: hover) { .igro-goods__name a:hover { color: var(--brand); text-decoration: underline; } }
+.igro-goods__meta { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.igro-goods__qty { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
+.igro-goods__qty-value { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-md); color: var(--text-default); }
+.igro-goods__unit { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); white-space: nowrap; }
+.igro-goods__price { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; /* DS: GoodsList */ flex-wrap: wrap; }
+.igro-goods__type { font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.25; color: var(--text-muted); text-align: right; }
+.igro-goods__docs { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.igro-goods__docs-list { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; list-style: none; margin: 0; padding: 0; }
+.igro-goods__docs-list > li { min-width: 0; }
+.igro-goods__doc { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; max-width: 100%; /* a long name is cut with an ellipsis, the file type stays inside the column */ min-height: 24px; /* WCAG 2.5.8 */ font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-link); }
+.igro-goods__doc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.igro-goods__doc-ext { display: inline-flex; align-items: center; gap: 2px; /* DS: GoodsList */ flex: none; color: var(--text-muted); text-decoration: none; }
+.igro-goods__doc-ext .igro-icon { width: 12px; height: 12px; }
+/* Column names: read by screen readers in every row, shown on narrow widths */
+.igro-goods__label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@container (max-width: 639px) {
+  .igro-goods__head { display: flex; }
+  .igro-goods__col { display: none; }
+  .igro-goods__row { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-2_5); padding: var(--space-3); }
+  .igro-goods__qty, .igro-goods__price, .igro-goods__docs { flex-direction: row; align-items: baseline; gap: var(--space-2_5); }
+  .igro-goods__price, .igro-goods__docs { flex-wrap: wrap; }
+  .igro-goods__label { position: static; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; flex: none; width: 72px; /* DS: GoodsList narrow label */ font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+  .igro-goods__type { text-align: left; }
+  .igro-goods__docs-list { flex-direction: row; flex-wrap: wrap; gap: var(--space-1) var(--space-2_5); }
+}
+
+/* ---------- OrderSummary (DS OrderSummary) — the receipt with a torn wavy edge ---------- */
+.igro-receipt { display: flex; flex-direction: column; padding-bottom: var(--space-4); }
+.igro-receipt__eyebrow {
+  margin: 0 0 var(--space-3_5); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4);
+  letter-spacing: var(--tracking-looser); text-transform: uppercase; color: var(--text-heading); text-align: center;
+}
+.igro-receipt__card {
+  position: relative; background: var(--surface-card); border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  box-shadow: var(--shadow-card); padding: var(--space-4) var(--space-4) var(--space-3);
+}
+.igro-receipt__groups { display: flex; flex-direction: column; gap: var(--space-3_5); }
+.igro-receipt__group { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; }
+.igro-receipt__group + .igro-receipt__group { padding-top: var(--space-3_5); border-top: 1px solid var(--border-subtle); }
+.igro-receipt__line { display: flex; justify-content: space-between; gap: var(--space-2_5); font-family: var(--font-ui); font-size: var(--text-body-sm); }
+.igro-receipt__line dt { color: var(--text-muted); }
+.igro-receipt__line dd { margin: 0; font-weight: var(--weight-semibold); color: var(--text-default); white-space: nowrap; }
+.igro-receipt__line--discount dd { color: var(--text-accent); }
+.igro-receipt__rule { height: 1px; background: var(--border-default); margin: var(--space-3_5) 0; }
+.igro-receipt__total { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2_5); margin-bottom: var(--space-2); }
+.igro-receipt__total-label { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-md); color: var(--text-default); }
+.igro-receipt__total-value { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-price); line-height: 1; color: var(--brand); letter-spacing: var(--tracking-tight); white-space: nowrap; }
+.igro-receipt__savings {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-2_5); margin-top: var(--space-3);
+  background: var(--notice-bg); border-radius: var(--radius-sm); padding: var(--space-2_5) var(--space-3);
+}
+.igro-receipt__savings-label { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.igro-receipt__savings-value { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-sm); color: var(--text-reward); white-space: nowrap; }
+.igro-receipt__actions { display: flex; flex-direction: column; gap: var(--space-2_5); margin-top: var(--space-3_5); }
+.igro-receipt__note { display: flex; align-items: flex-start; gap: var(--space-2_5); padding: 0 var(--space-1); margin: var(--space-3) 0 0; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.4; color: var(--text-muted); text-wrap: pretty; }
+.igro-receipt__note-icon {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; /* DS: OrderSummary note */
+  border-radius: 50%; background: var(--text-muted); color: var(--text-on-dark);
+  font-weight: var(--weight-bold); font-size: var(--text-micro); line-height: 1;
+}
+/* The torn bottom edge: the wave is a mask filled with the card colour, the shadow follows its shape. */
+.igro-receipt__edge { position: absolute; left: 0; right: 0; bottom: -24px; height: 28px; /* DS: OrderSummary wave */ pointer-events: none; filter: var(--drop-shadow-card); }
+.igro-receipt__edge::before {
+  content: ""; position: absolute; inset: 0; background: var(--surface-card);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 28' preserveAspectRatio='none'%3E%3Cpath d='M8.5863 23.6386C7.07706 22.1231 5.56782 21.0071 3.90625 20.3371C1.8574 19.511 0 17.8099 0 15.6007V4C0 1.79086 1.79086 0 4 0H296C298.209 0 300 1.79086 300 4V15.6007C300 17.8099 298.138 19.5288 296.111 20.4084C294.609 21.0602 293.232 22.0847 291.934 23.401C289.592 26.0137 286.21 27.2013 282.827 27.2013C279.445 27.2013 276.583 25.5387 274.501 23.401C272.16 21.0258 269.818 19.6007 266.435 19.6007C262.793 19.6007 260.191 20.7883 257.589 23.401C255.507 25.7762 251.865 26.9638 249.003 26.9638C246.141 26.9638 243.539 26.0138 241.457 23.8761C238.335 20.7883 235.733 19.6007 232.611 19.6007C229.488 19.6007 226.886 21.0258 224.284 23.6386C222.463 25.5387 219.601 26.9638 216.219 26.9638C212.836 26.9638 210.234 25.7762 208.153 23.401C205.551 20.7883 202.689 19.6007 199.566 19.6007C196.444 19.6007 193.582 21.5009 191.24 24.1136C189.159 26.0137 186.036 26.9638 183.174 26.9638C180.312 26.9638 177.45 25.5387 175.629 23.401C173.027 21.0258 170.425 19.6007 167.042 19.6007C163.66 19.6007 161.318 21.2634 158.977 23.401C156.635 25.7762 154.033 26.9638 150.65 26.9638C147.788 26.9638 145.186 25.7762 143.365 23.8761C140.503 21.0258 137.901 19.6007 134.519 19.6007C131.136 19.6007 128.274 21.5009 126.193 23.6386C124.111 25.7762 121.509 27.2013 117.866 27.2013C114.224 27.2013 111.362 25.7762 109.28 23.401C106.678 21.0258 104.337 19.6007 100.694 19.6007C97.5715 19.6007 94.9696 21.2634 92.8881 23.401C90.8066 25.5387 87.9445 27.2013 84.0416 27.2013C80.1388 27.2013 77.5368 25.5387 75.4553 23.401C73.1136 21.2634 71.0321 19.6007 67.1292 19.6007C63.2264 19.6007 60.6245 21.5009 58.5429 23.6386C56.4614 25.7762 53.5993 27.2013 50.2168 27.2013C46.8344 27.2013 44.2324 26.0138 42.1509 23.8761C39.2888 21.0258 36.6869 19.6007 33.5646 19.6007C30.4423 19.6007 27.8404 21.0258 25.2385 23.6386C23.157 26.0138 20.0347 27.2013 16.6522 27.2013C13.2697 27.2013 10.4076 25.7762 8.5863 23.6386Z'/%3E%3C/svg%3E") no-repeat bottom center / 100% 28px;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 28' preserveAspectRatio='none'%3E%3Cpath d='M8.5863 23.6386C7.07706 22.1231 5.56782 21.0071 3.90625 20.3371C1.8574 19.511 0 17.8099 0 15.6007V4C0 1.79086 1.79086 0 4 0H296C298.209 0 300 1.79086 300 4V15.6007C300 17.8099 298.138 19.5288 296.111 20.4084C294.609 21.0602 293.232 22.0847 291.934 23.401C289.592 26.0137 286.21 27.2013 282.827 27.2013C279.445 27.2013 276.583 25.5387 274.501 23.401C272.16 21.0258 269.818 19.6007 266.435 19.6007C262.793 19.6007 260.191 20.7883 257.589 23.401C255.507 25.7762 251.865 26.9638 249.003 26.9638C246.141 26.9638 243.539 26.0138 241.457 23.8761C238.335 20.7883 235.733 19.6007 232.611 19.6007C229.488 19.6007 226.886 21.0258 224.284 23.6386C222.463 25.5387 219.601 26.9638 216.219 26.9638C212.836 26.9638 210.234 25.7762 208.153 23.401C205.551 20.7883 202.689 19.6007 199.566 19.6007C196.444 19.6007 193.582 21.5009 191.24 24.1136C189.159 26.0137 186.036 26.9638 183.174 26.9638C180.312 26.9638 177.45 25.5387 175.629 23.401C173.027 21.0258 170.425 19.6007 167.042 19.6007C163.66 19.6007 161.318 21.2634 158.977 23.401C156.635 25.7762 154.033 26.9638 150.65 26.9638C147.788 26.9638 145.186 25.7762 143.365 23.8761C140.503 21.0258 137.901 19.6007 134.519 19.6007C131.136 19.6007 128.274 21.5009 126.193 23.6386C124.111 25.7762 121.509 27.2013 117.866 27.2013C114.224 27.2013 111.362 25.7762 109.28 23.401C106.678 21.0258 104.337 19.6007 100.694 19.6007C97.5715 19.6007 94.9696 21.2634 92.8881 23.401C90.8066 25.5387 87.9445 27.2013 84.0416 27.2013C80.1388 27.2013 77.5368 25.5387 75.4553 23.401C73.1136 21.2634 71.0321 19.6007 67.1292 19.6007C63.2264 19.6007 60.6245 21.5009 58.5429 23.6386C56.4614 25.7762 53.5993 27.2013 50.2168 27.2013C46.8344 27.2013 44.2324 26.0138 42.1509 23.8761C39.2888 21.0258 36.6869 19.6007 33.5646 19.6007C30.4423 19.6007 27.8404 21.0258 25.2385 23.6386C23.157 26.0138 20.0347 27.2013 16.6522 27.2013C13.2697 27.2013 10.4076 25.7762 8.5863 23.6386Z'/%3E%3C/svg%3E") no-repeat bottom center / 100% 28px;
+}

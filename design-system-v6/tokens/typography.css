@@ -1,0 +1,46 @@
+/* ==========================================================================
+   IGRObeauty — Typography tokens (v6)
+   Montserrat = headings, prices, display. Source Sans Pro = body + all UI.
+   Tight tracking is the brand voice; weight + colour carry hierarchy.
+   Components never use raw font sizes — only the --text-* sizes below.
+   ========================================================================== */
+:root {
+  /* --- Families --- */
+  --font-heading: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:    "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-ui:      var(--font-body);
+
+  /* --- Weights --- */
+  --weight-regular:  400;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-black:    800; /* logo wordmark only */
+
+  /* --- Type scale (px) --- */
+  --text-display:    80px; /* marketing display — Montserrat 600 */
+  --text-jumbo:      58px; /* marketing display, second step — landing heroes only */
+  --text-hero:       45px; /* hero headline, rating average */
+  --text-promo:      36px; /* v6 · promo banner & section-hero headline */
+  --text-price:      26px; /* Montserrat 700 — order total, KPI value */
+  --text-h1:         24px; /* Montserrat 600 IGRO Green */
+  --text-h2:         24px; /* Montserrat 400 ink — same size as h1 by design: weight + colour carry the step */
+  --text-h3:         20px; /* Montserrat 700 — dialog / block titles */
+  --text-body-lg:    19px; /* intro copy, sheet & empty-state titles */
+  --text-h4:         17px; /* Montserrat 700 — uppercase eyebrows, timeline titles, line-item prices */
+  --text-h5:         16px; /* Montserrat 700 — checkout section headers */
+  --text-body:       16px; /* default body & field value */
+  --text-body-md:    15px; /* button md, option titles, dense tables */
+  --text-body-sm:    14px; /* secondary UI text, labels, metadata */
+  --text-micro:      13px; /* smallest size — captions, badges, floated labels */
+
+  /* --- Line heights --- */
+  --leading-compact: 1.2;  /* display, headings, buttons */
+  --leading-normal:  1.5;  /* body */
+  --leading-relaxed: 1.75; /* large intro copy */
+
+  /* --- Letter spacing --- */
+  --tracking-tight:  -0.16px; /* headings / display */
+  --tracking-normal: -0.01em; /* default body + UI — the characteristic compression */
+  --tracking-loose:  0.1em;   /* emphasized caps */
+  --tracking-looser: 0.15em;  /* uppercase eyebrows */
+}

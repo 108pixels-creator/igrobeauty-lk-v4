@@ -1,0 +1,29 @@
+/* ==========================================================================
+   IGRObeauty — Spacing tokens (v6)
+   4px grid. 16px (--space-3) is the universal rhythm constant.
+   v6 adds the two half-steps the components actually use: 12px and 20px.
+   ========================================================================== */
+:root {
+  --space-1:   4px;   /* tightest inline padding */
+  --space-2:   8px;   /* small gap, icon + label */
+  --space-2_5: 12px;  /* v6 · default gap between a control and its label, list rows */
+  --space-3:   16px;  /* DEFAULT — card padding, outer gutter (xs) */
+  --space-3_5: 20px;  /* v6 · section-card padding, dialog stack gap */
+  --space-4:   24px;  /* section inner spacing, gutter (md) */
+  --space-5:   32px;  /* dialog padding, major between-block spacing */
+  --space-6:   40px;  /* large gaps, gutter (lg) */
+  --space-7:   48px;  /* section-to-section */
+  --space-8:   56px;  /* very large breathing */
+  --space-9:   64px;  /* widest section padding */
+
+  /* Outer gutters (responsive) */
+  --gutter:        var(--space-3); /* 16px mobile */
+  --gutter-md:     var(--space-4); /* 24px tablet */
+  --gutter-lg:     var(--space-6); /* 40px desktop */
+
+  /* Container widths */
+  --container-sm:  343px;
+  --container-md:  500px;
+  --container-lg:  720px;
+  --container-xl:  1440px;
+}

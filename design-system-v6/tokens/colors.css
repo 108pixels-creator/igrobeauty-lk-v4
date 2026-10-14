@@ -1,0 +1,120 @@
+/* ==========================================================================
+   IGRObeauty — Color tokens (v6)
+   1) Primitives = the approved brand palette. 2) Semantic tokens = what components use.
+   Components reference ONLY the semantic block (status colours live there too: they are
+   named by role). Accent and Gold are too light for small text, so each has a text-safe
+   "-ink" twin (≥ 4.5:1 on white).
+   ========================================================================== */
+:root {
+  /* --- Brand greens (approved palette · БРЕНД · ЗЕЛЁНЫЕ) --- */
+  --green-house:      #1a3328; /* House — deepest green: dark bands, footer, active tab/page, dark button */
+  --green-primary:    #004522; /* IGRO Green — brand signal: h1, totals, selected titles */
+  --green-uplift:     #006b3e; /* Uplift — primary CTA fill, success text */
+  --green-accent:     #158f45; /* Accent — selection & indicators (fills, borders, focus). 4.2:1 on white — not for small text */
+  --green-accent-ink: #12803d; /* Accent, text-safe — links, discounts, white-on-green fills (5.0:1) */
+  --green-light:      #b0dec5; /* IGRO Mint — brand badges, active menu item, timeline tags */
+  --green-sage:       #8faf9b; /* Sage — decorative only (2.2:1 on light), never text */
+
+  /* --- Gold (loyalty & savings ONLY — never a general accent) --- */
+  --gold:             #cba258; /* fills, borders, rating stars, meters — not for text (2.4:1) */
+  --gold-ink:         #8c6a26; /* gold, text-safe on light surfaces (5.0:1) */
+  --gold-light:       #dfc49d; /* loyalty borders, ring tracks */
+  --gold-lightest:    #faf6ee; /* loyalty surface */
+
+  /* --- Surfaces (approved palette · ПОВЕРХНОСТИ И ЛИНИИ) --- */
+  --canvas:           #ffffff; /* Canvas — cards, modals, fields */
+  --surface-soft:     #f9f9f9; /* Surface Soft — page background; chips, tiles, menus on white */
+  --canvas-warm:      #f2f0eb; /* Canvas Warm — warm cream for promo / hero bands only */
+  --ceramic:          #edebe9; /* Ceramic — sunken areas, skeletons, tracks, ghost hover */
+
+  /* --- Ink --- */
+  --ink:              #212121;                 /* 16:1 on white */
+  --ink-soft:         #6b6b6b;                 /* 5.3:1 on white */
+  --ink-faint:        rgba(33, 33, 33, 0.40);  /* disabled & decorative only (2.4:1) */
+  --on-dark:          #ffffff;
+  --on-dark-soft:     rgba(255, 255, 255, 0.70);
+  --on-dark-faint:    rgba(255, 255, 255, 0.40); /* decorative on dark (sheet grab handle) */
+
+  /* --- Lines --- */
+  --hairline:         #d6dbde; /* Silver / Hairline — dividers, card & tile outlines (decorative) */
+  --hairline-faint:   #e7e7e7; /* table row separators, list dividers */
+  --hairline-strong:  #8a9297; /* form-control borders — 3.2:1 on white (WCAG 1.4.11) */
+
+  /* ======================================================================
+     SEMANTIC ALIASES — reference these in components, never the primitives.
+     Two green roles, never mixed:
+       --cta    = FILL of primary buttons (Uplift). Hover lightens to --cta-hover + lift.
+       --accent = SELECTION & indicators (Accent): checkbox, radio dot, switch, steps done, focus.
+     ====================================================================== */
+  /* brand & actions */
+  --brand:               var(--green-primary);
+  --cta:                 var(--green-uplift);
+  --cta-hover:           var(--green-accent-ink); /* lighter than --cta, still 5.0:1 with white */
+  --accent:              var(--green-accent);
+  --accent-strong:       var(--green-accent-ink); /* Accent fill that carries white text (solid badge, discount pill) */
+  --reward:              var(--gold);
+  --dark-hover:          #0f2119;                 /* House control hover */
+
+  /* text */
+  --text-heading:        var(--green-primary);
+  --text-title:          var(--ink);
+  --text-default:        var(--ink);              /* body copy (was --text-body, which collided with the 16px size token) */
+  --text-muted:          var(--ink-soft);         /* secondary text, captions, field labels */
+  --text-disabled:       var(--ink-faint);        /* disabled controls only */
+  --text-link:           var(--green-accent-ink);
+  --text-accent:         var(--green-accent-ink); /* discounts, required *, completed steps */
+  --text-success:        var(--green-uplift);
+  --text-reward:         var(--gold-ink);
+  --text-reward-on-dark: var(--gold);             /* gold text on House bands (5.7:1) — gold-ink is too dark there */
+  --text-on-dark:        var(--on-dark);
+  --text-on-dark-muted:  var(--on-dark-soft);
+  --placeholder:         #707070;                 /* 4.9:1 on white */
+
+  /* surfaces */
+  --surface-page:        var(--surface-soft);     /* #f9f9f9 */
+  --surface-card:        var(--canvas);
+  --surface-subtle:      var(--surface-soft);     /* soft-grey fills on white: chips, picked values, selected rows, search field */
+  --surface-promo:       var(--canvas-warm);      /* hero & promo bands */
+  --surface-sunken:      var(--ceramic);
+  --surface-hover:       #fcfcfb;                 /* row / section header hover */
+  --surface-inverse:     var(--green-house);      /* active tab / page, dark button, tooltip, avatar */
+  --surface-brand:       var(--green-light);
+  --surface-reward:      var(--gold-lightest);
+  --band-dark:           var(--green-house);      /* full-width dark bands, footer */
+
+  /* borders */
+  --border-default:      var(--hairline);         /* dividers, cards, buttons */
+  --border-subtle:       var(--hairline-faint);
+  --border-control:      var(--hairline-strong);  /* inputs, checkbox, radio, switch (off) */
+  --border-hover:        #a9b1b6;                 /* tiles on hover */
+  --border-strong:       var(--ink);
+  --border-inverse:      var(--green-house);
+  --border-reward:       var(--gold-light);
+  --border-focus:        var(--accent);
+
+  /* interaction washes — use these, never raw rgba */
+  --tint-cta:            rgba(0,107,62,0.10);     /* outline-button hover */
+  --accent-wash:         rgba(21,143,69,0.04);    /* hover on selectable */
+  --accent-wash-strong:  rgba(21,143,69,0.05);    /* selected icon card */
+  --house-wash:          rgba(26,51,40,0.04);     /* hover on outline option */
+  --house-wash-strong:   rgba(26,51,40,0.05);     /* selected outline option */
+  --on-dark-wash:        rgba(255,255,255,0.12);
+  --decor-on-dark:       var(--on-dark-faint);    /* decorative marks on dark (sheet grab handle) — never text */
+  --selected-bg:         #f1f8f5;                 /* soft-selected option */
+  --selected-bg-hover:   #eaf4ee;
+  --selected-border:     rgba(21,143,69,0.28);
+  --selected-border-hover: rgba(21,143,69,0.45);
+
+  /* feedback & status (role-named, so they are semantic tokens with literal values) */
+  --error:               #c82014;
+  --error-hover:         #b3261e;
+  --error-tint:          #f0e6e0;                 /* invalid-field / error-badge background */
+  --warning:             #f7b529;                 /* indicator colour only — 1.8:1, never text */
+  --notice-ink:          #8a6500;                 /* amber text on --notice-bg (5.0:1) */
+  --notice-bg:           rgba(247,181,41,0.10);   /* amber notice / savings strip */
+  --success:             var(--green-uplift);
+  --success-tint:        #e8eee8;                 /* valid-field / success-badge background */
+  --info:                #2d747e;                 /* Info Teal */
+  --scrim:               rgba(26,51,40,0.45);     /* modal backdrop */
+  --scrim-image:         linear-gradient(to top, rgba(26,51,40,0.80), rgba(26,51,40,0) 60%); /* @kind other */ /* text over photos — the only allowed gradient */
+}

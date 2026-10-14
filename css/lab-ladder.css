@@ -1,0 +1,396 @@
+/* ==========================================================================
+   Тестовая страница lab-ladder.html (13.10): 10 вариантов блока уровней клуба.
+   Собирается tools/build_ladder_lab.py; подключается только на этой странице, в профиль не идёт.
+   Правила DS v6.1 — те же, что в lk.css: только семантические токены, без градиентов и размытия.
+   ========================================================================== */
+
+/* ---------- Страница ---------- */
+.lab-intro { margin-bottom: var(--space-6); }
+.lab-intro__title { margin: 0 0 var(--space-2); }
+.lab-intro__lead { margin: 0 0 var(--space-4); max-width: 820px; font-family: var(--font-ui); font-size: var(--text-body); line-height: var(--leading-normal); color: var(--text-muted); text-wrap: pretty; }
+.lab-toc { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.lab-toc__link {
+  display: inline-flex; align-items: center; gap: var(--space-2); box-sizing: border-box; height: var(--h-control-sm); padding: 0 var(--space-3);
+  border-radius: var(--radius-full); border: 1px solid var(--border-default); background: var(--surface-card);
+  font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-default); text-decoration: none; white-space: nowrap;
+  transition: border-color var(--duration-fast) ease;
+}
+.lab-toc__num { font-weight: var(--weight-bold); color: var(--text-reward); }
+@media (hover: hover) { .lab-toc__link:hover { border-color: var(--border-inverse); color: var(--text-default); } }
+
+.lab-variant { scroll-margin-top: var(--space-4); }
+.lab-variant + .lab-variant { margin-top: var(--space-8); }
+.lab-variant__head { display: flex; align-items: flex-start; gap: var(--space-3); margin-bottom: var(--space-3); }
+.lab-variant__num {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; width: var(--h-control-md); height: var(--h-control-md);
+  border-radius: var(--radius-sm); background: var(--surface-inverse); color: var(--text-reward-on-dark);
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4);
+}
+.lab-variant__text { min-width: 0; }
+.lab-variant__title { margin: 0; }
+.lab-variant__idea { margin: var(--space-1) 0 0; max-width: 820px; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: var(--leading-normal); color: var(--text-muted); text-wrap: pretty; }
+.lab-state[hidden] { display: none; }
+/* «Только уровни»: прячем остальное содержимое блока профиля */
+[data-lab-ctx="only"] .lab-ctx { display: none; }
+[data-lab-ctx="only"] .lab-route-grid { grid-template-columns: minmax(0, 1fr); }
+
+/* Общее для вариантов: строка «что даёт уровень» с иконкой */
+.lab-row__perk .igro-icon, .lab-table__perk .igro-icon, .lab-reach__perk .igro-icon, .lab-cards__perk .igro-icon, .lab-stairs__perk .igro-icon,
+.lab-table__done .igro-icon, .lab-reach__left .igro-icon {
+  flex: none; width: 16px; height: 16px; margin-top: 1px; /* optical nudge */
+}
+
+/* ==========================================================================
+   1 · Ровный ряд — четыре плитки одной высоты, метки внутри
+   ========================================================================== */
+.lab-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2_5); }
+.lab-row__item {
+  box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; padding: var(--space-3);
+  border-radius: var(--radius-sm); background: var(--surface-card); border: 1px solid var(--border-default); color: var(--text-default);
+}
+.lab-row__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-2); }
+.lab-row__icon { color: var(--text-muted); }
+.lab-row__name { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); }
+.lab-row__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-row__perk { display: flex; align-items: flex-start; gap: var(--space-1); margin-top: auto; padding-top: var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; }
+.lab-row__item--done .lab-row__icon, .lab-row__item--done .lab-row__perk .igro-icon { color: var(--text-accent); }
+.lab-row__item--current { background: var(--surface-inverse); border-color: var(--border-inverse); color: var(--text-on-dark); }
+.lab-row__item--current .lab-row__icon { color: var(--text-reward-on-dark); }
+.lab-row__item--current .lab-row__from { color: var(--text-on-dark-muted); }
+.lab-row__item--next { background: var(--surface-reward); border-color: var(--border-reward); }
+.lab-row__item--next .lab-row__icon { color: var(--text-reward); }
+.lab-row__item--next .lab-row__from { color: var(--text-default); }
+.lab-row__item--locked { background: var(--surface-subtle); border-color: var(--border-subtle); }
+.lab-row__item--locked .lab-row__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   2 · Одна панель — ячейки через тонкий разделитель, полосы сверху складываются в шкалу
+   ========================================================================== */
+.lab-panel {
+  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px; /* DS: hairline между ячейками — фон панели */ background: var(--border-default);
+  border: 1px solid var(--border-default); border-radius: var(--radius-sm); overflow: hidden;
+}
+.lab-panel__cell {
+  position: relative; display: flex; flex-direction: column; gap: var(--space-1); min-width: 0;
+  padding: var(--space-4) var(--space-3) var(--space-3); background: var(--surface-card); color: var(--text-default);
+}
+.lab-panel__cell::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--border-subtle); }
+.lab-panel__cell--done::before { background: var(--accent); }
+.lab-panel__cell--current::before { background: var(--surface-inverse); }
+.lab-panel__cell--next::before { background: var(--reward); }
+.lab-panel__cell--current { background: var(--selected-bg); }
+.lab-panel__cell--next { background: var(--surface-reward); }
+.lab-panel__state {
+  margin-bottom: var(--space-2); font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-loose); text-transform: uppercase; color: var(--text-muted);
+}
+.lab-panel__cell--done .lab-panel__state { color: var(--text-accent); }
+.lab-panel__cell--current .lab-panel__state { color: var(--text-default); }
+.lab-panel__cell--next .lab-panel__state { color: var(--text-reward); }
+.lab-panel__name { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); }
+.lab-panel__name .igro-icon { flex: none; color: var(--text-muted); }
+.lab-panel__cell--done .lab-panel__name .igro-icon { color: var(--text-accent); }
+.lab-panel__cell--current .lab-panel__name .igro-icon { color: var(--brand); }
+.lab-panel__cell--next .lab-panel__name .igro-icon { color: var(--text-reward); }
+.lab-panel__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-panel__perk { margin-top: auto; padding-top: var(--space-2_5); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; }
+.lab-panel__cell--locked .lab-panel__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   3 · Степпер — кружки с иконками лиг на одной линии (по DS Steps, круг 44)
+   ========================================================================== */
+.lab-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.lab-steps__item { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); min-width: 0; padding: 0 var(--space-2); text-align: center; }
+.lab-steps__item + .lab-steps__item::before {
+  content: ""; position: absolute; top: 21px; /* DS: Steps — центр круга 44 */
+  right: calc(50% + 30px); width: calc(100% - 60px); /* DS: Steps — зазор 8 px с каждой стороны круга */
+  height: 2px; background: var(--border-default);
+}
+.lab-steps__item.is-done::before, .lab-steps__item.is-current::before { background: var(--accent); }
+.lab-steps__item.is-next::before { background: var(--reward); }
+.lab-steps__dot {
+  position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  width: var(--h-control-md); height: var(--h-control-md); margin-bottom: var(--space-2);
+  border-radius: 50%; /* DS: кружок шага */ background: var(--surface-card); border: 1px solid var(--border-default); color: var(--text-muted);
+}
+.lab-steps__item.is-done .lab-steps__dot { background: var(--surface-brand); border-color: var(--selected-border); color: var(--brand); }
+.lab-steps__item.is-current .lab-steps__dot { background: var(--surface-inverse); border-color: var(--border-inverse); color: var(--text-reward-on-dark); box-shadow: var(--ring-house); }
+.lab-steps__item.is-next .lab-steps__dot { background: var(--surface-reward); border-color: var(--reward); color: var(--text-reward); }
+.lab-steps__name { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); color: var(--text-default); }
+.lab-steps__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-steps__perk { margin-top: var(--space-1); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; color: var(--text-default); text-wrap: balance; }
+.lab-steps__item.is-locked .lab-steps__perk { color: var(--text-muted); }
+.lab-steps__state { margin-top: var(--space-2); }
+
+/* ==========================================================================
+   4 · Таблица уровней
+   ========================================================================== */
+.lab-table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-default); }
+.lab-table th, .lab-table td { padding: var(--space-2_5) var(--space-3); text-align: left; vertical-align: middle; border-bottom: 1px solid var(--border-subtle); }
+.lab-table thead th { padding-top: 0; padding-bottom: var(--space-2); font-size: var(--text-micro); font-weight: var(--weight-semibold); color: var(--text-muted); border-bottom-color: var(--border-default); }
+.lab-table tbody th { font-weight: var(--weight-regular); }
+.lab-table tbody tr:last-child > * { border-bottom: none; }
+.lab-table__league { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-md); letter-spacing: var(--tracking-tight); white-space: nowrap; }
+.lab-table__league .igro-icon { flex: none; color: var(--text-muted); }
+.lab-table__from { white-space: nowrap; color: var(--text-muted); }
+.lab-table__perk { display: inline-flex; align-items: flex-start; gap: var(--space-1); font-weight: var(--weight-semibold); line-height: 1.3; }
+.lab-table__state { width: 1%; text-align: right; white-space: nowrap; }
+.lab-table__done { display: inline-flex; align-items: center; gap: var(--space-1); font-weight: var(--weight-semibold); color: var(--text-accent); }
+.lab-table__done .igro-icon { margin-top: 0; }
+.lab-table__later { color: var(--text-muted); }
+.lab-table__row--done .lab-table__league .igro-icon, .lab-table__row--done .lab-table__perk .igro-icon { color: var(--text-accent); }
+.lab-table__row > * { transition: background var(--duration-fast) ease; }
+.lab-table__row--current > * { background: var(--selected-bg); }
+.lab-table__row--current > th { border-left: 3px solid var(--brand); }
+.lab-table__row--current .lab-table__league .igro-icon { color: var(--brand); }
+.lab-table__row--next > * { background: var(--surface-reward); }
+.lab-table__row--next .lab-table__league .igro-icon { color: var(--text-reward); }
+.lab-table__row--locked .lab-table__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   5 · Сколько до каждого уровня — у каждого своя шкала от нуля до порога
+   ========================================================================== */
+.lab-reach { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2_5); }
+.lab-reach__item {
+  display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; padding: var(--space-3);
+  border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--surface-card);
+}
+.lab-reach__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); flex-wrap: wrap; }
+.lab-reach__name { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h5); letter-spacing: var(--tracking-tight); color: var(--text-default); }
+.lab-reach__name .igro-icon { flex: none; color: var(--text-muted); }
+.lab-reach__left { display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); white-space: nowrap; }
+.lab-reach__left b { font-weight: var(--weight-bold); color: var(--text-default); }
+.lab-reach__left--done { font-weight: var(--weight-semibold); color: var(--text-accent); }
+.lab-reach__left--done .igro-icon { margin-top: 0; }
+.lab-reach__perk { display: flex; align-items: flex-start; gap: var(--space-1); font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.3; color: var(--text-muted); }
+.lab-reach__perk b { font-weight: var(--weight-semibold); color: var(--text-default); }
+.lab-reach__item--done .lab-reach__name .igro-icon, .lab-reach__item--done .lab-reach__perk .igro-icon { color: var(--text-accent); }
+.lab-reach__item--current { background: var(--selected-bg); border-color: var(--selected-border); }
+.lab-reach__item--current .lab-reach__name .igro-icon { color: var(--brand); }
+.lab-reach__item--next { background: var(--surface-reward); border-color: var(--border-reward); }
+.lab-reach__item--next .lab-reach__name .igro-icon { color: var(--text-reward); }
+.lab-reach__item--next .lab-reach__track { background: var(--border-reward); } /* на золотом фоне дорожка шкалы темнее, иначе не видна */
+.lab-reach__item--locked .lab-reach__perk b { color: var(--text-muted); }
+.lab-reach__bar { display: block; }
+.lab-reach__track { display: block; }
+.lab-reach__progress { display: block; }
+
+/* ==========================================================================
+   6 · Сейчас → цель — два уровня крупно, остальные строкой
+   ========================================================================== */
+.lab-focus { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: var(--space-3); align-items: stretch; }
+.lab-focus__card {
+  display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; padding: var(--space-4);
+  border-radius: var(--radius-sm); border: 1px solid var(--border-default); background: var(--surface-card); color: var(--text-default);
+}
+.lab-focus__card--current { background: var(--surface-inverse); border-color: var(--border-inverse); color: var(--text-on-dark); }
+.lab-focus__card--none { background: var(--surface-subtle); border-color: var(--border-subtle); }
+.lab-focus__card--next { background: var(--surface-reward); border-color: var(--border-reward); }
+.lab-focus__name { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); }
+.lab-focus__name .igro-icon { flex: none; }
+.lab-focus__card--current .lab-focus__name .igro-icon { color: var(--text-reward-on-dark); }
+.lab-focus__card--next .lab-focus__name .igro-icon { color: var(--text-reward); }
+.lab-focus__line { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-1) var(--space-2); margin-top: var(--space-2); }
+.lab-focus__value { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-promo); line-height: 1; letter-spacing: var(--tracking-tight); white-space: nowrap; }
+.lab-focus__card--current .lab-focus__value { color: var(--text-reward-on-dark); }
+.lab-focus__card--next .lab-focus__value { color: var(--text-reward); }
+.lab-focus__card--none .lab-focus__value { color: var(--text-muted); }
+.lab-focus__sub { font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.3; }
+.lab-focus__card--current .lab-focus__sub { color: var(--text-on-dark-muted); }
+.lab-focus__cond { margin-top: auto; padding-top: var(--space-2); font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-default); }
+.lab-focus__arrow {
+  align-self: center; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  width: var(--h-control-md); height: var(--h-control-md); border-radius: 50%; /* DS: круглая кнопка-иконка */
+  background: var(--surface-card); border: 1px solid var(--border-default); color: var(--text-reward);
+}
+.lab-focus__rest { grid-column: 1 / -1; display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-2_5); border-top: 1px solid var(--border-subtle); }
+.lab-focus__rest:empty { display: none; }
+.lab-focus__group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lab-focus__group-title { font-size: var(--text-micro); font-weight: var(--weight-bold); letter-spacing: var(--tracking-loose); text-transform: uppercase; color: var(--text-default); }
+.lab-focus__item { display: inline-flex; align-items: center; gap: var(--space-1); }
+.lab-focus__item b { font-weight: var(--weight-bold); color: var(--text-default); }
+.lab-focus__item .igro-icon { flex: none; color: var(--text-muted); }
+
+/* ==========================================================================
+   7 · Вкладки уровней — DS Tabs и подробности выбранного уровня
+   ========================================================================== */
+.lab-tabs { display: flex; flex-direction: column; gap: var(--space-2_5); }
+.lab-tabs__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.lab-tabs__tab { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); white-space: nowrap; }
+.lab-tabs__tab .igro-icon { flex: none; }
+.lab-tabs__mark { color: var(--text-accent); }
+.lab-tabs__tab[aria-selected="true"] .lab-tabs__mark { color: var(--text-reward-on-dark); }
+.lab-tabs__panel {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: var(--space-4); align-items: center; padding: var(--space-4);
+  border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--surface-subtle);
+}
+.lab-tabs__panel--done, .lab-tabs__panel--locked { background: var(--surface-subtle); }
+.lab-tabs__panel--current { background: var(--selected-bg); border-color: var(--selected-border); }
+.lab-tabs__panel--next { background: var(--surface-reward); border-color: var(--border-reward); }
+.lab-tabs__main { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+.lab-tabs__title { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); color: var(--text-default); }
+.lab-tabs__title .igro-icon { flex: none; color: var(--text-reward); }
+.lab-tabs__text { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: var(--leading-normal); color: var(--text-default); text-wrap: pretty; }
+.lab-tabs__facts { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.lab-tabs__fact { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; padding-left: var(--space-3); border-left: 1px solid var(--border-default); }
+.lab-tabs__fact dt { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-tabs__fact dd { margin: 0; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-md); line-height: 1.3; color: var(--text-default); }
+
+/* ==========================================================================
+   8 · Мини-карты клуба — фон карты участника по уровню, все одного размера
+   ========================================================================== */
+.lab-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
+.lab-cards__item { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-1); min-width: 0; }
+.lab-cards__art {
+  box-sizing: border-box; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between;
+  aspect-ratio: 1.586; /* DS: пропорции карты участника */ margin-bottom: var(--space-2); padding: var(--space-2_5) var(--space-3);
+  border-radius: var(--radius-sm); background-color: var(--surface-reward); background-position: center; background-size: cover; background-repeat: no-repeat;
+  box-shadow: var(--shadow-card); color: var(--text-title);
+}
+.lab-cards__art--l2 { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-l2-720.webp"); }
+.lab-cards__art--l1 { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-l1-720.webp"); }
+.lab-cards__art--vip { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-vip-720.webp"); }
+.lab-cards__art--svip { background-image: url("../assets/cards/lk-card-svip-720.webp"); }
+.lab-cards__art--l2, .lab-cards__art--l1, .lab-cards__art--vip { color: var(--text-on-dark); }
+.lab-cards__art-top { display: flex; justify-content: flex-end; min-height: var(--space-5); }
+.lab-cards__lock {
+  display: inline-flex; align-items: center; justify-content: center; width: var(--space-5); height: var(--space-5);
+  border-radius: var(--radius-full); background: var(--surface-card); color: var(--text-muted);
+}
+.lab-cards__lock .igro-icon { width: 16px; height: 16px; }
+.lab-cards__league { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); }
+.lab-cards__league .igro-icon { flex: none; color: var(--reward); }
+.lab-cards__item--locked .lab-cards__art, .lab-cards__item--next .lab-cards__art { filter: grayscale(1); }
+.lab-cards__item--next .lab-cards__art { filter: grayscale(0.6); /* DS: цель — приглушённая, но не серая */ }
+.lab-cards__item--current .lab-cards__art { outline: 2px solid var(--border-inverse); outline-offset: 3px; }
+.lab-cards__meta { min-height: var(--space-4); display: flex; align-items: center; }
+.lab-cards__state { font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold); letter-spacing: var(--tracking-loose); text-transform: uppercase; color: var(--text-muted); }
+.lab-cards__item--done .lab-cards__state { color: var(--text-accent); }
+.lab-cards__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-cards__perk { display: flex; align-items: flex-start; gap: var(--space-1); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; color: var(--text-default); }
+.lab-cards__item--done .lab-cards__perk .igro-icon, .lab-cards__item--current .lab-cards__perk .igro-icon { color: var(--text-accent); }
+.lab-cards__item--locked .lab-cards__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   9 · Ступени в плитках — плитки одной высоты, «лестница» в пиктограмме
+   ========================================================================== */
+.lab-stairs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2_5); }
+.lab-stairs__item {
+  box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; padding: var(--space-3);
+  border-radius: var(--radius-sm); border: 1px solid var(--border-default); background: var(--surface-card); color: var(--text-default);
+}
+.lab-stairs__top { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-2_5); }
+.lab-stair { display: inline-flex; align-items: flex-end; gap: 3px; /* DS: пиктограмма */ height: 24px; color: var(--border-control); }
+.lab-stair__bar { display: block; width: 7px; border-radius: 2px; /* DS: столбик пиктограммы */ background: var(--border-subtle); }
+.lab-stair__bar:nth-child(1) { height: 6px; }
+.lab-stair__bar:nth-child(2) { height: 12px; }
+.lab-stair__bar:nth-child(3) { height: 18px; }
+.lab-stair__bar:nth-child(4) { height: 24px; }
+.lab-stair__bar.is-on { background: currentColor; }
+.lab-stairs__item--done .lab-stair { color: var(--accent); }
+.lab-stairs__item--current .lab-stair { color: var(--surface-inverse); }
+.lab-stairs__item--next .lab-stair { color: var(--reward); }
+.lab-stairs__item--current { border-color: var(--border-inverse); box-shadow: var(--ring-house); }
+.lab-stairs__item--next { background: var(--surface-reward); border-color: var(--border-reward); }
+.lab-stairs__item--next .lab-stair__bar { background: var(--border-reward); }
+.lab-stairs__item--next .lab-stair__bar.is-on { background: currentColor; }
+.lab-stairs__name { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h3); line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); }
+.lab-stairs__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lab-stairs__perk { display: flex; align-items: flex-start; gap: var(--space-1); margin-top: auto; padding-top: var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; }
+.lab-stairs__item--done .lab-stairs__perk .igro-icon, .lab-stairs__item--current .lab-stairs__perk .igro-icon { color: var(--text-accent); }
+.lab-stairs__item--locked .lab-stairs__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   10 · Единая шкала — «Текущий прогресс» со всеми порогами; ряда уровней нет
+   Шкала с равными отрезками 0 → Лига II → Лига I → VIP → Super VIP. Подписи — сетка из пяти колонок,
+   шкала отступает на 10 % с краёв, чтобы точки встали по центрам колонок.
+   ========================================================================== */
+.lab-route-grid { align-items: stretch; }
+.lab-route { justify-content: center; }
+.lab-route__meter { margin: 0 10%; }
+.lab-route__dots { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; /* DS: высота дорожки ProgressBar */ }
+.lab-route__dot {
+  position: absolute; top: 50%; width: 16px; height: 16px; box-sizing: border-box; transform: translate(-50%, -50%);
+  border-radius: 50%; /* DS: кружок шага */ background: var(--border-reward); border: 3px solid var(--surface-reward);
+}
+.lab-route__dot--0 { left: 0; }
+.lab-route__dot--1 { left: 25%; }
+.lab-route__dot--2 { left: 50%; }
+.lab-route__dot--3 { left: 75%; }
+.lab-route__dot--4 { left: 100%; }
+.lab-route__dot.is-reached { background: var(--reward); }
+.lab-route__dot.is-current { background: var(--surface-inverse); }
+.lab-route__labels { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-2); }
+.lab-route__label { display: flex; flex-direction: column; align-items: center; gap: 2px; /* DS: подписи шкалы */ min-width: 0; text-align: center; font-family: var(--font-ui); color: var(--text-default); }
+.lab-route__label .igro-icon { flex: none; margin-bottom: var(--space-1); color: var(--text-muted); }
+.lab-route__label.is-done .igro-icon, .lab-route__label.is-current .igro-icon { color: var(--text-reward); }
+.lab-route__label.is-next .igro-icon { color: var(--text-reward); }
+.lab-route__name { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-sm); letter-spacing: var(--tracking-tight); }
+.lab-route__label.is-next .lab-route__name { color: var(--text-reward); }
+.lab-route__label--start { justify-content: flex-start; padding-top: var(--space-1); }
+.lab-route__label--start .lab-route__name { color: var(--text-muted); font-weight: var(--weight-semibold); }
+.lab-route__from { font-size: var(--text-micro); color: var(--text-muted); white-space: nowrap; }
+.lab-route__perk { margin-top: var(--space-1); font-size: var(--text-micro); font-weight: var(--weight-semibold); line-height: 1.3; text-wrap: balance; }
+.lab-route__label.is-locked .lab-route__perk, .lab-route__label.is-next .lab-route__perk { color: var(--text-muted); }
+
+/* ==========================================================================
+   Телефон
+   ========================================================================== */
+@media (max-width: 767px) {
+  .lab-variant + .lab-variant { margin-top: var(--space-7); }
+  .lab-variant__num { width: var(--h-control-sm); height: var(--h-control-sm); font-size: var(--text-body-sm); }
+
+  .lab-row, .lab-panel, .lab-cards, .lab-stairs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lab-row__top { flex-wrap: wrap; }
+  .lab-stairs__top { flex-wrap: wrap; align-items: center; }
+  /* в плитке половинной ширины пилюля «Следующая цель» не помещается — метка становится подписью и переносится */
+  .lab-row__top .igro-badge, .lab-stairs__top .igro-badge { flex-basis: 100%; padding: 0; border: 0; background: none; white-space: normal; line-height: 1.25; }
+  .lab-row__item--current .lab-row__top .igro-badge { color: var(--text-reward-on-dark); }
+
+  /* 3 — шаги столбиком: круг слева, линия вниз до следующего круга */
+  .lab-steps { grid-template-columns: minmax(0, 1fr); }
+  .lab-steps__item {
+    display: grid; grid-template-columns: var(--h-control-md) minmax(0, 1fr); column-gap: var(--space-2_5); row-gap: 2px; /* DS: подписи шага */
+    justify-items: start; align-items: start; padding: 0 0 var(--space-4); text-align: left;
+  }
+  .lab-steps__dot { grid-row: 1 / span 5; margin-bottom: 0; }
+  .lab-steps__item > :not(.lab-steps__dot) { grid-column: 2; }
+  .lab-steps__item + .lab-steps__item::before { display: none; }
+  .lab-steps__item:not(:last-child)::after {
+    content: ""; position: absolute; left: 21px; top: 52px; bottom: 6px; /* DS: Steps — от круга до следующего круга */
+    width: 2px; background: var(--border-default);
+  }
+  .lab-steps__item.is-done:not(:last-child)::after { background: var(--accent); }
+  .lab-steps__item.is-current:not(:last-child)::after { background: var(--reward); }
+  .lab-steps__perk { margin-top: 0; }
+  .lab-steps__state { margin-top: var(--space-1); }
+
+  /* 4 — таблица строками-карточками */
+  .lab-table, .lab-table tbody, .lab-table tr, .lab-table th, .lab-table td { display: block; }
+  .lab-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .lab-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-1) var(--space-2); padding: var(--space-2_5) var(--space-3); border-bottom: 1px solid var(--border-subtle); }
+  .lab-table tbody tr:last-child { border-bottom: none; }
+  .lab-table th, .lab-table td { padding: 0; border: 0; }
+  .lab-table__row--current > *, .lab-table__row--next > * { background: none; }
+  .lab-table__row--current > th { border-left: 0; }
+  .lab-table__row--current { background: var(--selected-bg); border-left: 3px solid var(--brand); }
+  .lab-table__row--next { background: var(--surface-reward); }
+  .lab-table__state { grid-column: 2; grid-row: 1; width: auto; }
+  .lab-table__from, .lab-table__give { grid-column: 1 / -1; }
+
+  .lab-reach { grid-template-columns: minmax(0, 1fr); }
+
+  .lab-focus { grid-template-columns: minmax(0, 1fr); }
+  .lab-focus__arrow { justify-self: center; transform: rotate(90deg); }
+
+  .lab-tabs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lab-tabs__panel { grid-template-columns: minmax(0, 1fr); padding: var(--space-3); }
+  .lab-tabs__facts { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+
+  .lab-route__labels { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); margin-top: var(--space-2); }
+  .lab-route__label { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); text-align: left; }
+  .lab-route__label .igro-icon { align-self: center; margin-bottom: 0; }
+  .lab-route__label--start { display: none; }
+  .lab-route__perk { flex-basis: 100%; margin-top: 0; padding-left: var(--space-5); }
+}

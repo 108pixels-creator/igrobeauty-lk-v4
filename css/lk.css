@@ -1,0 +1,939 @@
+/* ==========================================================================
+   IGRObeauty — Личный кабинет v5 · page layout.
+   Components come from components.css (DS v6.1 class layer); this file only arranges
+   them. Semantic tokens only; raw numbers are layout sizes (column widths, block heights).
+   ========================================================================== */
+
+/* Plain text links only: :where() keeps specificity at 0, so component link styles (buttons, card names) always win. */
+:where(a) { color: var(--text-link); }
+@media (hover: hover) { :where(a:hover) { color: var(--brand); } }
+
+[hidden] { display: none !important; }
+.lk-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.lk-print-only { display: none; }
+
+.lk-skip { position: absolute; left: var(--space-3); top: var(--space-3); z-index: 1100; transform: translateY(-200%); }
+.lk-skip:focus { transform: none; }
+
+/* ---------- Shell: sidebar + content ---------- */
+.lk-shell {
+  box-sizing: border-box; max-width: 1440px; /* v6, 12.10: рабочая зона десктопа 1440 (было 1200) */ margin: 0 auto;
+  padding: var(--space-6) var(--gutter-lg) var(--space-9);
+  display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: var(--space-6); align-items: start;
+}
+.lk-main { min-width: 0; outline: none; }
+.lk-aside { position: sticky; top: var(--space-4); }
+
+/* Navigation — DS Menu items on a white plate (v6.1: item padding 12, separator 8/4) */
+.lk-nav { padding: var(--space-2); }
+.lk-nav__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.lk-nav__item {
+  display: flex; align-items: center; gap: var(--space-2_5); padding: var(--space-2_5);
+  border-radius: var(--radius-sm); text-decoration: none;
+  font-family: var(--font-ui); font-size: var(--text-body-md); letter-spacing: var(--tracking-normal); color: var(--text-default);
+  transition: background var(--duration-fast) ease;
+}
+.lk-nav__item[aria-current="page"] { background: var(--surface-brand); }
+@media (hover: hover) {
+  .lk-nav__item:hover { color: var(--text-default); }
+  .lk-nav__item:not([aria-current="page"]):hover { background: var(--surface-subtle); }
+}
+.lk-nav__divider { height: 1px; background: var(--border-subtle); margin: var(--space-2) var(--space-1); }
+
+/* ---------- Page headings and sections ---------- */
+.lk-title { margin: 0 0 var(--space-4); }
+.lk-title--with-lead { margin-bottom: var(--space-1); }
+.lk-lead { margin: 0 0 var(--space-4); font-family: var(--font-ui); font-size: var(--text-body); color: var(--text-muted); }
+.lk-tabs { margin-bottom: var(--space-4); }
+.lk-section + .lk-section { margin-top: var(--space-7); }
+.lk-section__title { margin: 0 0 var(--space-3); }
+.lk-section__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-3); }
+.lk-note { margin: var(--space-7) 0 0; text-align: center; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+
+/* ==========================================================================
+   Profile · hero «Клуб привилегий»: greeting, the member card, privileges
+   House band (like the DS B2B welcome band / storefront trade band), 12px banner radius.
+   ========================================================================== */
+.lk-hero {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; gap: var(--space-5);
+  padding: var(--space-5); border-radius: var(--radius-md);
+  background: var(--band-dark); color: var(--text-on-dark);
+}
+.lk-hero__rings { position: absolute; z-index: -1; right: -160px; top: -200px; width: 560px; height: 560px; color: var(--on-dark-wash); pointer-events: none; }
+.lk-hero__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3) var(--space-4); flex-wrap: wrap; }
+.lk-hero__hello { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.lk-hero__title {
+  margin: 0; font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-promo);
+  line-height: var(--leading-compact); letter-spacing: var(--tracking-tight); color: var(--text-on-dark);
+}
+.lk-hero__lead { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-md); color: var(--text-on-dark-muted); }
+.lk-hero__body { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: var(--space-5); align-items: center; }
+
+/* 13.10 · Ретро-бонус — в правом верхнем углу шапки вместо кнопки «Перейти в каталог», без плашки, прямо на фоне.
+   Всегда две строки (значение и пояснение) высотой с прежнюю кнопку (52 px) — шапка не меняется между состояниями. */
+.lk-retro { display: flex; align-items: center; gap: var(--space-2_5); margin: 0; min-width: 0; min-height: var(--h-control-lg); font-family: var(--font-ui); color: var(--text-on-dark); }
+.lk-retro__icon { flex: none; color: var(--reward); }
+.lk-retro__text { display: flex; flex-direction: column; gap: 2px; /* DS: ListRow */ min-width: 0; }
+.lk-retro__main { font-size: var(--text-body-md); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lk-retro__value { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight); }
+.lk-retro__note { font-size: var(--text-micro); line-height: 1.35; color: var(--text-on-dark-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lk-retro--locked, .lk-retro--locked .lk-retro__icon { color: var(--text-on-dark-muted); }
+@media (max-width: 1023px) { .lk-retro__main, .lk-retro__note { white-space: normal; } }
+
+/* The member card — a physical club card: loyalty surface + gold rings, slightly tilted */
+.lk-member-card {
+  position: relative; overflow: hidden; isolation: isolate; box-sizing: border-box; aspect-ratio: 1.586; /* ID-1 card */
+  display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-2);
+  padding: var(--space-3_5); border: 1px solid var(--border-reward); border-radius: var(--radius-md);
+  background: var(--surface-reward); color: var(--text-default); box-shadow: var(--shadow-pop);
+  transform: none; transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+@media (hover: hover) { .lk-member-card:hover { transform: translateY(calc(-1 * var(--space-2))); } }
+.lk-member-card__league .igro-icon { color: var(--text-reward); }
+.lk-member-card__rings { position: absolute; z-index: -1; right: -72px; bottom: -96px; width: 280px; height: 280px; color: var(--border-reward); pointer-events: none; }
+.lk-member-card__tier { display: flex; flex-direction: column; gap: var(--space-1); }
+.lk-member-card__league {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-price);
+  line-height: 1; letter-spacing: var(--tracking-tight); color: var(--text-title);
+}
+.lk-member-card__number {
+  font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-body-md);
+  letter-spacing: var(--tracking-loose); color: var(--text-default); white-space: nowrap;
+}
+.lk-member-card__foot {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap;
+  font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted);
+}
+.lk-member-card__owner { font-weight: var(--weight-bold); letter-spacing: var(--tracking-looser); text-transform: uppercase; }
+
+/* Privileges: tiles on the dark band (on-dark wash), the locked one is outlined */
+.lk-perks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2_5); }
+.lk-perk {
+  display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; box-sizing: border-box;
+  padding: var(--space-3); border-radius: var(--radius-sm); background: var(--on-dark-wash);
+}
+.lk-perk__icon { color: var(--reward); margin-bottom: var(--space-1); }
+.lk-perk__value {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-price);
+  line-height: 1.1; letter-spacing: var(--tracking-tight); color: var(--text-on-dark); white-space: nowrap;
+}
+.lk-perk__label { font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.35; color: var(--text-on-dark-muted); }
+.lk-perk--locked { background: transparent; border: 1px dashed var(--decor-on-dark); }
+.lk-perk--locked .lk-perk__icon, .lk-perk--locked .lk-perk__value { color: var(--text-on-dark-muted); }
+.lk-perks-block { display: flex; flex-direction: column; min-width: 0; }
+.lk-perks-block__title { margin: 0; }
+.lk-perks-block__note { margin: var(--space-1) 0 var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-on-dark-muted); }
+
+/* v5.1 · Desktop hero (≥1024px), after the chosen ChatGPT reference: two columns —
+   greeting over the card on the left, the retro bonus (13.10; was the catalogue button) over «Ваши привилегии» on the right.
+   The head/body wrappers dissolve into one grid; below 1024px they stack as before. */
+@media (min-width: 1024px) {
+  .lk-hero {
+    display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    grid-template-areas: "hello retro" "hello perks" "card perks"; grid-template-rows: auto auto 1fr;
+    gap: var(--space-4) var(--space-5);
+  }
+  .lk-hero__head, .lk-hero__body { display: contents; }
+  .lk-hero__hello { grid-area: hello; }
+  .lk-retro { grid-area: retro; justify-self: end; align-self: start; max-width: 100%; }
+  /* 13.10 · широкая плитка скидки VIP и Super VIP компактнее: иконка, «20%» и подпись — одной строкой,
+     под ними бренды и «15% на остальной ассортимент». Так шапка всех статусов одной высоты — по левой колонке */
+  .lk-perk--wide { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; column-gap: var(--space-2_5); row-gap: var(--space-1); }
+  .lk-perk--wide .lk-perk__icon { margin-bottom: 0; }
+  .lk-perk--wide .lk-perk__tags, .lk-perk--wide .lk-perk__rest { grid-column: 1 / -1; }
+  /* запас по высоте, чтобы шапка не росла при другой отрисовке шрифтов */
+  .lk-perk__icon { margin-bottom: 0; }
+  .lk-perks-block__note { margin-bottom: var(--space-2_5); }
+  .lk-member-card { grid-area: card; align-self: end; }
+  .lk-perks-block { grid-area: perks; }
+}
+
+/* v5.1 · Photo scene (≥1024px): the club card stands on a stone podium.
+   One flat photo, anchored to the bottom-left corner like the card itself (align-self: end + fixed lift),
+   so the podium stays under the card at every desktop width. Tiles take the solid House fill:
+   text never sits on the photo. Below 1024px the hero stacks and keeps the plain House band. */
+@media (min-width: 1024px) {
+  .lk-hero--scene {
+    /* v6, 12.10: кадр обрезан до видимой части (tools/optimize_images.py) — 1246×594 у левого нижнего угла,
+       подиум под картой как раньше. Верхние 45 % кадра уже уходят в сплошной House (запечено в картинку),
+       поэтому в высоких шапках нет видимой границы фото. Картинка статуса — в .lk-hero--scene-<статус>. */
+    background-color: var(--band-dark);
+    background-image: url("../assets/lk-hero-scene.webp");
+    background-repeat: no-repeat;
+    background-position: left 0 bottom -32px; /* DS: 13.10 — подиумы на 32 px ниже, карты на месте */
+    background-size: 1246px 594px; /* DS: image alignment, not spacing */
+  }
+  .lk-hero--scene .lk-member-card { margin-bottom: var(--space-9); z-index: 1; }
+  /* 13.10 · тень карты на верхней грани подиума: карта «парит» над ним. Мягкое пятно — картинка
+     assets/card-shadow.webp (градиенты и размытие в CSS запрещены правилами DS). Когда карта при наведении
+     поднимается, тень растёт и бледнеет; когда опускается — сжимается обратно (те же длительность и кривая). */
+  .lk-hero--scene .lk-member-card__shadow {
+    display: block; grid-area: card; align-self: end; justify-self: center; z-index: 0; pointer-events: none;
+    width: 88%; height: 34px; margin-bottom: 18px; /* DS: середина тени — на верхней грани подиума */
+    background: url("../assets/card-shadow.webp") center / 100% 100% no-repeat; /* цвет — теней подиума, по статусу ниже */
+    transform: scale(1); opacity: 1;
+    transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-base) var(--ease-standard);
+  }
+  /* цвет тени — из теневых участков своего подиума (tools/optimize_images.py, shadow_tone) */
+  .lk-hero--scene-none .lk-member-card__shadow { background-image: url("../assets/shadows/card-shadow-none.webp"); }
+  .lk-hero--scene-l2 .lk-member-card__shadow { background-image: url("../assets/shadows/card-shadow-l2.webp"); }
+  .lk-hero--scene-l1 .lk-member-card__shadow { background-image: url("../assets/shadows/card-shadow-l1.webp"); }
+  .lk-hero--scene-vip .lk-member-card__shadow { background-image: url("../assets/shadows/card-shadow-vip.webp"); }
+  .lk-hero--scene-svip .lk-member-card__shadow { background-image: url("../assets/shadows/card-shadow-svip.webp"); }
+  @media (hover: hover) {
+    .lk-hero--scene .lk-member-card:hover + .lk-member-card__shadow { transform: scale(1.18, 1.35); opacity: 0.5; /* DS: тень растёт и бледнеет, пока карта поднята */ }
+  }
+  .lk-hero--scene .lk-perk { background: var(--band-dark); border: 1px solid var(--on-dark-wash); }
+  .lk-hero--scene .lk-perk--locked { border-style: dashed; border-color: var(--decor-on-dark); }
+}
+
+/* ==========================================================================
+   Profile · «Перейти на следующий уровень»: the goal, the league ladder, what to add
+   ========================================================================== */
+.lk-level { display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-5); }
+.lk-hero + .lk-level, .lk-hero + .lk-section { margin-top: var(--space-4); } /* v6: у контрагента после шапки сразу FAQ */
+.lk-level__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2_5) var(--space-3); flex-wrap: wrap; }
+.lk-level__head .igro-h2 { margin: 0; }
+.lk-level__grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr); gap: var(--space-5); align-items: center; }
+.lk-level__goal { display: flex; flex-direction: column; gap: var(--space-2); }
+.lk-level__amount {
+  margin: 0; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-hero);
+  line-height: 1; letter-spacing: var(--tracking-tight); color: var(--brand); white-space: nowrap;
+}
+.lk-level__text { margin: var(--space-1) 0 0; font-family: var(--font-ui); font-size: var(--text-body); line-height: var(--leading-normal); color: var(--text-default); text-wrap: pretty; }
+.lk-level__meta { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-level__meta b { font-weight: var(--weight-bold); color: var(--text-default); }
+
+/* «Текущий прогресс»: a linear scale from the current league to the next, marker «Вы здесь».
+   Loyalty surface and gold meter as in DS LoyaltyCard / ProgressBar tone="gold". */
+.lk-progress {
+  display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4);
+  border-radius: var(--radius-md); background: var(--surface-reward); border: 1px solid var(--border-reward);
+}
+.lk-progress__title { margin: 0; }
+.lk-progress__meter { position: relative; padding-top: var(--space-6); }
+.lk-progress__track { height: 8px; /* DS: ProgressBar */ border-radius: var(--radius-full); background: var(--border-reward); overflow: hidden; }
+.lk-progress__fill { display: block; width: 0; height: 100%; border-radius: var(--radius-full); background: var(--reward); transition: width calc(var(--duration-base) * 3) var(--ease-standard); }
+.lk-progress__here {
+  position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap;
+  padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); background: var(--surface-inverse); color: var(--text-on-dark);
+  font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-bold); line-height: 1.3;
+}
+.lk-progress__arrow {
+  position: absolute; left: 50%; top: 100%; transform: translateX(-50%); width: 0; height: 0;
+  border: 6px solid transparent; /* tooltip arrow */ border-top-color: var(--surface-inverse);
+}
+.lk-progress__ends { display: flex; justify-content: space-between; gap: var(--space-3); }
+.lk-progress__end { display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-default); }
+.lk-progress__end .igro-icon { color: var(--text-reward); }
+.lk-progress__end b { font-weight: var(--weight-bold); }
+
+/* League ladder: three steps of rising height — current (House), next (gold meter), locked */
+.lk-ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2_5); align-items: end; }
+.lk-ladder__step { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+.lk-ladder__block {
+  position: relative; overflow: hidden; isolation: isolate; box-sizing: border-box; align-self: stretch;
+  display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3); border-radius: var(--radius-sm);
+  background: var(--surface-subtle); border: 1px dashed var(--border-control); color: var(--text-default);
+}
+.lk-ladder__step:nth-child(1) .lk-ladder__block { height: 136px; }
+.lk-ladder__step:nth-child(2) .lk-ladder__block { height: 168px; }
+.lk-ladder__step:nth-child(3) .lk-ladder__block { height: 200px; }
+.lk-ladder__step:nth-child(4) .lk-ladder__block { height: 232px; }
+.lk-ladder__icon { color: var(--text-muted); margin-bottom: var(--space-1); }
+.lk-ladder__block--current .lk-ladder__icon { color: var(--text-reward-on-dark); }
+.lk-ladder__block--next .lk-ladder__icon { color: var(--text-reward); }
+.lk-ladder__name { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); line-height: 1.2; letter-spacing: var(--tracking-tight); }
+.lk-ladder__from { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lk-ladder__perk { display: flex; align-items: flex-start; gap: var(--space-1); margin-top: auto; font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; }
+.lk-ladder__perk .igro-icon { width: 16px; height: 16px; margin-top: 1px; /* optical nudge */ }
+.lk-ladder__block--current { background: var(--surface-inverse); border: 1px solid var(--border-inverse); color: var(--text-on-dark); }
+.lk-ladder__block--current .lk-ladder__from { color: var(--text-on-dark-muted); }
+.lk-ladder__block--next { background: var(--surface-reward); border: 1px solid var(--border-reward); }
+.lk-ladder__block--next .lk-ladder__from { color: var(--text-default); }
+
+/* What helps to reach the next league: frequent purchases */
+.lk-boost { display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--border-subtle); }
+.lk-boost__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-3); flex-wrap: wrap; }
+.lk-boost__head .igro-h5 { margin: 0; }
+.lk-boost__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); }
+.lk-boost__item { display: flex; align-items: center; gap: var(--space-2_5); min-width: 0; }
+.lk-boost__thumb { width: 56px; height: 56px; flex: none; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); /* fixed cell, see .lk-thumb */ place-items: center; overflow: hidden; border-radius: var(--radius-md); background: var(--surface-sunken); /* DS: image tile */ }
+.lk-boost__thumb img { display: block; width: 100%; height: 100%; box-sizing: border-box; padding: var(--space-1); object-fit: contain; mix-blend-mode: multiply; }
+.lk-boost__text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; flex: 1 1 auto; }
+.lk-boost__name {
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.3; color: var(--text-default);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.lk-boost__price { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-md); color: var(--text-default); white-space: nowrap; }
+
+/* ---------- Orders ---------- */
+.lk-filters {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: var(--space-3);
+  align-items: center; margin: 0 0 var(--space-4);
+}
+.lk-filters--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.lk-filters__reset { justify-self: end; }
+.lk-orders { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3_5); }
+.lk-order__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.lk-order__info { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.lk-order__title-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.lk-order__title {
+  margin: 0; font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-body-lg);
+  letter-spacing: var(--tracking-tight); line-height: 1.35; color: var(--text-title);
+}
+/* 13.10: номер заказа — ссылка на бланк (новая вкладка, как «Бланк заказа») */
+.lk-order__link { color: inherit; text-decoration: none; border-radius: var(--radius-xs); }
+@media (hover: hover) { .lk-order__link:hover { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; } }
+.lk-order__date, .lk-order__contractor { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-order__contractor { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.lk-order__party { color: var(--text-default); }
+.lk-order__aside { display: flex; align-items: center; gap: var(--space-5); flex: none; }
+.lk-order__bottom { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; margin-top: var(--space-3_5); }
+.lk-order__actions { display: flex; gap: var(--space-2_5); flex-wrap: wrap; }
+.lk-thumbs { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--space-2_5); flex-wrap: wrap; }
+.lk-thumb {
+  width: 68px; height: 68px; flex: none; overflow: hidden; display: grid; place-items: center;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr); /* fixed cell: a tall picture fits in, the row does not grow to its height */
+  border-radius: var(--radius-md); background: var(--surface-sunken); /* DS: image tile */
+}
+.lk-thumb img { display: block; width: 100%; height: 100%; box-sizing: border-box; padding: var(--space-2); object-fit: contain; mix-blend-mode: multiply; }
+.lk-thumb--more { display: flex; flex-direction: column; justify-content: center; gap: var(--space-1); }
+.lk-thumb__num { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h4); letter-spacing: var(--tracking-tight); line-height: 1; color: var(--text-default); }
+.lk-thumb__label { font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1; color: var(--text-default); }
+.lk-filter-empty { margin-top: var(--space-2); }
+
+.lk-reco { margin-top: var(--space-7); }
+.lk-reco__list {
+  list-style: none; margin: 0 calc(-1 * var(--space-1)); padding: var(--space-1) var(--space-1) var(--space-3);
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * var(--space-3)) / 4); gap: var(--space-3); /* 4 cards per view, as the favorites grid */
+  overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: var(--space-1);
+}
+.lk-reco__list > li { position: relative; /* keeps visually hidden text inside the scroller */ display: flex; scroll-snap-align: start; }
+.lk-reco__list .igro-product-card, .lk-fav-grid .igro-product-card { width: 100%; }
+.lk-product-meta { margin: 0; font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lk-price-note { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+
+/* ---------- Favorites ---------- */
+.lk-fav-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+.lk-fav-grid > li { display: flex; }
+.lk-card-actions { display: flex; align-items: center; gap: var(--space-2); }
+.lk-stock { margin: 0 auto 0 0; font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: var(--leading-compact); color: var(--text-muted); } /* «Нет в наличии» instead of the add button */
+.lk-card-actions .igro-btn { flex: 1 1 auto; min-width: 0; }
+.lk-fav-hint { margin-top: var(--space-4); }
+
+/* ---------- Education ---------- */
+.lk-certs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-3_5); }
+.lk-certs > li { display: flex; }
+.lk-cert { display: flex; flex-direction: column; width: 100%; }
+.lk-cert__cover { height: 168px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3); background: var(--band-dark); }
+.lk-cert__body { flex: 1; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3_5); }
+.lk-cert__title {
+  margin: 0; font-family: var(--font-heading); font-weight: var(--weight-semibold); font-size: var(--text-body);
+  letter-spacing: var(--tracking-tight); line-height: 1.3; color: var(--text-title);
+}
+.lk-cert__org { margin: 0 0 var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-cert__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-2_5); }
+.lk-cert__date { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+
+/* ---------- My data: forms, addresses, notifications ---------- */
+.lk-form-card { padding: var(--space-5); }
+.lk-form-card + .lk-form-card { margin-top: var(--space-4); }
+.lk-form-card__title { margin: 0 0 var(--space-4); }
+.lk-form-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.lk-form-card__head .lk-form-card__title { margin: 0; }
+.lk-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3_5) var(--space-4); align-items: start; }
+.lk-save-row { display: flex; align-items: center; gap: var(--space-3_5); margin-top: var(--space-4); }
+
+.lk-addr-list { list-style: none; margin: 0; padding: 0; }
+.lk-addr-list[hidden] { display: none; }
+.lk-addr { padding: var(--space-4) 0; border-top: 1px solid var(--border-subtle); }
+.lk-addr:last-child { padding-bottom: 0; }
+.lk-addr__head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2_5) var(--space-3); min-height: var(--h-control-sm); margin-bottom: var(--space-3); }
+.lk-addr__tools { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+.lk-addr__grid { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: var(--space-2_5) var(--space-3); margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); }
+.lk-addr__grid dt { color: var(--text-muted); }
+.lk-addr__grid dd { margin: 0; color: var(--text-default); }
+
+.lk-notif { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.lk-notif__title { margin: 0 0 var(--space-2); }
+.lk-notif__desc { margin: 0; max-width: 520px; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: var(--leading-normal); color: var(--text-muted); }
+
+/* Address dialog (DS Dialog, wide variant with a map) and the confirmation */
+.lk-addr-dialog { max-width: 1080px; }
+.lk-addr-dialog__body { display: flex; gap: var(--space-4); align-items: stretch; }
+.lk-addr-form { flex: 1 1 52%; min-width: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.lk-addr-form__row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-3); align-items: start; }
+.lk-map {
+  flex: 1 1 48%; min-width: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: var(--surface-sunken) url(../assets/map.webp) center / cover no-repeat;
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md); /* DS: image tile */
+}
+.lk-map__pin { width: 52px; height: 52px; display: grid; place-items: center; border-radius: var(--radius-full); background: var(--surface-card); color: var(--brand); box-shadow: var(--shadow-pop); }
+.lk-confirm { max-width: 440px; }
+
+.lk-toasts { position: fixed; right: var(--space-4); bottom: var(--space-4); z-index: 1100; display: flex; flex-direction: column; gap: var(--space-2_5); }
+
+/* ==========================================================================
+   Order form «Бланк заказа» — order data + receipt, then the goods list as in the checkout
+   ========================================================================== */
+.lk-crumbs { margin-bottom: var(--space-3); }
+.lk-doc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3) var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.lk-doc-head__titles { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.lk-doc-head__titles .igro-h1 { overflow-wrap: anywhere; }
+.lk-doc-head__meta { display: flex; align-items: center; gap: var(--space-2) var(--space-3); flex-wrap: wrap; margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-doc-head__actions { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.lk-doc-steps { margin-bottom: var(--space-4); padding: var(--space-4) var(--space-3); }
+.lk-doc-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-4); align-items: start; }
+.lk-doc-aside { position: sticky; top: var(--space-4); }
+.lk-doc-info { padding: 0; }
+.lk-doc-info__group { padding: var(--space-4) var(--space-4) var(--space-4); }
+.lk-doc-info__group + .lk-doc-info__group { border-top: 1px solid var(--border-subtle); }
+.lk-doc-info__title { margin: 0 0 var(--space-3); }
+.lk-doc-info__list { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--space-2_5) var(--space-3); margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: var(--leading-normal); }
+.lk-doc-info__list dt { color: var(--text-muted); }
+.lk-doc-info__list dd { margin: 0; color: var(--text-default); overflow-wrap: anywhere; }
+.lk-doc-info__text { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: var(--leading-normal); color: var(--text-default); }
+.lk-doc-info__strong { font-weight: var(--weight-semibold); }
+.lk-doc-info__sub { display: block; color: var(--text-muted); }
+.lk-doc-copy { vertical-align: middle; margin-left: var(--space-1); }
+.lk-doc-goods { display: flex; flex-direction: column; gap: var(--space-5); margin-top: var(--space-7); }
+.lk-doc-goods__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-3); flex-wrap: wrap; }
+.lk-doc-goods__head .igro-h2 { margin: 0; }
+.lk-doc-goods__count { font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-doc-footnote { margin: var(--space-5) 0 0; font-family: var(--font-ui); font-size: var(--text-micro); line-height: var(--leading-normal); color: var(--text-muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1279px) {
+  .lk-shell { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); padding: var(--space-4) var(--gutter-md) var(--space-8); }
+  .lk-aside { position: static; }
+  .lk-nav__list { flex-direction: row; }
+  .lk-nav__list > li { flex: 1 1 0; min-width: 0; }
+  .lk-nav__item { flex-direction: column; justify-content: center; gap: var(--space-1); padding: var(--space-2_5) var(--space-1); text-align: center; font-size: var(--text-micro); }
+  .lk-nav__divider { display: none; }
+  .lk-reco__list { grid-auto-columns: 200px; }
+}
+@media (max-width: 1100px) {
+  .lk-addr-dialog { max-width: 640px; }
+  .lk-map { display: none; }
+}
+@media (max-width: 1023px) {
+  .lk-hero__body { grid-template-columns: minmax(0, 1fr); }
+  .lk-member-card { width: 100%; max-width: 360px; }
+  .lk-level__grid { grid-template-columns: minmax(0, 1fr); }
+  .lk-fav-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lk-doc-grid { grid-template-columns: minmax(0, 1fr); }
+  .lk-doc-aside { position: static; }
+}
+@media (max-width: 767px) {
+  .lk-shell { padding: var(--space-3) var(--gutter) var(--space-7); gap: var(--space-3); }
+  .lk-form-card { padding: var(--space-4); }
+  .lk-nav__item { padding: var(--space-2_5) 0; }
+  .lk-nav__label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .lk-hero { padding: var(--space-4); gap: var(--space-4); }
+  .lk-hero__title { font-size: var(--text-price); }
+  .lk-member-card { transform: none; max-width: none; overflow: visible; /* 13.10: на узком телефоне карта чуть выше пропорции, а не обрезает имя (кольца у карт с фоном скрыты) */ }
+  .lk-perk__value { font-size: var(--text-h3); }
+  .lk-level { padding: var(--space-4); gap: var(--space-4); }
+  .lk-level__amount { font-size: var(--text-promo); }
+  .lk-ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2_5); align-items: stretch; }
+  .lk-ladder__step:nth-child(n) .lk-ladder__block { height: auto; min-height: 152px; flex: 1 1 auto; }
+  .lk-progress { padding: var(--space-3); }
+  .lk-boost__list { grid-template-columns: minmax(0, 1fr); }
+  .lk-filters, .lk-filters--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lk-filters__reset, .lk-filters__wide { grid-column: 1 / -1; }
+  .lk-filters__reset { justify-self: start; }
+  .lk-form-grid, .lk-addr-form__row { grid-template-columns: minmax(0, 1fr); }
+  .lk-fav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2_5); }
+  .lk-doc-info__list { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  .lk-doc-info__list dd + dt { margin-top: var(--space-2); }
+  .lk-notif { flex-direction: column; }
+  .lk-order__aside { width: 100%; justify-content: space-between; }
+  .lk-toasts { left: var(--space-3); right: var(--space-3); bottom: var(--space-3); }
+  .lk-toasts .igro-toast { min-width: 0; max-width: none; }
+  .lk-doc-steps { padding: var(--space-3) var(--space-1); }
+  .lk-doc-steps .igro-steps__meta { display: none; }
+  /* five labels do not fit in 70px columns: keep the current one, the rest stay for screen readers */
+  .lk-doc-steps .igro-steps__item:not([aria-current="step"]) .igro-steps__label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .lk-doc-steps .igro-steps__item[aria-current="step"] .igro-steps__meta { display: block; }
+  .lk-doc-info__group { padding: var(--space-4) var(--space-3); }
+  .lk-doc-head__actions { width: 100%; }
+  .lk-doc-head__actions .igro-btn { flex: 1 1 auto; }
+  .lk-doc-goods { margin-top: var(--space-6); }
+}
+
+/* ---------- Print: the order form as a document ---------- */
+@media print {
+  @page { margin: 12mm; }
+  body.igro { background: var(--surface-card); }
+  .lk-aside, .lk-skip, .lk-toasts, .lk-no-print { display: none !important; }
+  .lk-print-only { display: flex; }
+  .lk-shell { display: block; max-width: none; padding: 0; }
+  .igro-card, .igro-goods__list, .igro-receipt__card { box-shadow: none; border: 1px solid var(--border-default); }
+  .igro-receipt__edge { display: none; }
+  .lk-doc-grid { grid-template-columns: minmax(0, 1fr) 260px; }
+  .lk-doc-aside { position: static; }
+  .igro-goods__row, .lk-doc-info__group { break-inside: avoid; }
+  :where(a) { color: var(--text-default); text-decoration: none; }
+  .lk-print-head { align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-default); font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+}
+
+/* ---------- v6 · Состояния профиля (tools/build_profile.py) ---------- */
+/* Плитка привилегии на всю ширину: скидка VIP и Super VIP со списком брендов, единственная плитка контрагента. */
+.lk-perk--wide { grid-column: 1 / -1; }
+.lk-perk__value--text { font-size: var(--text-h3); white-space: normal; }
+.lk-perk__tags { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: var(--space-1) 0; }
+.lk-perk__tag { font-family: var(--font-ui); font-size: var(--text-micro); line-height: var(--leading-compact); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); border: 1px solid var(--decor-on-dark); color: var(--text-on-dark); white-space: nowrap; }
+.lk-perk__rest { font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.35; color: var(--text-on-dark-muted); }
+.lk-perk__rest b { font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h3); color: var(--text-on-dark); }
+.lk-member-card__league--none { color: var(--text-muted); }
+/* Длинный текст карточки 1 у Super VIP (БТ с. 5) — обычной строкой вместо прописного eyebrow. */
+.lk-level__lead { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.35; color: var(--text-muted); }
+
+/* Служебная полоса прототипа сверху: системный выпадающий список состояний профиля. Только для показа, в Битрикс не идёт. */
+.lk-proto { background: var(--surface-inverse); color: var(--text-on-dark); border-bottom: 1px solid var(--border-inverse); }
+.lk-proto__inner { box-sizing: border-box; max-width: 1440px; margin: 0 auto; padding: var(--space-2) var(--gutter-lg); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); font-family: var(--font-ui); font-size: var(--text-body-sm); }
+.lk-proto__tag { font-size: var(--text-micro); font-weight: var(--weight-bold); letter-spacing: var(--tracking-looser); text-transform: uppercase; color: var(--text-reward-on-dark); }
+.lk-proto__label { color: var(--text-on-dark-muted); }
+.lk-proto__select { font: inherit; color: var(--text-default); background: var(--surface-card); border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-2); min-height: 32px; /* DS: compact system control */ cursor: pointer; }
+.lk-proto__select:focus-visible { outline: 2px solid var(--reward); outline-offset: 2px; }
+.lk-proto__note { margin-left: auto; font-size: var(--text-micro); color: var(--text-on-dark-muted); }
+@media (max-width: 767px) { .lk-proto__inner { padding: var(--space-2) var(--gutter); } .lk-proto__note { display: none; } .lk-proto__select { flex: 1 1 100%; } }
+
+/* Логотип ИГРО на карте участника — из Figma «IB – my DESIGN» (assets/logo/igro-logo.svg), встроен в разметку. */
+.lk-member-card__shadow { display: none; } /* только на десктопе, где шапка с фото подиума */
+.lk-member-card__logo { display: block; flex: none; /* 13.10: на телефоне карта ниже и логотип сжимался до 5 px */ align-self: flex-start; height: 28px; /* DS: logo size on the card */ width: auto; aspect-ratio: 2598 / 660; /* viewBox логотипа */ color: var(--brand); }
+
+/* Фон шапки по статусу (assets/scenes, сгенерированы 11.10 по lk-hero-scene.webp). Меняется только картинка:
+   кадр 1246×594, позиция и масштаб — из .lk-hero--scene. */
+@media (min-width: 1024px) {
+  .lk-hero--scene-none { background-image: url("../assets/scenes/lk-hero-none.webp"); }
+  .lk-hero--scene-l2 { background-image: url("../assets/scenes/lk-hero-l2.webp"); }
+  .lk-hero--scene-l1 { background-image: url("../assets/scenes/lk-hero-l1.webp"); }
+  .lk-hero--scene-vip { background-image: url("../assets/scenes/lk-hero-vip.webp"); }
+  .lk-hero--scene-svip { background-image: url("../assets/scenes/lk-hero-svip.webp"); }
+}
+
+/* Карта участника по статусу (12.10): фон — из референса LK v6/refs, очищенный от текста через Codex (assets/cards).
+   Логотип, лига, номер и имя — разметкой, как раньше. Тёмные карты (Лига II, Лига I, VIP) — светлый текст и золото. */
+/* фон от внешнего края рамки: иначе в 1 px прозрачной рамки просвечивала светлая подложка —
+   на тёмном правом и нижнем крае золотой карты Super VIP это были белые полосы (13.10) */
+.lk-member-card--skin { background-color: var(--surface-reward); background-origin: border-box; background-position: center; background-size: cover; background-repeat: no-repeat; border-color: transparent; }
+.lk-member-card--skin .lk-member-card__rings { display: none; }
+.lk-member-card--none { background-image: url("../assets/cards/lk-card-none.webp"); }
+.lk-member-card--l2 { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-l2.webp"); }
+.lk-member-card--l1 { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-l1.webp"); }
+.lk-member-card--vip { background-color: var(--band-dark); background-image: url("../assets/cards/lk-card-vip.webp"); }
+.lk-member-card--svip { background-image: url("../assets/cards/lk-card-svip.webp"); }
+@media (max-width: 767px) {
+  .lk-member-card--none { background-image: url("../assets/cards/lk-card-none-720.webp"); }
+  .lk-member-card--l2 { background-image: url("../assets/cards/lk-card-l2-720.webp"); }
+  .lk-member-card--l1 { background-image: url("../assets/cards/lk-card-l1-720.webp"); }
+  .lk-member-card--vip { background-image: url("../assets/cards/lk-card-vip-720.webp"); }
+  .lk-member-card--svip { background-image: url("../assets/cards/lk-card-svip-720.webp"); }
+}
+.lk-member-card--skin .lk-member-card__league--none { color: var(--text-title); }
+.lk-member-card__since { padding-left: var(--space-2); border-left: 1px solid var(--border-reward); }
+.lk-member-card--dark { color: var(--text-on-dark); }
+.lk-member-card--dark .lk-member-card__logo, .lk-member-card--dark .lk-member-card__number { color: var(--text-on-dark); }
+.lk-member-card--dark .igro-eyebrow--reward, .lk-member-card--dark .lk-member-card__league, .lk-member-card--dark .lk-member-card__league .igro-icon { color: var(--text-reward-on-dark); }
+.lk-member-card--dark .lk-member-card__foot { color: var(--text-on-dark-muted); }
+.lk-member-card--dark .lk-member-card__since { border-left-color: var(--decor-on-dark); }
+/* Super VIP — шампань-золото: серый и золотой текст на нём не читаются, поэтому подписи тёмные, как в референсе. */
+.lk-member-card--svip .igro-eyebrow--reward, .lk-member-card--svip .lk-member-card__foot { color: var(--text-default); }
+
+/* v6, 12.10: выпадающие списки — простой список вариантов без кружков радио.
+   Обычные строки — обычным начертанием; выбранная — фон и цвет бренда, полужирная. */
+.igro-dropdown__list .igro-list-row__title { font-weight: var(--weight-regular); }
+.igro-dropdown__list .igro-list-row[aria-selected="true"] { background: var(--surface-brand); }
+.igro-dropdown__list .igro-list-row[aria-selected="true"] .igro-list-row__title { font-weight: var(--weight-semibold); color: var(--brand); }
+/* активная строка (клавиатура, мышь) видна и поверх выбранной */
+.igro-dropdown__list .igro-list-row.is-active { background: var(--tint-cta); }
+
+/* v6, 12.10 · Бланк: движение заказа и оплата — две независимые оси (вики D-093).
+   Слева линия этапов, справа отдельный блок оплаты: его статус меняется на любом этапе. */
+.lk-doc-progress { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 300px); gap: var(--space-4); align-items: start; padding: var(--space-4); }
+.lk-doc-track { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.lk-doc-track__title { margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-bold); color: var(--text-default); }
+.lk-doc-track > .lk-doc-track__title { text-align: center; } /* 13.10: «Движение заказа» — по центру над шкалой; «Оплата» остаётся слева */
+.lk-doc-pay { display: flex; flex-direction: column; gap: var(--space-2_5); padding-left: var(--space-4); border-left: 1px solid var(--border-default); }
+.lk-doc-pay__state { display: flex; align-items: center; gap: var(--space-2_5); }
+.lk-doc-pay__mark {
+  flex: none; width: var(--h-control-sm); height: var(--h-control-sm); box-sizing: border-box; border-radius: 50%; /* DS: Steps circle */
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-ui); font-weight: var(--weight-bold); font-size: var(--text-body-sm);
+  border: 1px solid var(--border-default); background: var(--surface-card); color: var(--text-muted);
+}
+.lk-doc-pay__text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.lk-doc-pay__status { font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-bold); color: var(--text-default); }
+.lk-doc-pay__meta { font-family: var(--font-ui); font-size: var(--text-micro); color: var(--text-muted); }
+.lk-doc-pay--pending .lk-doc-pay__mark { background: var(--notice-bg); border-color: var(--notice-ink); color: var(--notice-ink); }
+.lk-doc-pay--paid .lk-doc-pay__mark { background: var(--accent); border-color: var(--accent); color: var(--text-on-dark); }
+.lk-doc-pay--paid .lk-doc-pay__status { color: var(--text-accent); }
+@media (max-width: 767px) {
+  .lk-doc-progress { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3); }
+  .lk-doc-pay { padding-left: 0; padding-top: var(--space-3); border-left: 0; border-top: 1px solid var(--border-default); }
+}
+@media print {
+  .lk-doc-progress { grid-template-columns: minmax(0, 1fr) 220px; }
+  .lk-doc-pay { padding-left: var(--space-3); padding-top: 0; border-top: 0; border-left: 1px solid var(--border-default); }
+  /* на ширине A4 срабатывает мобильное правило и прячет подписи шагов (QA В8) — возвращаем их */
+  .lk-doc-steps .igro-steps__item .igro-steps__label { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; }
+  .lk-doc-steps .igro-steps__meta { display: block; }
+}
+
+/* ==========================================================================
+   v6, 12.10 · «Избранное»: карточка товара как в каталоге v5
+   (catalog/v5/styles.css .ig-card, Figma «IB – my DESIGN» 2481:2340) + сердечко-удаление, подборки.
+   Числа карточки взяты из каталога и помечены «DS: каталог v5».
+   ========================================================================== */
+.lk-pgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+.lk-pgrid > li { display: flex; min-width: 0; }
+.lk-pgrid > li[hidden] { display: none; }
+.lk-pcard {
+  position: relative; display: flex; flex-direction: column; width: 100%; min-width: 0;
+  background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden;
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+@media (hover: hover) { .lk-pcard:hover { box-shadow: var(--shadow-pop); } }
+/* 13.10: поле под фото белое — серое #F5F5F5 в макете было заглушкой вместо фото; фото товаров сняты на белом */
+.lk-pcard__media { position: relative; overflow: hidden; margin: 10px 12px 0; /* DS: каталог v5 */ aspect-ratio: 208 / 220; background: var(--surface-card); }
+/* картинка не влияет на высоту поля: вертикальные фото иначе растягивали его */
+.lk-pcard__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; box-sizing: border-box; padding: var(--space-3); object-fit: contain; }
+.lk-pcard__fav {
+  position: absolute; top: var(--space-1); right: var(--space-1); width: 40px; height: 40px; /* DS: IconButton md */
+  display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: var(--radius-full);
+  background: transparent; color: var(--brand); cursor: pointer; transform: scale(1);
+  transition: transform var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard);
+}
+.lk-pcard__fav:active { transform: scale(var(--press-scale-icon)); }
+/* сердечко и корзина лежат друг на друге; при наведении (и фокусе с клавиатуры) сердечко уступает место корзине */
+.lk-pcard__fav .igro-icon { grid-area: 1 / 1; transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+.lk-pcard__fav-trash { opacity: 0; transform: scale(0.6); /* DS: icon swap */ }
+.lk-pcard__fav:focus-visible { background: var(--error-tint); color: var(--error); }
+.lk-pcard__fav:focus-visible .lk-pcard__fav-heart { opacity: 0; transform: scale(0.6); /* DS: icon swap */ }
+.lk-pcard__fav:focus-visible .lk-pcard__fav-trash { opacity: 1; transform: none; }
+@media (hover: hover) {
+  .lk-pcard__fav:hover { background: var(--error-tint); color: var(--error); }
+  .lk-pcard__fav:hover .lk-pcard__fav-heart { opacity: 0; transform: scale(0.6); /* DS: icon swap */ }
+  .lk-pcard__fav:hover .lk-pcard__fav-trash { opacity: 1; transform: none; }
+}
+.lk-pcard__body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 3px 12px 0 13px; /* DS: каталог v5 */ }
+.lk-pcard__brand, .lk-pcard__art {
+  font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.4; letter-spacing: -0.13px; /* DS: каталог v5 */
+  color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* бренд и серия — одной строкой «NIRVEL PROFESSIONAL · ArtX»; не влезает — серия целиком уходит на новую строку.
+   Точка стоит в промежутке перед серией (отрицательный отступ); когда серия переносится, точка оказывается
+   левее края блока и обрезается — висячей точки в конце или в начале строки нет */
+.lk-pcard__brandline { display: flex; flex-wrap: wrap; column-gap: var(--space-2_5); min-width: 0; overflow: hidden; }
+.lk-pcard__brand { flex: 0 1 auto; min-width: 0; text-transform: uppercase; }
+.lk-pcard__line {
+  display: flex; flex: 0 1 auto; min-width: 0; font-family: var(--font-ui); font-size: var(--text-micro);
+  line-height: 1.4; letter-spacing: -0.13px; /* DS: каталог v5 */ color: var(--text-muted);
+}
+.lk-pcard__line::before { content: "·"; content: "·" / ""; flex: none; width: var(--space-2_5); margin-left: calc(-1 * var(--space-2_5)); text-align: center; }
+.lk-pcard__line-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lk-pcard__name {
+  margin: 9px 0 0; /* DS: каталог v5 */ min-height: 2.5em; overflow-wrap: break-word;
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); line-height: 1.25; letter-spacing: -0.14px; /* DS: каталог v5 */
+  color: var(--text-default); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.lk-pcard__name a { color: inherit; text-decoration: none; }
+@media (hover: hover) { .lk-pcard__name a:hover { color: var(--brand); } }
+.lk-pcard__art { margin-top: auto; padding-top: 11px; /* DS: каталог v5 */ }
+.lk-pcard__pricerow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: 15px; padding-right: 10px; /* DS: каталог v5 */ }
+.lk-pcard__price {
+  font-family: var(--font-heading); font-weight: var(--weight-bold); font-size: var(--text-h3); /* каталог v5: 20 px */ line-height: 1;
+  letter-spacing: var(--tracking-tight); color: var(--text-default); white-space: nowrap;
+}
+.lk-pcard__pricenote { font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.4; letter-spacing: -0.13px; /* DS: каталог v5 */ color: var(--text-muted); white-space: nowrap; text-align: right; }
+.lk-pcard__controls { display: flex; padding: 23px 12px 12px; /* DS: каталог v5 */ }
+.lk-pcard__btn {
+  width: 100%; height: 44px; /* DS: каталог v5 */ padding: 0 var(--space-3); box-sizing: border-box;
+  border: 1px solid var(--border-inverse); border-radius: var(--radius-xs); background: var(--surface-inverse); color: var(--text-on-dark);
+  font-family: var(--font-ui); font-weight: var(--weight-semibold); font-size: var(--text-body-md); letter-spacing: -0.15px; /* DS: каталог v5 */ line-height: var(--leading-compact);
+  white-space: nowrap; cursor: pointer; transform: scale(1); transition: background var(--duration-fast), border-color var(--duration-fast), transform var(--duration-fast);
+}
+.lk-pcard__btn:active { transform: scale(var(--press-scale)); }
+@media (hover: hover) { .lk-pcard__btn:hover { background: var(--cta); border-color: var(--cta); } }
+.lk-pcard__nostock {
+  flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: var(--space-2); height: 44px; /* DS: каталог v5 */
+  border-radius: var(--radius-xs); background: var(--surface-sunken); color: var(--text-muted);
+  font-family: var(--font-ui); font-size: var(--text-body); font-weight: var(--weight-semibold); line-height: var(--leading-compact); white-space: nowrap;
+}
+/* «В корзину» → счётчик: две квадратные кнопки 44 px по краям, число между ними (каталог v5) */
+.lk-stepper { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.lk-stepper__btn {
+  flex: 0 0 44px; width: 44px; height: 44px; /* DS: каталог v5 */ display: inline-grid; place-items: center; padding: 0;
+  border: 1px solid var(--border-default); border-radius: var(--radius-xs); background: var(--surface-card); color: var(--text-default); cursor: pointer;
+  transition: border-color var(--duration-fast);
+}
+@media (hover: hover) { .lk-stepper__btn:hover { border-color: var(--text-default); } }
+.lk-stepper__val { min-width: 28px; /* DS: каталог v5 */ text-align: center; font-family: var(--font-ui); font-size: var(--text-body); font-weight: var(--weight-bold); line-height: var(--leading-compact); color: var(--text-default); }
+
+/* Подборки: «Все товары» всегда первая и не удаляется; у остальных — крестик удаления */
+.lk-colls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: 0 0 var(--space-4); }
+.lk-colls__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.lk-colls__item { position: relative; display: inline-flex; align-items: center; }
+.lk-coll {
+  display: inline-flex; align-items: center; gap: var(--space-2); height: 40px; /* DS: Tag height */ box-sizing: border-box; padding: 0 var(--space-3);
+  border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--surface-card); color: var(--text-default);
+  font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); white-space: nowrap; cursor: pointer;
+  transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+}
+.lk-coll__name { max-width: 240px; overflow: hidden; text-overflow: ellipsis; }
+.lk-coll__count { font-weight: var(--weight-regular); color: var(--text-muted); }
+.lk-colls__add { flex: none; }
+@media (hover: hover) { .lk-coll:not(.is-active):hover { border-color: var(--border-hover); } }
+.lk-coll.is-active { background: var(--surface-inverse); border-color: var(--border-inverse); color: var(--text-on-dark); }
+.lk-coll.is-active .lk-coll__count { color: var(--text-on-dark-muted); }
+.lk-colls__item:has(.lk-coll__del) .lk-coll { padding-right: 40px; /* DS: место под крестик */ }
+.lk-coll__del {
+  position: absolute; right: var(--space-1); top: 50%; transform: translateY(-50%); width: 32px; height: 32px; /* DS: compact icon target */
+  display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: var(--radius-full); background: transparent; color: var(--text-muted); cursor: pointer;
+}
+@media (hover: hover) { .lk-coll__del:hover { background: var(--tint-cta); color: var(--text-default); } }
+.lk-coll.is-active + .lk-coll__del { color: var(--text-on-dark-muted); }
+@media (hover: hover) { .lk-coll.is-active + .lk-coll__del:hover { background: var(--on-dark-wash); color: var(--text-on-dark); } }
+
+@media (max-width: 1023px) { .lk-pgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .lk-pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .lk-pcard__media { margin: 8px 8px 0; /* DS: каталог v5 */ }
+  .lk-pcard__body { padding-inline: 8px; /* DS: каталог v5 */ }
+  .lk-pcard__controls { padding: 14px 8px 8px; /* DS: каталог v5 */ }
+  .lk-pcard__btn { padding: 0 var(--space-2); }
+  .lk-pcard__pricerow { flex-direction: column; align-items: flex-start; gap: 2px; padding-right: 0; /* DS: каталог v5 */ }
+  .lk-pcard__price { font-size: var(--text-h4); /* каталог v5: 18 px, ближайший токен — 17 px */ }
+}
+
+/* ==========================================================================
+   v6, 13.10 · «Адреса доставки» на телефоне — по образцу чекаута v4 (checkout/igrobeauty-checkout-v4-main)
+   Окно адреса на ≤767 px — нижняя шторка поверх карты во весь экран, в два шага:
+   1 — карта с меткой и поле адреса с подсказками (подсказки раскрываются вверх, над клавиатурой), «Далее»;
+   2 — карта затемнена, строка с выбранным адресом («Изменить» → шаг 1) и остальные поля, «Сохранить адрес».
+   Ручка и кнопки «Назад» / «Закрыть» висят над шторкой (DS BottomSheet, как у выпадающих списков);
+   шторку можно смахнуть вниз. На десктопе окно прежнее: форма слева, карта справа.
+   ========================================================================== */
+/* метка на карте: после выбора подсказки булавка «падает», под ней — выбранный адрес */
+.lk-map__mark { position: relative; display: inline-grid; place-items: center; }
+.lk-map__label {
+  position: absolute; top: calc(100% + var(--space-2)); left: 50%; transform: translateX(-50%);
+  max-width: 260px; /* DS: подпись метки */ box-sizing: border-box; padding: var(--space-1) var(--space-2_5);
+  border-radius: var(--radius-sm); background: var(--surface-card); box-shadow: var(--shadow-pop);
+  font-family: var(--font-ui); font-size: var(--text-micro); font-weight: var(--weight-semibold); line-height: 1.35; color: var(--text-default);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lk-map__label[hidden] { display: none; }
+.lk-map__pin.is-drop { animation: lk-pin-drop var(--duration-base) var(--ease-spring) both; }
+@keyframes lk-pin-drop { from { transform: translateY(calc(-1 * var(--space-4))); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes lk-sheet-up { from { transform: translateY(var(--space-8)); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes lk-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.lk-addr-mapbg, .lk-sheet-handle, .lk-sheet-float, .lk-addr-recap, .lk-addr-next { display: none; }
+
+@media (max-width: 767px) {
+  /* вкладки «Данные · Адреса доставки · Уведомления» — в одну строку, без переноса */
+  .lk-tabs { display: flex; flex-wrap: nowrap; width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .lk-tabs .igro-tab { flex: 1 0 auto; padding: 0 var(--space-2); }
+
+  /* список адресов: подпись и значение в одну строку, «Редактировать» — иконкой рядом с «Удалить» */
+  .lk-addr__head { margin-bottom: var(--space-2_5); }
+  .lk-addr__edit { width: var(--h-control-sm); padding: 0; gap: 0; justify-content: center; }
+  .lk-addr__edit-label { display: none; }
+  .lk-addr__grid { grid-template-columns: 88px minmax(0, 1fr); /* DS: ширина подписи «Получатель» */ gap: var(--space-2) var(--space-3); }
+
+  /* окно адреса → шторка поверх карты */
+  .lk-addr-scrim { align-items: flex-end; padding: 0; }
+  .lk-addr-mapbg {
+    display: grid; place-items: center; position: absolute; inset: 0;
+    padding-bottom: 232px; /* DS: высота шторки на шаге 1 — метка стоит в центре видимой карты */
+    background: var(--surface-sunken) url(../assets/map-sheet.webp) center / cover no-repeat;
+    animation: lk-fade-in var(--duration-base) var(--ease-standard) both;
+  }
+  .lk-addr-mapbg::after { content: ""; position: absolute; inset: 0; background: var(--scrim); opacity: 0; transition: opacity var(--duration-base) var(--ease-standard); }
+  .lk-addr-scrim[data-step="2"] .lk-addr-mapbg::after { opacity: 1; }
+  .lk-addr-dialog {
+    position: relative; z-index: 1; width: 100%; max-width: none; max-height: 88vh; max-height: 88dvh; /* DS: BottomSheet */
+    padding: 0; gap: 0; overflow: visible; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation: lk-sheet-up var(--duration-base) var(--ease-standard) both;
+  }
+  .lk-addr-dialog.is-settling { transition: transform var(--duration-fast) var(--ease-standard); }
+  .lk-addr-dialog.is-resizing { transition: height var(--duration-base) var(--ease-standard); }
+  .lk-addr-dialog.is-resizing .lk-addr-dialog__body { overflow: hidden; }
+  .lk-sheet-handle {
+    display: block; position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); margin-bottom: var(--space-2);
+    width: 68px; height: 4px; /* DS: BottomSheet handle */ border-radius: var(--radius-full); background: var(--border-hover);
+  }
+  .lk-addr-scrim[data-step="2"] .lk-sheet-handle { background: var(--decor-on-dark); }
+  .lk-sheet-float {
+    display: inline-flex; align-items: center; justify-content: center; position: absolute; bottom: 100%; margin-bottom: var(--space-2);
+    width: 40px; height: 40px; /* DS: BottomSheet float button */ padding: 0; border: none; border-radius: var(--radius-md);
+    background: var(--surface-card); color: var(--text-muted); box-shadow: var(--shadow-pop); cursor: pointer;
+    transform: scale(1); transition: transform var(--duration-fast) var(--ease-standard);
+  }
+  .lk-sheet-float:active { transform: scale(var(--press-scale-icon)); }
+  .lk-sheet-float--close { right: var(--space-2); }
+  .lk-sheet-float--back { left: var(--space-2); }
+  .lk-addr-scrim[data-step="1"] .lk-sheet-float--back { display: none; }
+  /* пока открыты подсказки, они закрывают верх шторки — ручку и кнопки над ней не показываем */
+  .lk-addr-dialog:has(.igro-autocomplete__list:not([hidden])) .lk-sheet-float,
+  .lk-addr-dialog:has(.igro-autocomplete__list:not([hidden])) .lk-sheet-handle { visibility: hidden; }
+
+  /* заголовок по центру; за него шторку тянут вниз */
+  .lk-addr-dialog .igro-dialog__head { justify-content: center; padding: var(--space-3) var(--space-3) var(--space-1); text-align: center; touch-action: none; cursor: grab; }
+  .lk-addr-dialog .igro-dialog__titles { align-items: center; }
+  .lk-addr-dialog .igro-dialog__title { font-size: var(--text-body-lg); }
+  .lk-addr-dialog .igro-dialog__subtitle, .lk-addr-dialog .igro-dialog__close { display: none; }
+
+  /* поля прокручиваются, кнопка сохранения всегда видна внизу */
+  .lk-addr-dialog__body { display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-2) var(--space-3) var(--space-1); }
+  .lk-addr-scrim[data-step="1"] .lk-addr-dialog__body { overflow: visible; }
+  .lk-addr-scrim[data-step="1"] .lk-addr-form > :not([data-autocomplete]) { display: none; }
+  .lk-addr-scrim[data-step="1"] .igro-autocomplete__list { top: auto; bottom: calc(100% + var(--space-2)); max-height: 40vh; /* DS: подсказки вверх, над клавиатурой */ }
+  .lk-addr-scrim[data-step="2"] .lk-addr-form > [data-autocomplete] { display: none; }
+  .lk-addr-scrim[data-step="2"] .lk-addr-form { animation: lk-fade-in var(--duration-base) var(--ease-standard) both; }
+  .lk-addr-recap {
+    align-items: center; gap: var(--space-2_5); width: 100%; min-height: var(--h-field); box-sizing: border-box; margin: 0;
+    padding: var(--space-2_5) var(--space-3); text-align: left; cursor: pointer;
+    border: 1px solid var(--border-default); border-radius: var(--radius-sm); background: var(--surface-subtle); color: var(--brand);
+    font-family: var(--font-ui); font-size: var(--text-body-sm);
+  }
+  .lk-addr-scrim[data-step="2"] .lk-addr-recap { display: flex; }
+  .lk-addr-recap__pin { flex: none; }
+  .lk-addr-recap__text { flex: 1 1 auto; min-width: 0; font-weight: var(--weight-bold); color: var(--text-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lk-addr-recap__edit { flex: none; font-weight: var(--weight-semibold); color: var(--text-link); }
+
+  .lk-addr-dialog .igro-dialog__footer { flex-wrap: nowrap; margin: 0; padding: var(--space-3); padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom)); }
+  .lk-addr-dialog .igro-dialog__secondary { display: none; }
+  .lk-addr-dialog .igro-dialog__primary { flex: 1 1 auto; }
+  .lk-addr-scrim[data-step="1"] .igro-dialog__primary, .lk-addr-scrim[data-step="1"] .lk-addr-del { display: none; }
+  .lk-addr-scrim[data-step="1"] .lk-addr-next { display: inline-flex; flex: 1 1 100%; }
+  .lk-addr-del { flex: none; width: var(--h-control-lg); padding: 0; }
+  .lk-addr-del__label { display: none; }
+}
+
+/* ==========================================================================
+   v6, 13.10 · «Отправить в корзину» — в шапке «Избранного»
+   (плашка «Скачать актуальный прайс-лист» под меню убрана в тот же день)
+   ========================================================================== */
+.lk-fav-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3) var(--space-4); margin-bottom: var(--space-4); }
+.lk-fav-head__titles { min-width: 0; }
+.lk-fav-head .lk-lead { margin-bottom: 0; }
+.lk-fav-head__cart { flex: none; }
+@media (max-width: 767px) {
+  .lk-fav-head__cart { flex: 1 1 100%; }
+}
+
+/* ==========================================================================
+   v6, 13.10 · «Акции» — список и страница акции (копия раздела igrobeauty.ru/personal/promo/,
+   tools/build_promo.py). Карточка: баннер 1000×625 и название; страница: баннер и блок «Условия»,
+   у «Стартовых наборов» — вертикальный плакат, у акций без текста — одна картинка.
+   ========================================================================== */
+.lk-promo-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.lk-promo-grid > li { display: flex; min-width: 0; }
+.lk-promo {
+  display: flex; flex-direction: column; width: 100%; overflow: hidden; text-decoration: none; color: var(--text-default);
+  background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+@media (hover: hover) {
+  .lk-promo:hover { box-shadow: var(--shadow-pop); }
+  .lk-promo:hover .lk-promo__title { color: var(--brand); }
+}
+.lk-promo__media { display: block; aspect-ratio: 1000 / 625; /* DS: формат баннера акции */ background: var(--surface-sunken); }
+.lk-promo__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lk-promo__title {
+  padding: var(--space-3); font-family: var(--font-ui); font-size: var(--text-body); font-weight: var(--weight-semibold);
+  line-height: 1.35; color: var(--text-default); transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.lk-promo-doc { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--space-4); align-items: start; }
+.lk-promo-doc--image, .lk-promo-doc--poster { grid-template-columns: minmax(0, 1fr); }
+.lk-promo-doc__media { overflow: hidden; border-radius: var(--radius-md); background: var(--surface-sunken); }
+.lk-promo-doc--image .lk-promo-doc__media { max-width: 720px; /* DS: баннер 1000×625 без условий */ }
+.lk-promo-doc--poster .lk-promo-doc__media { max-width: 560px; /* DS: плакат 1305×1819 */ }
+.lk-promo-doc__img { display: block; width: 100%; height: auto; }
+.lk-promo-terms { display: flex; flex-direction: column; gap: var(--space-3_5); }
+.lk-promo-terms__title {
+  margin: 0; font-family: var(--font-heading); font-size: var(--text-h4); font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-loose); text-transform: uppercase; color: var(--text-heading);
+}
+.lk-promo-terms__body { display: flex; flex-direction: column; gap: var(--space-2_5); font-family: var(--font-ui); font-size: var(--text-body); line-height: var(--leading-normal); color: var(--text-default); }
+.lk-promo-terms__body p { margin: 0; }
+.lk-promo-terms__lead { font-weight: var(--weight-semibold); }
+.lk-promo-terms__deal { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: var(--weight-bold); line-height: 1.3; color: var(--text-accent); }
+.lk-promo-terms__list { margin: 0; padding-left: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+.lk-promo-terms__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.lk-promo-link { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-ui); font-size: var(--text-body); font-weight: var(--weight-semibold); color: var(--text-link); text-decoration: none; }
+.lk-promo-link .igro-icon { flex: none; }
+@media (hover: hover) { .lk-promo-link:hover { text-decoration: underline; } }
+.lk-promo-doc__full { margin: 0; }
+.lk-promo-terms__note { align-items: flex-start; } /* две строки примечаний: иконка — у первой */
+.lk-promo-doc__back { margin: var(--space-5) 0 0; }
+
+@media (max-width: 1023px) {
+  .lk-promo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lk-promo-doc { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 599px) {
+  .lk-promo-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  .lk-promo-doc__back .igro-btn { width: 100%; }
+}
+
+/* ==========================================================================
+   v6, 13.10 · «Оценить заказ» (orders.html) — окно DS Dialog: звёзды 1–5, комментарий, «Отправить отзыв».
+   Текст отзыва уходит письмом менеджерам; в ЛК остаётся только оценка — звёзды вместо кнопки (.lk-rated). Звезда — скрытая радиокнопка DS (igro-control-input)
+   и метка-иконка; фокус с клавиатуры — общей рамкой DS. Подсветка до выбранной или наведённой звезды — js/lk.js.
+   ========================================================================== */
+.lk-review { max-width: 520px; /* DS: Dialog compact */ }
+.lk-review__form { display: flex; flex-direction: column; gap: var(--space-4); }
+.lk-review__form[hidden], .lk-review__done[hidden], .lk-review .igro-dialog__footer[hidden] { display: none; }
+.lk-rate { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.lk-rate__legend { padding: 0; margin-bottom: var(--space-2); font-family: var(--font-ui); font-size: var(--text-body-sm); font-weight: var(--weight-semibold); color: var(--text-default); }
+.lk-rate__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); }
+.lk-rate__stars { display: flex; gap: var(--space-1); margin-left: calc(-1 * var(--space-1)); }
+.lk-rate__star {
+  display: inline-grid; place-items: center; width: var(--h-control-md); height: var(--h-control-md); border-radius: var(--radius-sm);
+  color: var(--border-control); cursor: pointer; transform: scale(1);
+  transition: color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+.lk-rate__star .igro-icon { width: 32px; height: 32px; /* DS: звезда оценки */ }
+.lk-rate__star.is-on, .lk-rate__input:checked + .lk-rate__star { color: var(--text-reward); }
+.lk-rate__star:active { transform: scale(var(--press-scale-icon)); }
+.lk-rate__caption { min-height: 1.35em; font-family: var(--font-ui); font-size: var(--text-body-sm); line-height: 1.35; color: var(--text-muted); }
+.lk-rate__error { margin: 0; font-family: var(--font-ui); font-size: var(--text-micro); color: var(--error); }
+.lk-rate__error[hidden] { display: none; }
+.lk-review__done { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-4) 0 var(--space-2); text-align: center; }
+.lk-review__done-icon { display: grid; place-items: center; width: 56px; height: 56px; /* DS: значок результата */ border-radius: var(--radius-full); background: var(--success-tint); color: var(--text-success); }
+.lk-review__done-icon .igro-icon { width: 28px; height: 28px; }
+.lk-review__done-title { margin: 0; font-family: var(--font-heading); font-size: var(--text-h3); font-weight: var(--weight-bold); line-height: 1.3; color: var(--text-heading); }
+.lk-review__done-text { margin: 0; font-family: var(--font-ui); font-size: var(--text-body); color: var(--text-muted); }
+/* Оценка уже поставлена — вместо кнопки «Оценить заказ»: подпись и под ней пять звёзд, высотой с кнопку (текст отзыва в ЛК не хранится) */
+.lk-rated { display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: var(--space-1); min-height: var(--h-control-md); margin: 0; font-family: var(--font-ui); font-size: var(--text-body-sm); color: var(--text-muted); }
+.lk-rated__label { white-space: nowrap; }
+@media (min-width: 768px) { .lk-order__actions .lk-rated { margin-left: var(--space-3); } } /* 13.10: отступ от «Повторить заказ» — 12 + 16 px */
+.lk-rated__stars { display: inline-flex; gap: 2px; /* DS: звёзды оценки */ }
+.lk-rated__star { width: 18px; height: 18px; color: var(--border-control); }
+.lk-rated__star.is-on { color: var(--text-reward); }
+@media (max-width: 767px) {
+  /* «Отправить отзыв» и «Отмена» в ряд не помещаются — друг под другом во всю ширину */
+  .lk-review .igro-dialog__footer { flex-wrap: wrap; }
+  .lk-review .igro-dialog__footer > .igro-btn { flex: 1 1 100%; }
+}
+
+/* ==========================================================================
+   v6, 13.10 · Подсказка с названием товара у миниатюр в «Моих заказах» (.lk-thumb[data-tip]).
+   Один всплывающий элемент на страницу (у миниатюры overflow: hidden — свой псевдоэлемент обрезался бы),
+   над миниатюрой, не выходит за край окна. Только где есть наведение мышью — на телефоне не показывается.
+   Цвет — как у DS Tooltip (--surface-inverse).
+   ========================================================================== */
+.lk-tip {
+  position: fixed; z-index: 1200; max-width: 240px; /* DS: Tooltip */ box-sizing: border-box; padding: var(--space-2) var(--space-2_5);
+  border-radius: var(--radius-sm); background: var(--surface-inverse); color: var(--text-on-dark); box-shadow: var(--shadow-pop);
+  font-family: var(--font-ui); font-size: var(--text-micro); line-height: 1.35; pointer-events: none;
+}
+.lk-tip[hidden] { display: none; }
+.lk-thumb[data-tip] { cursor: default; }

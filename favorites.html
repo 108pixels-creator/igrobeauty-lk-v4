@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Избранное — IGRObeauty</title>
+<link rel="stylesheet" href="design-system-v6/styles.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/lk.css">
+<script src="js/lk.js" defer></script>
+</head>
+<body class="igro">
+<!-- Собрано tools/build_favorites.py. Правки вносить в генератор. -->
+<svg class="lk-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-education" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l8 3.5-8 3.5-8-3.5L12 5z"/><path d="M6 11v4.2c0 1 2.7 2.3 6 2.3s6-1.3 6-2.3V11"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.65 12 20 12 20z"/></symbol>
+  <symbol id="i-heart-fill" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.65 12 20 12 20z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8"/><path d="M18 15l3-3-3-3M10 12h11"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol>
+  <symbol id="i-orders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5h6a1 1 0 0 1 1 1V7H8V5.5a1 1 0 0 1 1-1zM9 12h6M9 16h4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3.1-5.5 7-5.5s7 2 7 5.5"/></symbol>
+  <symbol id="i-promo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.6V5a1.5 1.5 0 0 1 1.5-1.5h7.6a1.5 1.5 0 0 1 1.06.44l7.4 7.4a1.5 1.5 0 0 1 0 2.12l-7.6 7.6a1.5 1.5 0 0 1-2.12 0l-7.4-7.4a1.5 1.5 0 0 1-.44-1.06z"/><circle cx="8.5" cy="8.5" r="1.5"/></symbol>
+  <symbol id="i-user-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17.5c.6-2 2.4-3 4.5-3s3.9 1 4.5 3"/></symbol>
+</svg>
+<a class="igro-btn igro-btn--dark lk-skip" href="#main">Перейти к содержимому</a>
+<div class="lk-shell">
+  <aside class="lk-aside">
+    <nav class="igro-card lk-nav" aria-label="Личный кабинет">
+      <ul class="lk-nav__list">
+      <li><a class="lk-nav__item" href="index.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg><span class="lk-nav__label">Мой профиль</span></a></li>
+      <li><a class="lk-nav__item" href="orders.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-orders"></use></svg><span class="lk-nav__label">Мои заказы</span></a></li>
+      <li><a class="lk-nav__item" href="favorites.html" aria-current="page"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg><span class="lk-nav__label">Избранное</span></a></li>
+      <li><a class="lk-nav__item" href="promo.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-promo"></use></svg><span class="lk-nav__label">Акции</span></a></li>
+      <li><a class="lk-nav__item" href="education.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-education"></use></svg><span class="lk-nav__label">Мое обучение</span></a></li>
+      <li><a class="lk-nav__item" href="data.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-user-circle"></use></svg><span class="lk-nav__label">Мои данные</span></a></li>
+      <li class="lk-nav__divider" aria-hidden="true"></li>
+      <li><a class="lk-nav__item" href="#logout"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-logout"></use></svg><span class="lk-nav__label">Выйти</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="lk-main" id="main" tabindex="-1">
+    <div class="lk-fav-head">
+      <div class="lk-fav-head__titles">
+        <h1 class="igro-h1 lk-title lk-title--with-lead">Избранное</h1>
+        <p class="lk-lead" id="fav-count" aria-live="polite">У вас 8 товаров в избранном</p>
+      </div>
+      <button type="button" class="igro-btn igro-btn--primary lk-fav-head__cart" data-fav-to-cart><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-cart"></use></svg>Отправить в корзину</button>
+    </div>
+
+    <nav class="lk-colls" aria-label="Подборки избранного">
+      <ul class="lk-colls__list" id="favColls">
+        <li class="lk-colls__item"><button type="button" class="lk-coll is-active" aria-pressed="true" data-coll="all"><span class="lk-coll__name">Все товары</span><span class="lk-coll__count">8</span></button></li>
+        <li class="lk-colls__item"><button type="button" class="lk-coll" aria-pressed="false" data-coll="c1"><span class="lk-coll__name">Для кабинета</span><span class="lk-coll__count">3</span></button><button type="button" class="lk-coll__del" aria-label="Удалить подборку «Для кабинета»" data-coll-del="c1"><svg class="igro-icon igro-icon--18" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button></li>
+      </ul>
+      <button type="button" class="igro-btn igro-btn--ghost igro-btn--sm lk-colls__add" data-coll-add><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>Новая подборка</button>
+    </nav>
+
+    <form class="lk-filters lk-filters--4" id="fav-filters" aria-label="Фильтры избранного" data-filter="#fav-grid" data-filter-empty="#fav-filter-empty">
+      <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ff-brand">Бренд</label><select class="igro-select__input" id="ff-brand" name="brand" data-key="brand"><option value="all" selected>Все бренды</option><option>Iuver</option><option>Levissime</option><option>Nirvel Professional</option><option>RefectoCil</option><option>Soleo</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div></div>
+      <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ff-cat">Категория</label><select class="igro-select__input" id="ff-cat" name="cat" data-key="cat"><option value="all" selected>Все категории</option><option>Уход за лицом</option><option>Уход за волосами</option><option>Окрашивание</option><option>Брови и ресницы</option><option>Депиляция</option><option>Загар</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div></div>
+      <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ff-type">Тип продукта</label><select class="igro-select__input" id="ff-type" name="type" data-key="type"><option value="all" selected>Все типы</option><option>Крем</option><option>Маска</option><option>Флюид</option><option>Краска</option><option>Воск</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div></div>
+      <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ff-use">Назначение</label><select class="igro-select__input" id="ff-use" name="use" data-key="use"><option value="all" selected>Любое</option><option>Для салона</option><option>Для домашнего ухода</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div></div>
+    </form>
+    <ul class="lk-pgrid" id="fav-grid">
+      <li data-item data-brand="Levissime" data-cat="Уход за лицом" data-type="Маска" data-use="Для салона" data-colls="c1">
+        <article class="lk-pcard" aria-label="Levissime Маска альгинатная, 500 г">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/levissime.webp" alt="Levissime Маска альгинатная, 500 г" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Levissime Маска альгинатная, 500 г" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Levissime</span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Маска альгинатная, 500&nbsp;г</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;65112</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="2700">2&nbsp;700&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: Levissime Маска альгинатная, 500 г">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="Nirvel Professional" data-cat="Окрашивание" data-type="Краска" data-use="Для салона" data-colls="">
+        <article class="lk-pcard" aria-label="Nirvel Professional Pastel ArtX, серебристый, 100 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/nirvel.webp" alt="Nirvel Professional Pastel ArtX, серебристый, 100 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Nirvel Professional Pastel ArtX, серебристый, 100 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Nirvel Professional</span><span class="lk-pcard__line" title="ArtX"><span class="lk-pcard__line-text">ArtX</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Pastel ArtX, серебристый, 100&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;14003</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="1080">1&nbsp;080&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: Nirvel Professional Pastel ArtX, серебристый, 100 мл">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="Iuver" data-cat="Уход за волосами" data-type="Флюид" data-use="Для домашнего ухода" data-colls="">
+        <article class="lk-pcard" aria-label="Iuver Флюид увлажняющий для волос, 150 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/iuver.webp" alt="Iuver Флюид увлажняющий для волос, 150 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Iuver Флюид увлажняющий для волос, 150 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Iuver</span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Флюид увлажняющий для волос, 150&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;72840</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="2385">2&nbsp;385&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: Iuver Флюид увлажняющий для волос, 150 мл">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="Levissime" data-cat="Депиляция" data-type="Воск" data-use="Для салона" data-colls="c1">
+        <article class="lk-pcard" aria-label="Levissime Воск плёночный в гранулах, 100 г">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/lashcolor.webp" alt="Levissime Воск плёночный в гранулах, 100 г" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Levissime Воск плёночный в гранулах, 100 г" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Levissime</span><span class="lk-pcard__line" title="Lash Color"><span class="lk-pcard__line-text">Lash Color</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Воск плёночный в гранулах, 100&nbsp;г</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;31596</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="396">396&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: Levissime Воск плёночный в гранулах, 100 г">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="RefectoCil" data-cat="Брови и ресницы" data-type="Краска" data-use="Для салона" data-colls="c1">
+        <article class="lk-pcard" aria-label="RefectoCil Краска для бровей и ресниц № 3.1, 15 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/refectocil.webp" alt="RefectoCil Краска для бровей и ресниц № 3.1, 15 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: RefectoCil Краска для бровей и ресниц № 3.1, 15 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">RefectoCil</span><span class="lk-pcard__line" title="RefectoCil"><span class="lk-pcard__line-text">RefectoCil</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Краска для бровей и ресниц №&nbsp;3.1, 15&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;15277</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="765">765&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: RefectoCil Краска для бровей и ресниц № 3.1, 15 мл">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="Soleo" data-cat="Загар" data-type="Крем" data-use="Для домашнего ухода" data-colls="">
+        <article class="lk-pcard" aria-label="Soleo Lolli Pop, ускоритель загара, 150 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/soleo.webp" alt="Soleo Lolli Pop, ускоритель загара, 150 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Soleo Lolli Pop, ускоритель загара, 150 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Soleo</span><span class="lk-pcard__line" title="Classic"><span class="lk-pcard__line-text">Classic</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Lolli Pop, ускоритель загара, 150&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;20775</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="558">558&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><div class="lk-pcard__nostock"><svg class="igro-icon igro-icon--18" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg><span>нет в наличии</span></div></div>
+        </article>
+      </li>
+      <li data-item data-brand="Levissime" data-cat="Уход за лицом" data-type="Крем" data-use="Для домашнего ухода" data-colls="">
+        <article class="lk-pcard" aria-label="Levissime Hydrage, крем увлажняющий, 50 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/levis-hydrage.webp" alt="Levissime Hydrage, крем увлажняющий, 50 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Levissime Hydrage, крем увлажняющий, 50 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Levissime</span><span class="lk-pcard__line" title="Hydrage"><span class="lk-pcard__line-text">Hydrage</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Hydrage, крем увлажняющий, 50&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;48310</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="1188">1&nbsp;188&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><button type="button" class="lk-pcard__btn" data-cart-add aria-label="В корзину: Levissime Hydrage, крем увлажняющий, 50 мл">В корзину</button></div>
+        </article>
+      </li>
+      <li data-item data-brand="Levissime" data-cat="Уход за лицом" data-type="Крем" data-use="Для салона" data-colls="">
+        <article class="lk-pcard" aria-label="Levissime Young Life, крем для лица, 50 мл">
+          <div class="lk-pcard__media">
+            <img class="lk-pcard__img" src="assets/products/levis-younglife.webp" alt="Levissime Young Life, крем для лица, 50 мл" width="208" height="220" loading="lazy">
+            <button type="button" class="lk-pcard__fav" aria-pressed="true" aria-label="В избранном. Убрать из избранного: Levissime Young Life, крем для лица, 50 мл" data-fav-heart><svg class="igro-icon igro-icon--24 lk-pcard__fav-heart" aria-hidden="true" focusable="false"><use href="#i-heart-fill"></use></svg><svg class="igro-icon igro-icon--24 lk-pcard__fav-trash" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button>
+          </div>
+          <div class="lk-pcard__body">
+            <div class="lk-pcard__brandline"><span class="lk-pcard__brand">Levissime</span><span class="lk-pcard__line" title="Glass skin"><span class="lk-pcard__line-text">Glass skin</span></span></div>
+            <h2 class="lk-pcard__name"><a href="#product">Young Life, крем для лица, 50&nbsp;мл</a></h2>
+            <div class="lk-pcard__art">Арт:&nbsp;15290</div>
+            <div class="lk-pcard__pricerow"><span class="lk-pcard__price" data-price="1710">1&nbsp;710&nbsp;₽</span><span class="lk-pcard__pricenote">Проф.&nbsp;цена</span></div>
+          </div>
+          <div class="lk-pcard__controls"><div class="lk-pcard__nostock"><svg class="igro-icon igro-icon--18" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg><span>нет в наличии</span></div></div>
+        </article>
+      </li>
+    </ul>
+    <div class="igro-empty lk-filter-empty" id="fav-filter-empty" hidden>
+      <span class="igro-empty__icon"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg></span>
+      <p class="igro-empty__title">Ничего не нашлось</p>
+      <p class="igro-empty__text">Под эти фильтры нет товаров. Измените их или сбросьте.</p>
+      <div class="igro-empty__action"><button type="button" class="igro-btn igro-btn--dark" data-filter-reset="#fav-filters">Сбросить фильтры</button></div>
+    </div>
+    <div class="igro-empty" id="fav-coll-empty" hidden>
+      <span class="igro-empty__icon"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg></span>
+      <p class="igro-empty__title">В подборке пока нет товаров</p>
+      <p class="igro-empty__text">Здесь появятся товары, которые вы добавите в эту подборку.</p>
+    </div>
+    <div class="igro-empty" id="fav-empty" hidden>
+      <span class="igro-empty__icon"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg></span>
+      <p class="igro-empty__title">В избранном пока пусто</p>
+      <p class="igro-empty__text">Нажмите на сердечко в каталоге – товар появится здесь.</p>
+    </div>
+    <div class="lk-fav-hint"><div class="igro-alert" role="status"><svg class="igro-icon igro-icon--24 igro-alert__icon" aria-hidden="true" focusable="false"><use href="#i-info"></use></svg><div class="igro-alert__body"><div class="igro-alert__text">Вы можете добавить до 100 товаров в избранное</div></div></div></div>
+  </main>
+</div>
+
+<div class="igro-dialog-scrim" id="favConfirm" hidden>
+  <div class="igro-dialog lk-confirm" role="alertdialog" aria-modal="true" aria-labelledby="favConfirmTitle" aria-describedby="favConfirmSub" tabindex="-1">
+    <div class="igro-dialog__head">
+      <div class="igro-dialog__titles"><h2 class="igro-dialog__title" id="favConfirmTitle">Убрать из избранного?</h2><p class="igro-dialog__subtitle" id="favConfirmSub"></p></div>
+      <button type="button" class="igro-dialog__close" aria-label="Закрыть" data-dialog-close><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="igro-dialog__footer">
+      <button type="button" class="igro-btn igro-btn--danger igro-btn--lg igro-dialog__primary" id="favConfirmOk">Убрать</button>
+      <button type="button" class="igro-btn igro-btn--secondary igro-btn--lg igro-dialog__secondary" data-dialog-close>Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div class="igro-dialog-scrim" id="collDialog" hidden>
+  <div class="igro-dialog lk-confirm" role="dialog" aria-modal="true" aria-labelledby="collDialogTitle" tabindex="-1">
+    <div class="igro-dialog__head">
+      <div class="igro-dialog__titles"><h2 class="igro-dialog__title" id="collDialogTitle">Новая подборка</h2></div>
+      <button type="button" class="igro-dialog__close" aria-label="Закрыть" data-dialog-close><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="igro-dialog__body">
+      <form id="collForm" novalidate>
+        <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="collName" name="collName" type="text" value="" placeholder=" " required maxlength="40" autocomplete="off" aria-describedby="collName-hint"><label class="igro-field__label" for="collName">Название подборки<b class="igro-field__req" aria-hidden="true">*</b></label></div><p class="igro-field__hint" id="collName-hint" data-default="Например, «Для кабинета» или «Заказ на осень»">Например, «Для кабинета» или «Заказ на осень»</p></div>
+      </form>
+    </div>
+    <div class="igro-dialog__footer">
+      <button type="submit" class="igro-btn igro-btn--primary igro-btn--lg igro-dialog__primary" form="collForm">Создать подборку</button>
+      <button type="button" class="igro-btn igro-btn--secondary igro-btn--lg igro-dialog__secondary" data-dialog-close>Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div class="lk-toasts" id="toasts"></div>
+</body>
+</html>

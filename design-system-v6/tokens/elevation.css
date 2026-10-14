@@ -1,0 +1,52 @@
+/* ==========================================================================
+   IGRObeauty — Radius, elevation, rings, control sizes & motion (v6)
+   Geometry: 4px buttons & plates · 6px notices · 8px fields/options/tabs ·
+   12px overlays (dialog, popover, banner) · 20px bottom-sheet top · pills · 50% glyphs.
+   Whisper-soft layered shadows — never one heavy drop shadow.
+   ========================================================================== */
+:root {
+  /* --- Radius --- */
+  --radius-none:   0px;
+  --radius-xs:     4px;    /* checkbox box, segmented thumb */
+  --radius-btn:    4px;    /* buttons, icon buttons, stepper, pagination */
+  --radius-card:   4px;    /* white plates — cards, checkout sections, summary */
+  --radius-notice: 6px;    /* inline notices (Alert) */
+  --radius-sm:     8px;    /* inputs, selects, option cards, tabs, menus items, tooltips */
+  --radius-md:     12px;   /* overlays — dialogs, menus, toasts, banners, image tiles */
+  --radius-lg:     20px;   /* v6 · bottom-sheet top corners */
+  --radius-full:   9999px; /* chips, badges, pills, switches, meters, avatars */
+
+  /* --- Elevation (layered low-alpha shadows) --- */
+  --shadow-card:      0px 0px 0.5px 0px rgba(0,0,0,0.14), 0px 1px 1px 0px rgba(0,0,0,0.24);
+  --shadow-nav:       0 1px 3px rgba(0,0,0,0.10), 0 2px 2px rgba(0,0,0,0.06), 0 0 2px rgba(0,0,0,0.07);
+  --shadow-pop:       0 2px 6px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.16); /* dialogs, menus, popovers, floating buttons */
+  --shadow-cta-hover: 0 4px 8px 0 rgba(0,107,62,0.30);  /* primary CTA hover lift */
+  --shadow-knob:      0 1px 2px rgba(0,0,0,0.25);       /* v6 · switch knob, slider handle */
+  --drop-shadow-card: drop-shadow(0 1px 1px rgba(26,51,40,0.10)) drop-shadow(0 0 0.5px rgba(26,51,40,0.12)); /* @kind other */ /* card shadow for non-rectangular shapes (receipt edge) */
+
+  /* --- Rings (3px halos outside the border) --- */
+  --ring-focus:  0 0 0 3px rgba(21,143,69,0.20);  /* v6 · field focus halo, now visible */
+  --ring-error:  0 0 0 3px rgba(200,32,20,0.14);
+  --ring-select: 0 0 0 3px rgba(21,143,69,0.10);
+  --ring-house:  0 0 0 3px rgba(26,51,40,0.10);
+  --focus-outline: 2px solid var(--green-accent); /* @kind other */ /* keyboard :focus-visible — outline shorthand */
+
+  /* --- Control heights --- */
+  --h-control-sm: 34px;
+  --h-control-md: 44px;
+  --h-control-lg: 52px;
+  --h-field:      56px;
+  --disabled-opacity: 0.25; /* @kind other */
+
+  /* --- Motion --- */
+  --press-scale: 0.98;             /* @kind other */ /* universal button active scale */
+  --press-scale-icon: 0.92;        /* @kind other */ /* icon buttons: stronger press on a small target */
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* @kind other */
+  --ease-spring:   cubic-bezier(0.32, 2.32, 0.61, 0.27); /* @kind other */
+  --duration-fast: 0.2s; /* @kind other */
+  --duration-base: 0.3s; /* @kind other */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0.01s; --duration-base: 0.01s; --press-scale: 1; --press-scale-icon: 1; }
+}

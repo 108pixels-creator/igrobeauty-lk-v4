@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мои данные — IGRObeauty</title>
+<link rel="stylesheet" href="design-system-v6/styles.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/lk.css">
+<script src="js/lk.js" defer></script>
+</head>
+<body class="igro">
+<svg class="lk-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-education" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l8 3.5-8 3.5-8-3.5L12 5z"/><path d="M6 11v4.2c0 1 2.7 2.3 6 2.3s6-1.3 6-2.3V11"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.35-7-9.5A3.5 3.5 0 0 1 12 7a3.5 3.5 0 0 1 7 3.5C19 15.65 12 20 12 20z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8"/><path d="M18 15l3-3-3-3M10 12h11"/></symbol>
+  <symbol id="i-orders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5h6a1 1 0 0 1 1 1V7H8V5.5a1 1 0 0 1 1-1zM9 12h6M9 16h4"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3.1-5.5 7-5.5s7 2 7 5.5"/></symbol>
+  <symbol id="i-user-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17.5c.6-2 2.4-3 4.5-3s3.9 1 4.5 3"/></symbol>
+  <symbol id="i-promo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.6V5a1.5 1.5 0 0 1 1.5-1.5h7.6a1.5 1.5 0 0 1 1.06.44l7.4 7.4a1.5 1.5 0 0 1 0 2.12l-7.6 7.6a1.5 1.5 0 0 1-2.12 0l-7.4-7.4a1.5 1.5 0 0 1-.44-1.06z"/><circle cx="8.5" cy="8.5" r="1.5"/></symbol>
+</svg>
+<a class="igro-btn igro-btn--dark lk-skip" href="#main">Перейти к содержимому</a>
+<div class="lk-shell">
+  <aside class="lk-aside">
+    <nav class="igro-card lk-nav" aria-label="Личный кабинет">
+      <ul class="lk-nav__list">
+      <li><a class="lk-nav__item" href="index.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg><span class="lk-nav__label">Мой профиль</span></a></li>
+      <li><a class="lk-nav__item" href="orders.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-orders"></use></svg><span class="lk-nav__label">Мои заказы</span></a></li>
+      <li><a class="lk-nav__item" href="favorites.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg><span class="lk-nav__label">Избранное</span></a></li>
+      <li><a class="lk-nav__item" href="promo.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-promo"></use></svg><span class="lk-nav__label">Акции</span></a></li>
+      <li><a class="lk-nav__item" href="education.html"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-education"></use></svg><span class="lk-nav__label">Мое обучение</span></a></li>
+      <li><a class="lk-nav__item" href="data.html" aria-current="page"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-user-circle"></use></svg><span class="lk-nav__label">Мои данные</span></a></li>
+      <li class="lk-nav__divider" aria-hidden="true"></li>
+      <li><a class="lk-nav__item" href="#logout"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-logout"></use></svg><span class="lk-nav__label">Выйти</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="lk-main" id="main" tabindex="-1">
+    <h1 class="igro-h1 lk-title">Мои данные</h1>
+    <div class="igro-tabs lk-tabs" role="tablist" aria-label="Мои данные" data-tabs><button type="button" class="igro-tab" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="true" tabindex="0">Данные</button><button type="button" class="igro-tab" role="tab" id="tab-addr" aria-controls="panel-addr" aria-selected="false" tabindex="-1">Адреса доставки</button><button type="button" class="igro-tab" role="tab" id="tab-notif" aria-controls="panel-notif" aria-selected="false" tabindex="-1">Уведомления</button></div>
+    <div class="igro-tabpanel" role="tabpanel" id="panel-data" aria-labelledby="tab-data" tabindex="0">
+    <form id="profileForm" novalidate>
+      <section class="igro-card lk-form-card" aria-labelledby="pd-title">
+        <h2 class="igro-h3 lk-form-card__title" id="pd-title">Личные данные</h2>
+        <div class="lk-form-grid">
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="pdName" name="pdName" type="text" value="Екатерина" placeholder=" " required autocomplete="given-name" aria-describedby="pdName-hint"><label class="igro-field__label" for="pdName">Имя<b class="igro-field__req" aria-hidden="true">*</b></label></div><p class="igro-field__hint" id="pdName-hint" hidden></p></div>
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="pdSurname" name="pdSurname" type="text" value="Иванова" placeholder=" " required autocomplete="family-name" aria-describedby="pdSurname-hint"><label class="igro-field__label" for="pdSurname">Фамилия<b class="igro-field__req" aria-hidden="true">*</b></label></div><p class="igro-field__hint" id="pdSurname-hint" hidden></p></div>
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="pdEmail" name="pdEmail" type="email" value="ivanova@mail.ru" placeholder=" " required autocomplete="email" inputmode="email" aria-describedby="pdEmail-hint"><label class="igro-field__label" for="pdEmail">E-mail<b class="igro-field__req" aria-hidden="true">*</b></label></div><p class="igro-field__hint" id="pdEmail-hint" hidden></p></div>
+          <div class="igro-field igro-field--trailing"><div class="igro-field__control"><input class="igro-field__input" id="pdPhone" name="pdPhone" type="tel" value="+7 (900) 123-45-67" placeholder=" " required autocomplete="tel" inputmode="tel" aria-describedby="pdPhone-hint" data-phone=""><label class="igro-field__label" for="pdPhone">Телефон<b class="igro-field__req" aria-hidden="true">*</b></label><span class="igro-field__trailing"><button type="button" class="igro-field__clear" aria-label="Очистить номер" data-clear="pdPhone"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button></span></div><p class="igro-field__hint" id="pdPhone-hint" hidden></p></div>
+        </div>
+      </section>
+      <section class="igro-card lk-form-card" aria-labelledby="pp-title">
+        <h2 class="igro-h3 lk-form-card__title" id="pp-title">Профессиональный профиль</h2>
+        <div class="lk-form-grid">
+          <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ppType">Тип бизнеса<b class="igro-field__req" aria-hidden="true">*</b></label><select class="igro-select__input" id="ppType" name="ppType" required aria-describedby="ppType-hint"><option value="Частный специалист" selected>Частный специалист</option><option value="Салон красоты">Салон красоты</option><option value="Косметологическая клиника / медицинский центр">Косметологическая клиника / медицинский центр</option><option value="Парикмахерская / барбершоп">Парикмахерская / барбершоп</option><option value="Студия маникюра">Студия маникюра</option><option value="Студия загара">Студия загара</option><option value="Студия массажа / SPA-центр">Студия массажа / SPA-центр</option><option value="Магазин">Магазин</option><option value="Учебный центр">Учебный центр</option><option value="Студенты">Студенты</option><option value="Дистрибьютор / оптовый покупатель">Дистрибьютор / оптовый покупатель</option><option value="Другое">Другое</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div><p class="igro-select__hint" id="ppType-hint" hidden></p></div>
+          <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ppRole">Роль в компании<b class="igro-field__req" aria-hidden="true">*</b></label><select class="igro-select__input" id="ppRole" name="ppRole" required aria-describedby="ppRole-hint"><option value="Владелец" selected>Владелец</option><option value="Управляющий">Управляющий</option><option value="Администратор">Администратор</option><option value="Менеджер по закупкам">Менеджер по закупкам</option><option value="Специалист / мастер">Специалист / мастер</option><option value="Преподаватель">Преподаватель</option><option value="Другое">Другое</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div><p class="igro-select__hint" id="ppRole-hint" hidden></p></div>
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="ppCompany" name="ppCompany" type="text" value="Студия красоты Красота" placeholder=" " autocomplete="organization" aria-describedby="ppCompany-hint"><label class="igro-field__label" for="ppCompany">Название компании</label></div><p class="igro-field__hint" id="ppCompany-hint" data-default="Например, «Студия красоты Красота», «ИП Иванов И.&nbsp;И.»">Например, «Студия красоты Красота», «ИП Иванов И.&nbsp;И.»</p></div>
+          <div class="igro-select" data-dropdown><div class="igro-select__control"><label class="igro-select__label" for="ppGoal">Цель закупок<b class="igro-field__req" aria-hidden="true">*</b></label><select class="igro-select__input" id="ppGoal" name="ppGoal" required aria-describedby="ppGoal-hint"><option value="Для личного профессионального использования" selected>Для личного профессионального использования</option><option value="Для оснащения салона / кабинета / студии">Для оснащения салона / кабинета / студии</option><option value="Для перепродажи">Для перепродажи</option><option value="Для обучения">Для обучения</option></select><svg class="igro-icon igro-select__chevron" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></div><p class="igro-select__hint" id="ppGoal-hint" hidden></p></div>
+        </div>
+      </section>
+      <div class="lk-save-row"><button type="submit" class="igro-btn igro-btn--primary">Сохранить изменения</button></div>
+    </form>
+    </div>
+    <div class="igro-tabpanel" role="tabpanel" id="panel-addr" aria-labelledby="tab-addr" tabindex="0" hidden>
+    <section class="igro-card lk-form-card" aria-labelledby="addr-title">
+      <div class="lk-form-card__head"><h2 class="igro-h3 lk-form-card__title" id="addr-title">Адреса доставки</h2><button type="button" class="igro-btn igro-btn--dark igro-btn--sm" data-addr-add=""><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>Добавить адрес</button></div>
+      <ul class="lk-addr-list" id="addrList">
+        <li class="lk-addr" data-addr="a1">
+          <div class="lk-addr__head"><span class="igro-badge igro-badge--brand">Основной адрес</span><div class="lk-addr__tools"><button type="button" class="igro-btn igro-btn--ghost igro-btn--sm lk-addr__edit" data-addr-edit="a1" aria-label="Редактировать адрес: Москва, ул. Лесная, д. 10, офис 305"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg><span class="lk-addr__edit-label">Редактировать</span></button><button type="button" class="igro-icon-btn igro-icon-btn--danger igro-icon-btn--sm" aria-label="Удалить адрес: Москва, ул. Лесная, д. 10, офис 305" data-addr-del="a1"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button></div></div>
+          <dl class="lk-addr__grid"><dt>Город</dt><dd>Москва</dd><dt>Адрес</dt><dd>ул. Лесная, д. 10, офис 305</dd><dt>Салон</dt><dd>Студия красоты Красота</dd><dt>Получатель</dt><dd>Екатерина Иванова</dd><dt>Телефон</dt><dd>+7 (900) 123-45-67</dd></dl>
+        </li>
+        <li class="lk-addr" data-addr="a2">
+          <div class="lk-addr__head"><div class="lk-addr__tools"><button type="button" class="igro-btn igro-btn--ghost igro-btn--sm lk-addr__edit" data-addr-edit="a2" aria-label="Редактировать адрес: Санкт-Петербург, Невский пр-т, д. 15, офис 210"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg><span class="lk-addr__edit-label">Редактировать</span></button><button type="button" class="igro-icon-btn igro-icon-btn--danger igro-icon-btn--sm" aria-label="Удалить адрес: Санкт-Петербург, Невский пр-т, д. 15, офис 210" data-addr-del="a2"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button></div></div>
+          <dl class="lk-addr__grid"><dt>Город</dt><dd>Санкт-Петербург</dd><dt>Адрес</dt><dd>Невский пр-т, д. 15, офис 210</dd><dt>Получатель</dt><dd>Ольга Смирнова</dd><dt>Телефон</dt><dd>+7 (978) 999-99-98</dd></dl>
+        </li>
+        <li class="lk-addr" data-addr="a3">
+          <div class="lk-addr__head"><div class="lk-addr__tools"><button type="button" class="igro-btn igro-btn--ghost igro-btn--sm lk-addr__edit" data-addr-edit="a3" aria-label="Редактировать адрес: Казань, ул. Баумана, д. 23, офис 12"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg><span class="lk-addr__edit-label">Редактировать</span></button><button type="button" class="igro-icon-btn igro-icon-btn--danger igro-icon-btn--sm" aria-label="Удалить адрес: Казань, ул. Баумана, д. 23, офис 12" data-addr-del="a3"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg></button></div></div>
+          <dl class="lk-addr__grid"><dt>Город</dt><dd>Казань</dd><dt>Адрес</dt><dd>ул. Баумана, д. 23, офис 12</dd></dl>
+        </li>
+      </ul>
+      <div class="igro-empty" id="addrEmpty" hidden>
+        <span class="igro-empty__icon"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg></span>
+        <p class="igro-empty__title">Адресов пока нет</p>
+        <p class="igro-empty__text">Добавьте адрес — подставим его при оформлении заказа.</p>
+        <div class="igro-empty__action"><button type="button" class="igro-btn igro-btn--dark" data-addr-add="">Добавить адрес</button></div>
+      </div>
+    </section>
+    </div>
+    <div class="igro-tabpanel" role="tabpanel" id="panel-notif" aria-labelledby="tab-notif" tabindex="0" hidden>
+    <section class="igro-card lk-form-card" aria-labelledby="nt-title">
+      <h2 class="igro-h3 lk-form-card__title" id="nt-title">Уведомления и рассылки</h2>
+      <div class="lk-notif">
+        <div>
+          <h3 class="igro-h5 lk-notif__title" id="ntMktTitle">Получать маркетинговые рассылки</h3>
+          <p class="lk-notif__desc" id="ntMktDesc">Новости об акциях, новинках, персональные предложения и полезные материалы для профессионалов индустрии красоты</p>
+        </div>
+        <label class="igro-switch"><input type="checkbox" role="switch" class="igro-control-input" id="ntMkt" name="ntMkt" checked aria-labelledby="ntMktTitle" aria-describedby="ntMktDesc"><span class="igro-switch__track igro-control-visual" aria-hidden="true"><span class="igro-switch__knob"></span></span></label>
+      </div>
+    </section>
+    </div>
+  </main>
+</div>
+<div class="igro-dialog-scrim lk-addr-scrim" id="addrDialog" data-step="1" hidden>
+  <div class="lk-addr-mapbg" aria-hidden="true"><span class="lk-map__mark"><span class="lk-map__pin"><svg class="igro-icon igro-icon--24" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg></span><span class="lk-map__label" data-map-label hidden></span></span></div>
+  <div class="igro-dialog lk-addr-dialog" role="dialog" aria-modal="true" aria-labelledby="addrDialogTitle" aria-describedby="addrDialogSub" tabindex="-1">
+    <span class="lk-sheet-handle" aria-hidden="true"></span>
+    <button type="button" class="lk-sheet-float lk-sheet-float--back" aria-label="Назад к адресу" data-addr-step="1"><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg></button>
+    <button type="button" class="lk-sheet-float lk-sheet-float--close" aria-label="Закрыть" data-dialog-close><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button>
+    <div class="igro-dialog__head">
+      <div class="igro-dialog__titles"><h2 class="igro-dialog__title" id="addrDialogTitle">Новый адрес доставки</h2><p class="igro-dialog__subtitle" id="addrDialogSub">Начните вводить адрес и выберите подходящий вариант из подсказок</p></div>
+      <button type="button" class="igro-dialog__close" aria-label="Закрыть" data-dialog-close><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="igro-dialog__body lk-addr-dialog__body">
+      <form class="lk-addr-form" id="addrForm" novalidate>
+        <button type="button" class="lk-addr-recap" data-addr-step="1" aria-label="Изменить адрес">
+          <svg class="igro-icon lk-addr-recap__pin" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg><span class="lk-addr-recap__text" id="addrRecapText"></span><span class="lk-addr-recap__edit">Изменить</span>
+        </button>
+        <div class="igro-autocomplete" data-autocomplete>
+          <div class="igro-field igro-field--trailing"><div class="igro-field__control"><input class="igro-field__input" id="addrInput" name="addrInput" type="text" value="" placeholder=" " required autocomplete="off" aria-describedby="addrInput-hint" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="addrSuggest"><label class="igro-field__label" for="addrInput">Город, улица, дом<b class="igro-field__req" aria-hidden="true">*</b></label><span class="igro-field__trailing"><button type="button" class="igro-field__clear" aria-label="Очистить адрес" data-clear="addrInput" hidden><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button></span></div><p class="igro-field__hint" id="addrInput-hint" hidden></p></div>
+          <ul class="igro-autocomplete__list" id="addrSuggest" role="listbox" aria-label="Подсказки адресов" hidden></ul>
+        </div>
+        <div class="lk-addr-form__row">
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="addrFlat" name="addrFlat" type="text" value="" placeholder=" " required aria-describedby="addrFlat-hint"><label class="igro-field__label" for="addrFlat">Квартира / офис<b class="igro-field__req" aria-hidden="true">*</b></label></div><p class="igro-field__hint" id="addrFlat-hint" hidden></p></div>
+          <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="addrSalon" name="addrSalon" type="text" value="" placeholder=" " autocomplete="organization" aria-describedby="addrSalon-hint"><label class="igro-field__label" for="addrSalon">Название салона</label></div><p class="igro-field__hint" id="addrSalon-hint" hidden></p></div>
+        </div>
+        <div class="igro-field"><div class="igro-field__control"><input class="igro-field__input" id="addrRecipient" name="addrRecipient" type="text" value="" placeholder=" " autocomplete="name" aria-describedby="addrRecipient-hint"><label class="igro-field__label" for="addrRecipient">Получатель заказа</label></div><p class="igro-field__hint" id="addrRecipient-hint" data-default="Укажите контактное лицо, которое может принять заказ">Укажите контактное лицо, которое может принять заказ</p></div>
+        <div class="igro-field igro-field--trailing"><div class="igro-field__control"><input class="igro-field__input" id="addrPhone" name="addrPhone" type="tel" value="" placeholder=" " autocomplete="tel" inputmode="tel" aria-describedby="addrPhone-hint" data-phone=""><label class="igro-field__label" for="addrPhone">Контактный телефон получателя</label><span class="igro-field__trailing"><button type="button" class="igro-field__clear" aria-label="Очистить номер" data-clear="addrPhone" hidden><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button></span></div><p class="igro-field__hint" id="addrPhone-hint" hidden></p></div>
+        <div class="igro-textarea"><label class="igro-textarea__label" for="addrComment">Комментарий курьеру</label><textarea class="igro-textarea__input" id="addrComment" name="addrComment" rows="3" placeholder="Например, вход со двора" maxlength="300" aria-describedby="addrComment-hint"></textarea><div class="igro-textarea__hint" id="addrComment-hint"><span class="igro-textarea__hint-text"></span><span class="igro-textarea__count" data-count-for="addrComment">0 / 300</span></div></div>
+        <label class="igro-checkbox"><input type="checkbox" class="igro-control-input" id="addrDefault" name="addrDefault"><span class="igro-checkbox__box igro-control-visual" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="igro-checkbox__text">Сделать основным адресом</span></label>
+      </form>
+      <div class="lk-map" aria-hidden="true"><span class="lk-map__mark"><span class="lk-map__pin"><svg class="igro-icon igro-icon--24" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg></span><span class="lk-map__label" data-map-label hidden></span></span></div>
+    </div>
+    <div class="igro-dialog__footer">
+      <button type="button" class="igro-btn igro-btn--danger-outline igro-btn--lg lk-addr-del" id="addrDelete" aria-label="Удалить адрес" hidden><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg><span class="lk-addr-del__label">Удалить</span></button>
+      <button type="button" class="igro-btn igro-btn--dark igro-btn--lg lk-addr-next" data-addr-step="2">Далее</button>
+      <button type="submit" class="igro-btn igro-btn--primary igro-btn--lg igro-dialog__primary" form="addrForm">Сохранить адрес</button>
+      <button type="button" class="igro-btn igro-btn--secondary igro-btn--lg igro-dialog__secondary" data-dialog-close="">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div class="igro-dialog-scrim" id="confirmDialog" hidden>
+  <div class="igro-dialog lk-confirm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmSub" tabindex="-1">
+    <div class="igro-dialog__head">
+      <div class="igro-dialog__titles"><h2 class="igro-dialog__title" id="confirmTitle">Удалить адрес?</h2><p class="igro-dialog__subtitle" id="confirmSub"></p></div>
+      <button type="button" class="igro-dialog__close" aria-label="Закрыть" data-dialog-close><svg class="igro-icon" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="igro-dialog__footer">
+      <button type="button" class="igro-btn igro-btn--danger igro-btn--lg igro-dialog__primary" id="confirmDelete">Удалить</button>
+      <button type="button" class="igro-btn igro-btn--secondary igro-btn--lg igro-dialog__secondary" data-dialog-close="">Отмена</button>
+    </div>
+  </div>
+</div>
+<div class="lk-toasts" id="toasts"></div>
+</body>
+</html>
