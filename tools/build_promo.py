@@ -2,9 +2,9 @@
 """Раздел «Акции» (promo.html и promo-<код>.html) — копия раздела действующего сайта
 https://igrobeauty.ru/personal/promo/ (снят 13.10.2026 в авторизованном кабинете) в оформлении DS v6.1.
 
-Запуск из LK v6:  python tools/build_promo.py
+Запуск из LK v4:  python tools/build_promo.py
 
-Что взято с сайта: 22 акции в том же порядке, названия, картинки и тексты условий дословно
+Что взято с сайта: 22 акции в том же порядке (19.10 четыре из них убраны — см. ниже), названия, картинки и тексты условий дословно
 (поправлена только типографика: кавычки «», короткое тире, неразрывные пробелы, «1351р.» → «1 351 ₽»).
 Ссылки «Перейти» ведут в каталог действующего сайта. У четырёх «Стартовых наборов» на странице акции
 вместо текста — вертикальный плакат 1305×1819; у трёх акций страница — одна картинка без текста.
@@ -19,6 +19,9 @@ https://igrobeauty.ru/personal/promo/ (снят 13.10.2026 в авторизов
 (Depilflax — «для мастера восковой депиляции», Silver — «для мастера-колориста»). Битрикс: свойство элемента
 «Направление» (привязка к разделу каталога), фильтр — по нему.
 Файлы пишутся с CRLF, как остальные страницы.
+
+19.10: убраны 4 акции, чьи картинки на сайте отдают 404 (набор с уходами −15%, Basic Pro −15%,
+спрей с арганой 2+1, Nirvel Rizos) — по просьбе Антона. Картинки остальных — локальные копии в assets/promo/.
 """
 import html
 import os
@@ -52,22 +55,6 @@ PROMOS = [
                  ("p", "При покупке 3-x любых цветов + Оксидант (1,8%) или 3% объем 90" + NB + "мл"),
                  ("deal", "СКИДКА НА НАБОР 15%")],
          links=[("Каталог Lash Color", "/catalog/brovi_i_resnitsy/krasitel_lashcolor/")], notes=NOTES),
-    dict(slug="aktsiya-na-nabor-s-ukhodami-15", title="Акция на набор с уходами -15%", img="/upload/iblock/dd0/6avjn0oultxpnfwe3by3b0pfq4mjt1jq.jpg",
-         blocks=[("p", "При покупке «Шампуня для объема волос Nirvel Professional Shampoo Volume & Texture Chitosan & Panthenol, 1000" + NB + "мл» "
-                       "и «Спрея для объема волос Volume Spray BasiCare, Nirvel, 200" + NB + "мл»"),
-                 ("deal", "СКИДКА 15% – стоимость набора 1" + NB + "351" + NB + "₽")],
-         links=[("Шампуня для объема волос BASIC PRO", "/catalog/dlya_volos/ukhod_za_volosami/basic_pro/shampun_dlya_volos_s_khitozanom_i_pantenolom_chitosan_panthenol_nirvel_basic_pro_1000_ml/"),
-                ("Спрей для объема волос Volume Spray BasiCare", "/catalog/dlya_volos/ukhod_za_volosami/basicare/dlya_obema_1/sprey_dlya_obema_volos_volume_spray_nirvel_200_ml_/")],
-         notes=NOTES),
-    dict(slug="aktsiya-na-ukhody-basic-pro-15", title="Акция на уходы Basic Pro – 15%", img="/upload/iblock/e6a/lus8kfelmh4s3mg7it6n8z3dls0pkn0q.jpg",
-         blocks=[("p", "При покупке Шампуня 250" + NB + "мл, Кондиционера 250" + NB + "мл и Двухфазного спрей-кондиционера 200" + NB + "мл (в ассортименте) из линейки Basic Pro"),
-                 ("deal", "СКИДКА 15%")],
-         links=[("Каталог BASIC PRO", "/catalog/dlya_volos/ukhod_za_volosami/basic_pro/")], notes=NOTES),
-    dict(slug="aktsiya-na-dvukhfaznyy-sprey-s-maslom-argany-2-1", title="Акция на двухфазный спрей с маслом арганы 2+1", img="/upload/iblock/758/fvmybvq07lvdw4e5cyoantm3p4co1b7e.jpg",
-         blocks=[("p", "При покупке двух «Спрей двухфазный с маслом арганы Argan Biphase, Nirvel Professional, 250" + NB + "мл»"),
-                 ("deal", "2 + 1 в ПОДАРОК")],
-         links=[("Купить Argan Biphase", "/catalog/dlya_volos/vosstanovlenie_volos/programma_spa_ukhoda_za_volosami_s_arganovym_maslom/dvukhfaznyy_nesmyvaemyy_sprey_s_maslom_argany_d_uvlazhneniya_i_vosstanovleniya_volos_biphase_argan_n/")],
-         notes=NOTES),
     dict(slug="skidka-na-vosk-v-kartridzhakh-starpil-15", title="Скидка на воск в картриджах Starpil -15%", img="/upload/iblock/62a/56p4bsreseo1c0cmi6t6xqq02ywmfvp7.jpg",
          blocks=[("p", "При покупке 20 картриджей воска Depilflax100 или Starpil"), ("deal", "СКИДКА 15%")],
          links=[("Картриджи Starpil", "/catalog/depilyatsiya/vosk_dlya_depilyatsii/vosk_v_kartridzhakh/?set_filter=y&searchFilter_3353_3729572004=Y")], notes=NOTES),
@@ -88,7 +75,6 @@ PROMOS = [
                                 "/catalog/odnorazovaya_produktsiya_1/prostyni_odnorazovye/prostynya_80_kh_200_sm_sms_20g_m2_fioletovyy_v_rulone_s_perforatsiey_nuuma_75sht/")])],
          links=[], notes=NOTES),
     dict(slug="skidka-na-polotentsa-i-folgu-15", title="Скидка на полотенца и фольгу – 15%", img="/upload/iblock/16f/padccykbkyd2ue3bf0lnt08zwucpzjpq.jpg"),
-    dict(slug="skidka-na-nirvel-rizos", title="Скидка на Nirvel Rizos", img="/upload/iblock/a3f/ka4v4og613k2mpad44o4iikgg4fw3i4z.jpg"),
     dict(slug="skidka-na-polotentsa-15", title="Скидка на полотенца 15%", img="/upload/iblock/7cf/7pos73gmpdjd60glkaqcc94519mzgkpk.jpg"),
     dict(slug="skidka-na-perchatki-matrix-benovy-25", title="Скидка на перчатки MATRIX BENOVY 25%", img="/upload/iblock/bf7/jx7jspp1gdfbhoy3jinubiwwuobnp6ox.jpg",
          blocks=[("p-strong", CONSUMABLES), ("ul", ["Перчатки неопудренные, текстурированные, латекс 5,2 гр, полимерное покрытие, S, M, L"])],
@@ -109,8 +95,6 @@ DIRECTION = {
     # /catalog/dlya_volos/… и плакат Silver (тонер для мастера-колориста)
     "aktsiya-na-krasitel-nature-10-2": "hair", "aktsiya-na-krasitel-artx-10-2": "hair",
     "startovyy-nabor-s-krasitelem-nature": "hair", "startovyy-nabor-kosmetologa-silver": "hair",
-    "aktsiya-na-nabor-s-ukhodami-15": "hair", "aktsiya-na-ukhody-basic-pro-15": "hair",
-    "aktsiya-na-dvukhfaznyy-sprey-s-maslom-argany-2-1": "hair", "skidka-na-nirvel-rizos": "hair",
     # LevisSime — косметология
     "startovyy-nabor-kosmetologa-levissime": "cosm",
     # /catalog/depilyatsiya/… и плакат Depilflax (для мастера восковой депиляции)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Сборка страниц «Мой профиль» для всех состояний по БТ из одного шаблона.
 
-Запуск из папки LK v6:   python tools/build_profile.py
+Запуск из папки LK v4:   python tools/build_profile.py
 Пишет index.html (Лига II) и profile-<код>.html для остальных состояний.
 Коды: p1–p5 — статусы: без статуса, Лига II, Лига I, VIP, Super VIP.
 

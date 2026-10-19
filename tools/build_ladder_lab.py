@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Тестовая страница «Блок уровней клуба — 10 вариантов» (lab-ladder.html), 13.10.2026.
 
-Запуск из папки LK v6:   python tools/build_ladder_lab.py
+Запуск из папки LK v4:   python tools/build_ladder_lab.py
 Пишет lab-ladder.html (CRLF). Стили — css/lab-ladder.css, переключатели — js/lab-ladder.js.
 
 Зачем: в профиле уровни стоят лестницей (плитки разной высоты, метки над ними) и ломают ровную блочную

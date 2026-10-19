@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Картинки ЛК под реальные размеры вывода (1x, рабочая зона десктопа 1440 px). Исходники — в _sources/.
 
-Запуск из LK v6:  python tools/optimize_images.py
+Запуск из LK v4:  python tools/optimize_images.py
 
 Что и почему такого размера:
 - Фон шапки профиля (assets/scenes/lk-hero-<статус>.webp, assets/lk-hero-scene.webp) — 1246×594.
@@ -25,6 +25,11 @@
 - Карта в окне адреса (assets/map.webp) — 800 px по ширине: блок карты до ~480×600 px, object-fit cover.
 - Карта под шторкой адреса на телефоне (assets/map-sheet.webp, 13.10) — во весь экран телефона до 430×932:
   центральная полоса исходника 440×931 без масштабирования (увеличивать 800-пиксельную карту нельзя — мыло).
+- Акции (assets/promo/<код>.webp, 19.10) — локальные копии картинок раздела igrobeauty.ru/personal/promo/
+  (исходники 1000×625 JPG в _sources/promo, скачаны 19.10: с сайта они грузились медленно, часть отдавала 404).
+  Баннер 720×450: в списке карточка до ~340 px (2x), на странице акции баннер до 720 px.
+  Плакаты наборов (<код>-poster.webp) — в полный размер 1305×1819: по ссылке «Открыть плакат целиком»
+  должна читаться мелкая таблица состава. tools/build_promo.py берёт локальный файл, если он есть.
 """
 import glob
 import os
@@ -169,6 +174,15 @@ def main():
     m0 = Image.open(os.path.join(SRC, "map.jpg")).convert("RGB")
     left = (m0.width - 440) // 2
     save(m0.crop((left, 0, left + 440, m0.height)), os.path.join(OUT, "map-sheet.webp"), quality=74)
+
+    os.makedirs(os.path.join(OUT, "promo"), exist_ok=True)
+    for f in sorted(glob.glob(os.path.join(SRC, "promo", "*.jpg"))):
+        name = os.path.splitext(os.path.basename(f))[0]
+        im = Image.open(f).convert("RGB")
+        if name.endswith("-poster"):
+            save(im, os.path.join(OUT, "promo", name + ".webp"), quality=80)
+        else:
+            save(im.resize((720, 450), Image.LANCZOS), os.path.join(OUT, "promo", name + ".webp"), quality=80)
 
     total = 0
     for path, size, b in report:

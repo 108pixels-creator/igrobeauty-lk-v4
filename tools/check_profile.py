@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Сводка по собранным состояниям профиля: что на карте, в плитках, на шкале, в «лестнице», сколько вопросов.
-Запуск из LK v6: python tools/check_profile.py"""
+Запуск из LK v4: python tools/check_profile.py"""
 import io
 import os
 import re

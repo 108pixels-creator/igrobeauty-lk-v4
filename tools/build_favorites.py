@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Страница «Избранное» (favorites.html): карточки как в каталоге v5 + сердечко, удаление, подборки.
 
-Запуск из LK v6:  python tools/build_favorites.py
+Запуск из LK v4:  python tools/build_favorites.py
 Карточка повторяет каталог v5 (igro-design-pages/catalog/v5, render.js cardHTML и styles.css .ig-card,
 макет Figma «IB – my DESIGN», узел 2481:2340): картинка 208×220, бренд, серия (линия), название,
 «Арт: …», цена 20 px с подписью «Проф. цена», кнопка 44 px во всю ширину → счётчик «− 1 +», «нет в наличии».
