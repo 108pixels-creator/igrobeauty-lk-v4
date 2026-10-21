@@ -288,19 +288,43 @@ def level_block(status):
     left_label = ("<span><b>0&nbsp;₽</b></span>" if left_code == "none"
                   else "<span><b>%s</b> %s</span>" % (left["name"].replace(" ", NB), money(start)))
     valuetext = "%s: от %s (%s) до %s (%s)" % (money(cur), "нуля" if left_code == "none" else left["gen"], money(start), STATUS[right_code]["gen"], money(end))
+    # 20.10: ряд уровней по макету Figma «IB – my DESIGN», node 2707:6442 — мини-карты клуба одной высоты,
+    # поверх них степпер: круги по центру карт и линии между ними. Состояния: done — пройден (цветная карта, тёмный круг),
+    # current — ваш уровень (рамка, золотой круг, бейдж), next — следующая цель (серая карта 50 %, тёмный бейдж),
+    # locked — впереди (серая карта 50 %). Линия к пройденному и текущему — золотая 2 px, от текущего к цели — 4 px
+    # с переходом золото → серый (assets/tier-link-next.svg), дальше — серая 2 px.
     cur_i = ORDER.index(status)
-    steps = ""
+    tiers = []
     for code, name, ic, thr, give in LADDER:
         i = ORDER.index(code)
-        badge, mod, cur_attr, perk_icon = "", "", "", "lock"
-        if code == status:
-            badge, mod, cur_attr, perk_icon = '<span class="igro-badge igro-badge--brand">Вы здесь</span>\n          ', " lk-ladder__block--current", ' aria-current="step"', "check"
-        elif code == nxt:
-            badge, mod = '<span class="igro-badge igro-badge--reward">Следующая цель</span>\n          ', " lk-ladder__block--next"
-        elif i < cur_i:
-            perk_icon = "check"
-        steps += ('        <li class="lk-ladder__step"%s>\n          %s<div class="lk-ladder__block%s">\n            %s\n            <span class="lk-ladder__name">%s</span>\n            <span class="lk-ladder__from">от %s</span>\n            <span class="lk-ladder__perk">%s%s</span>\n          </div>\n        </li>\n'
-                  % (cur_attr, badge, mod, icon(ic, 24).replace('class="igro-icon igro-icon--24"', 'class="igro-icon igro-icon--24 lk-ladder__icon"'), name, money(thr), icon(perk_icon), give))
+        st = "current" if code == status else "next" if code == nxt else "done" if i < cur_i else "locked"
+        tiers.append((code, name, ic, thr, st))
+    steps = ""
+    for k, (code, name, ic, thr, st) in enumerate(tiers):
+        link = ""
+        if k < len(tiers) - 1:
+            to = tiers[k + 1][4]
+            kind = "next" if (st == "current" and to == "next") else "reached" if to in ("done", "current") else "ahead"
+            link = '<span class="lk-tier__link lk-tier__link--%s" aria-hidden="true"></span>' % kind
+        badge = {"current": '<span class="igro-badge lk-tier__badge lk-tier__badge--current">Ваш уровень</span>',
+                 "next": '<span class="igro-badge lk-tier__badge lk-tier__badge--next">Следующая цель</span>'}.get(st, "")
+        lock = icon("lock").replace('class="igro-icon"', 'class="igro-icon lk-tier__lock"') if st in ("next", "locked") else ""
+        label = "SUPER VIP" if code == "svip" else name.replace(" ", NB)  # как в макете
+        perk_icon = icon("check" if st in ("done", "current") else "lock").replace('class="igro-icon"', 'class="igro-icon lk-tier__perk-icon"')
+        sr = '<span class="igro-sr-only">Пока закрыто: </span>' if st in ("next", "locked") else ""
+        pct = STATUS[code]["pct"]
+        mark = '<span class="lk-tier__mark" aria-hidden="true">*</span>' if code == "svip" else ""
+        rest = ('<p class="lk-tier__rest">на 10 брендов<br>%s на остальное</p>' % STATUS[code]["rest"]) if code in ("vip", "svip") else ""
+        steps += ("        <li class=\"lk-tier lk-tier--%(st)s\"%(cur)s>\n"
+                  "          <div class=\"lk-tier__card\">%(link)s<span class=\"lk-tier__art lk-tier__art--%(code)s\" aria-hidden=\"true\"></span>%(badge)s"
+                  "<span class=\"lk-tier__dot\" aria-hidden=\"true\">%(dot)s</span>"
+                  "<span class=\"lk-tier__name%(nmod)s\">%(nicon)s%(label)s</span>%(lock)s</div>\n"
+                  "          <div class=\"lk-tier__info\"><div class=\"lk-tier__main\"><p class=\"lk-tier__perk\">%(picon)s<span>%(sr)sСкидка %(pct)s%(mark)s</span></p>"
+                  "<p class=\"lk-tier__from\">от %(thr)s</p></div>%(rest)s</div>\n"
+                  "        </li>\n") % dict(
+            st=st, cur=' aria-current="step"' if st == "current" else "", link=link, code=code, badge=badge,
+            dot=icon(ic, 18), nicon=icon(ic, 18).replace('class="igro-icon igro-icon--18"', 'class="igro-icon igro-icon--18 lk-tier__name-icon"'),
+            label=label, nmod=" lk-tier__name--svip" if code == "svip" else "", lock=lock, picon=perk_icon, sr=sr, pct=pct, mark=mark, thr=money(thr), rest=rest)
     return """    <section class="igro-card lk-level lk-section" aria-labelledby="level-title">
       <div class="lk-level__head">
         <h2 class="igro-h2" id="level-title">%(title)s</h2>
@@ -324,7 +348,7 @@ def level_block(status):
           </div>
         </div>
       </div>
-      <ol class="lk-ladder" aria-label="Уровни клуба привилегий: сумма покупок за квартал и скидка">
+      <ol class="lk-tiers" aria-label="Уровни клуба привилегий: сумма покупок за квартал и скидка">
 %(steps)s      </ol>
 %(boost)s    </section>
 """ % dict(title=title, clock=icon("clock"), eyebrow=eyebrow, goal=goal, text=NEXT_TEXT[status], pct=pct_s, cur=money(cur), start=start, end=end, curn=cur,
